@@ -1,14 +1,13 @@
 # website
-Course website for Sta 199 - Intro to Data Science, Spring 18 at Duke University
+Course website for IDS 702 - Modeling and Representation of Data, Fall 19, Duke University Master in Interdisciplinary Data Science (MIDS) program
 
-Course website is at http://www2.stat.duke.edu/courses/Spring18/Sta199/.
+Course website is at https://akandelanre.github.io/IDS702_F19.
 
 # Attribution
 
-- This website design is based on [ESPM-157 by Carl Boettinger](https://espm-157.carlboettiger.info/).
-- Background image is designed by [Muge Cetinkaya](https://www.instagram.com/dotslinesandcolors/).
+- This website design is based on [STA 199 by Mine Centikaya-Rundel](https://www2.stat.duke.edu/courses/Spring18/Sta199/) and [ESPM-157 by Carl Boettinger](https://espm-157.carlboettiger.info/).
 
 # Notes for building the website:
 
-- Colors: Pantone Spring 2018 - Little Boy Blue - #6CA0DC
+- Colors: Pantone Spring 2018 - #000033
   - To change, search & replace in `themes/material/static/css/material-kit.css`

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>STA 199: Intro to Data Science on STA 199</title>
+    <title>IDS 702</title>
     <link>/</link>
-    <description>Recent content in STA 199: Intro to Data Science on STA 199</description>
+    <description>Recent content on IDS 702</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 19 Apr 2017 00:00:00 +0000</lastBuildDate>
@@ -17,7 +17,9 @@
       <pubDate>Wed, 19 Apr 2017 00:00:00 +0000</pubDate>
       
       <guid>/syllabus/</guid>
-      <description>Note: Due dates of exams and project will not move, however the timeline of topics and smaller assignments might be updated throughout the semester.  Date Lesson Slides Reading Lab AE HW EC Exam Project    Week 00           Wed, Jan 10 Welcome to Data Science           Thur, Jan 11 Lab 00: Logistics            Week 01           Mon, Jan 15 No class - Martin Luther King, Jr.</description>
+      <description>Note: Please check this page frequently for updates and always remember to refresh the page.
+
+ Date Lesson Slides Reading Lab HW Project    Week 1        Tue, Aug 27 Introduction to course        Thur, Aug 29 Linear regression: introduction to multiple regression         Week 2        Tue, Sept 3          Thur, Sept 5          Fri, Sept 6 Lab 1:          Week 3        Tue, Sept 10          Thur, Sept 12           Week 4        Tue, Sept 17          Thur, Sept 19          Fri, Sept 20 Lab 2:          Week 5        Tue, Sept 24          Thur, Sept 26           Week 6        Tue, Oct 1          Thur, Oct 3          Fri, Oct 4 Lab 3:          Week 7        Tue, Oct 8 No class: fall break        Thur, Oct 10           Week 8        Tue, Oct 15          Thur, Oct 17          Fri, Oct 18 Lab 4:          Week 9        Tue, Oct 22          Thur, Oct 24           Week 10        Tue, Oct 29          Thur, Oct 31          Fri, Nov 1 Lab 5:          Week 11        Tue, Nov 5          Thur, Nov 7           Week 12        Tue, Nov 12          Thur, Nov 14          Fri, Nov 15 Lab 6:          Week 13        Tue, Nov 19          Thur, Nov 21           Week 14        Tue, Nov 26          Thur, Nov 28 No class: reading period         Week 15        Tue, Dec 3 Final project presentations I        Thur, Dec 5 Final project presentations II        </description>
     </item>
     
     <item>
@@ -26,8 +28,8 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/policies/</guid>
-      <description>Class: Class time is designed to be as interactive as possible. My role as instructor is to introduce you new tools and techniques, but it is up to you to take them and make use of them. Programming is a skill that is best learned by doing, so as much as possible you will be working on a variety of tasks and activities throughout each class.
-Diversity &amp;amp; Inclusiveness: It is my intent that students from all diverse backgrounds and perspectives be well-served by this course, that students&#39; learning needs be addressed both in and out of class, and that the diversity that the students bring to this class be viewed as a resource, strength and benefit.</description>
+      <description>Prerequisites Students are expected to know all topics covered in the MIDS summer course review and boot camp. These include basic statistical inference including hypothesis testing, confidence intervals, linear regression with one predictor, and exploratory data analysis methods. Students are also expected to be familiar with R/Rstudio. Due to space constraints, the course is open only to students in the MIDS program.
+Class Class time is designed to be as interactive as possible.</description>
     </item>
     
   </channel>
