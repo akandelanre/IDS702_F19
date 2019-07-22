@@ -1,0 +1,357 @@
+---
+title: "Introduction to multiple regression"
+author: "Dr. Olanrewaju Akande"
+date: " "
+output:
+  xaringan::moon_reader:
+    css: "slides.css"
+    logo: img/class_logo.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(magick)
+library(knitr)
+```
+
+```{r setup, include=FALSE}
+# R options
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE,     # for regression output
+  warm = 1
+  )
+# Set dpi and height for images
+knitr::opts_chunk$set(fig.height = 2.65, dpi = 300) 
+# ggplot2 color palette with gray
+color_palette <- list(gray = "#999999", 
+                      salmon = "#E69F00", 
+                      lightblue = "#56B4E9", 
+                      green = "#009E73", 
+                      yellow = "#F0E442", 
+                      darkblue = "#0072B2", 
+                      red = "#D55E00", 
+                      purple = "#CC79A7")
+# For nonsese...
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+# For magick
+dev.off <- function(){
+  invisible(grDevices::dev.off())
+}
+```
+
+## Outline
+
+- Multiple linear regression
+
+- Interpretation of coefficients
+
+- Hypothesis tests for coefficients
+
+- Confidence interval for coefficients
+
+- Predictions
+
+- Case study
+
+---
+
+## Introduction
+
+- In the stats module of the MIDS summer online review, you were introduced to simple linear regression.
+
+- Today, we will begin our series of lectures on multiple linear regression. 
+
+- For now, we will restrict our attention to model specification, interpretation, testing, and predictions under multiple linear regression. 
+
+- In the next class, we will start to explore model assessment and validation. 
+
+---
+
+class: center, middle
+
+# Motivating Example
+
+---
+
+## Sex discrimination
+
+- In 1970’s, Harris Trust and Savings Bank was sued for discrimination on the basis of sex. 
+
+- The data is in the file *wagediscrim.txt* on Sakai.
+
+- 93 employees on data file (61 female, 32 male).
+
+Variable    | Description
+:------------- | :------------ 
+bsal | Annual salary at time of
+sal77 | Annual salary in 1977.
+educ | years of education.
+exper | months previous work prior to hire at bank.
+fsex | 1 if female, 0 if male
+senior | months worked at bank since hired
+age | months
+
+---
+## The Data
+
+- Let's get a sense of the data: how many rows, how many columns?
+```{r}
+wages = read.csv("data/wagediscrim.txt", header= T)
+dim(wages)
+```
+
+- Let's take a look at the first few rows of the data
+```{r}
+head(wages)
+```
+
+---
+## Exploratory Data Analysis
+
+- How about quick summaries of each variable to know the range of data we are working with
+```{r}
+wages$fsex <- factor(wages$fsex)
+summary(wages)
+```
+
+
+
+---
+
+## Sex discrimination
+
+- Analysis of salaries of employees of one type (skilled, entry level clerical) presented as evidence
+by the defense.
+
+<div class="question">
+Did female employees tend to receive lower starting salaries than similarly qualified and experienced male employees?
+</div>
+
+
+---
+
+class: center, middle
+
+# Data visualization
+
+---
+
+## Data visualization
+
+> *"The simple graph has brought more information to the data analyst’s mind than any other device." — John Tukey*
+
+- Data visualization is the creation and study of the visual representation of data.
+
+- There are many tools for visualizing data (R is one of them), and many approaches/systems within R for making data visualizations (**ggplot2** is one of them, and that's the one we're going to use).
+
+---
+
+## ggplot2, part of the tidyverse
+
+- ggplot2 is a data visualization package, that is part of the tidyverse 
+suite of packages
+
+- To use ggplot2 functions, first load tidyverse
+```{r}
+library(tidyverse)
+```
+
+- In ggplot2 the structure of the code for plots can often be summarized as
+```{r eval = FALSE}
+ggplot + 
+  geom_xxx
+```
+
+or, more precisely
+.small[
+```{r eval = FALSE}
+ggplot(data = [dataset], mapping = aes(x = [x-variable], y = [y-variable])) +
+   geom_xxx() +
+   other options
+```
+]
+
+- Geoms, short for geometric objects, describe the type of plot you will produce
+
+---
+
+## About ggplot2
+
+- ggplot2 is the name of the package
+- The `gg` in "ggplot2" stands for Grammar of Graphics
+- Inspired by the book **Grammar of Graphics** by Leland Wilkinson
+- `ggplot()` is the main function in ggplot2
+- For help with the ggplot2, see http://ggplot2.tidyverse.org/
+
+---
+
+class: center, middle
+
+# Visualizing Star Wars
+
+---
+
+## Dataset terminology
+
+<div class="question">
+What does each row represent? What does each column represent?
+</div>
+
+```{r message=FALSE}
+starwars
+```
+
+---
+
+## What's in the Star Wars data?
+
+Take a `glimpse` at the data: 
+```{r}
+glimpse(starwars)
+```
+
+---
+
+## What's in the Star Wars data?
+
+Run the following **in the Console** to view the help
+```{r eval = FALSE}
+?starwars
+```
+
+![starwars-help](img/02a/starwars-help.png)
+
+<div class="question">
+How many rows and columns does this dataset have? What does each row represent? What does each column represent?
+</div>
+
+
+<div class="question">
+Make a prediction: What relationship do you expect to see between height and mass?
+</div>
+
+---
+
+## Mass vs. height
+
+```{r fig.width = 6, fig.height=3}
+ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
+  geom_point()
+```
+
+---
+
+## What's that warning?
+
+- Not all characters have height and mass information (hence 28 of them not plotted)
+
+```
+## Warning: Removed 28 rows containing missing values (geom_point).
+```
+
+- Going forward I'll supress the warning to save room on slides, but it's important to note it
+
+---
+
+## Mass vs. height
+
+<div class="question">
+How would you describe this relationship? What other variables would help us understand data points that don't follow the overall trend? Who is the not so tall but really chubby character?
+</div>
+
+```{r fig.width = 6, fig.height=3, echo=FALSE, warning=FALSE}
+ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
+  geom_point()
+```
+
+---
+
+## Additional variables
+
+Can display additional variables with
+
+- aesthetics (like shape, colour, size), or
+
+- faceting (small multiples displaying different subsets)
+
+---
+
+class: center, middle
+
+# Aesthetics
+
+---
+
+## Aesthetics options
+
+Visual characteristics of plotting characters that can be **mapped to data** are
+
+- `color`
+
+- `size`
+
+- `shape`
+
+- `alpha` (transparency)
+
+---
+
+## Mass vs. height + gender
+
+```{r fig.width = 7, fig.height=3.5, warning=FALSE}
+ggplot(data = starwars, mapping = aes(x = height, y = mass, color = gender)) +
+  geom_point()
+```
+
+---
+
+## Aesthetics summary
+
+- Continuous variable are measured on a continuous scale
+- Discrete variables are measured (or often counted) on a discrete scale
+
+aesthetics    | discrete     | continuous
+------------- | ------------ | ------------
+color         | rainbow of colors | gradient
+size          | discrete steps    | linear mapping between radius and value
+shape         | different shape for each | shouldn't (and doesn't) work
+
+---
+
+class: center, middle
+
+# Faceting
+
+---
+
+## Faceting options
+
+- Smaller plots that display different subsets of the data
+
+- Useful for exploring conditional relationships and large data
+
+---
+
+## Mass vs. height by gender
+
+.small[
+```{r fig.height=4, fig.width=8, warning=FALSE}
+ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
+  facet_grid(. ~ gender) +
+  geom_point()
+```
+]
+
+---
+
+## Which bar plot is more appropriate?
+
+<div class="question">
+Which of the previous two bar plots is a more useful representation for visualizing the relationship between gender and hair color?
+</div>

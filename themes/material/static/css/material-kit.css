@@ -41,7 +41,7 @@ body.inverse .card .form-control {
 }
 
 body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: 'Century Gothic',Futura,'URW Gothic L',sans-serif;
   font-weight: 300;
   line-height: 1.5em;
 }

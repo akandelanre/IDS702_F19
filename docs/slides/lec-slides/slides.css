@@ -2,26 +2,31 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700);
 
 body { 
-  font-family: 'Source Sans Pro'; sans-serif;
-  font-weight: 400;
+  font-family: 'AppleGothic',Futura,'URW Gothic L',sans-serif;
+  font-weight: 300;
   color: #333333;
+  font-size: 40px;
 }
 h2 {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'AppleGothic',Futura,'URW Gothic L',sans-serif;
   font-weight: bold;
-  color: #6CA0DC;
+  color: #075767;
   font-size: 12px;
   margin: 0.25em 0 0.5em 0;
 }
 h1, h3 {
-  font-family: 'Source Sans Pro', sans-serif;
+ font-family: 'AppleGothic',Futura,'URW Gothic L',sans-serif;
   font-weight: bold;
-  color: #6CA0DC;
+  color: #0087A2;
 }
 a, a > code {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'AppleGothic',Futura,'URW Gothic L',sans-serif;
   color: #6CA0DC;
   text-decoration: none;
+}
+
+a, a:hover, a:focus {
+  color: #bf4f22;
 }
 
 .footnote {
@@ -36,12 +41,12 @@ a, a > code {
 .remark-code-line-highlighted     { background-color: #ffff88; }
 
 .inverse {
-  background-color: #6CA0DC;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #0B1D6F;
   /* text-shadow: 0 0 20px #333; */
 }
 .inverse h1, .inverse h2, .inverse h3 {
-  color: #f3f3f3;
+  color: #075767;
 }
 /* Two-column layout */
 .left-column {
@@ -73,7 +78,7 @@ a, a > code {
   clear: both;
 }
 .question {
-  background-color: #E1ECF8;
+  background-color: #ffc5ad;
   padding: 0.25px;
 }
 ul {
@@ -125,7 +130,7 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
     width: 81px;
     background-repeat: no-repeat;
     background-size: contain;
-    background-image: url("img/sta199-logo-hex.png");
+    background-image: url("img/class_logo.png");
 }
 
 .element.style {

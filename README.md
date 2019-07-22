@@ -1,4 +1,4 @@
-# website
+# Website
 Course website for IDS 702 - Modeling and Representation of Data, Fall 19, Duke University Master in Interdisciplinary Data Science (MIDS) program
 
 Course website is at https://akandelanre.github.io/IDS702_F19/
