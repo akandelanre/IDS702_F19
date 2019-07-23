@@ -95,7 +95,7 @@ a .material-icons, a:hover .material-icons, a:focus .material-icons {
   margin: 0;
 }
 
-.btn,
+.btn,  
 .navbar .navbar-nav > li > a.btn {
   border: none;
   border-radius: 3px;

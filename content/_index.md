@@ -2,6 +2,8 @@
 markup: "mmark"
 ---
 
+**THIS WEBSITE IS STILL UNDER CONSTRUCTION!!!**
+
 ### Course Overview
 Statistical models are necessary for analyzing the type of multivariate (often large) datasets that are usually encountered in data science and statistical science. This is a graduate level course, within the curriculum for Duke's Master in Interdisciplinary Data Science (MIDS) program, that aims to provide students with the statistical data analysis tools needed to succeed as data scientists. 
 
@@ -50,6 +52,8 @@ TAs               | [Azucena Morales](https://datascience.duke.edu/lidia-azu-azu
 -----------|---------------------------------|----------------------------------
 [Data Analysis Using Regression and Multilevel/Hierarchical Models](https://www.amazon.com/gp/product/052168689X/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=052168689X&linkCode=as2&tag=andrsblog0f-20&linkId=PX5B5V6ZPCT2UIYV) | Gelman A., and Hill, J. | Recommended but not compulsory
 [An Introduction to Statistical Learning with Applications in R](http://faculty.marshall.usc.edu/gareth-james/ISL/) | James, G., Witten, D., Hastie, T., and Tibshirani, R. | Optional (Free pdf available online via the link)
+
+_Lecture notes and slides, lab exercises and other reading resources will be posted on the course website. We will only loosely follow these textbooks._ 
 
 ### Materials
 

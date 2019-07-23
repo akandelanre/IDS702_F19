@@ -1,7 +1,7 @@
 ---
-title: "Introduction to multiple regression"
+title: "Introduction to Multiple Linear Regression"
 author: "Dr. Olanrewaju Akande"
-date: " "
+date: "Aug 29, 2019"
 output:
   xaringan::moon_reader:
     css: "slides.css"
@@ -17,6 +17,7 @@ output:
 library(tidyverse)
 library(magick)
 library(knitr)
+library(kableExtra)
 ```
 
 ```{r setup, include=FALSE}
@@ -43,9 +44,18 @@ htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 dev.off <- function(){
   invisible(grDevices::dev.off())
 }
+
+knit_hooks$set(small.mar = function(before, options, envir) {
+    if (before) par(mar = c(4, 4, 0.5, 1)) 
+})
+opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize', small.mar=TRUE)
 ```
+- 
+
 
 ## Outline
+
+- Motivating Example
 
 - Multiple linear regression
 
@@ -59,17 +69,18 @@ dev.off <- function(){
 
 - Case study
 
----
 
+---
 ## Introduction
 
 - In the stats module of the MIDS summer online review, you were introduced to simple linear regression.
 
 - Today, we will begin our series of lectures on multiple linear regression. 
 
-- For now, we will restrict our attention to model specification, interpretation, testing, and predictions under multiple linear regression. 
+- For now, we will restrict our attention to model interpretation, testing, and predictions under multiple linear regression. 
 
-- In the next class, we will start to explore model assessment and validation. 
+- In the next class, we will start to explore model specification, assessment and validation. 
+
 
 ---
 
@@ -77,19 +88,28 @@ class: center, middle
 
 # Motivating Example
 
+
 ---
 
 ## Sex discrimination
+- In 1970’s, Harris Trust and Savings Bank was sued for discrimination on the basis of sex.  
 
-- In 1970’s, Harris Trust and Savings Bank was sued for discrimination on the basis of sex. 
+- Analysis of salaries of employees of one type (skilled, entry level clerical) presented as evidence
+by the defense.
 
 - The data is in the file *wagediscrim.txt* on Sakai.
 
-- 93 employees on data file (61 female, 32 male).
+- Did female employees tend to receive lower starting salaries than similarly qualified and experienced male employees?
+
+
+---
+## The Data
+
+93 employees on data file (61 female, 32 male).
 
 Variable    | Description
 :------------- | :------------ 
-bsal | Annual salary at time of
+bsal | Annual salary at time of hire
 sal77 | Annual salary in 1977.
 educ | years of education.
 exper | months previous work prior to hire at bank.
@@ -97,261 +117,133 @@ fsex | 1 if female, 0 if male
 senior | months worked at bank since hired
 age | months
 
+
 ---
 ## The Data
 
-- Let's get a sense of the data: how many rows, how many columns?
+Let's get a sense of the data: how many rows, how many columns?
 ```{r}
 wages = read.csv("data/wagediscrim.txt", header= T)
 dim(wages)
 ```
 
-- Let's take a look at the first few rows of the data
+Let's take a look at the first few rows of the data
 ```{r}
 head(wages)
 ```
 
----
-## Exploratory Data Analysis
 
-- How about quick summaries of each variable to know the range of data we are working with
+---
+## Exploratory Data Analysis (EDA)
+
+How about quick summaries of each variable to know the range of data we are working with
 ```{r}
 wages$fsex <- factor(wages$fsex)
 summary(wages)
 ```
 
 
-
 ---
+## EDA
 
-## Sex discrimination
-
-- Analysis of salaries of employees of one type (skilled, entry level clerical) presented as evidence
-by the defense.
-
+Since we only care about comparing starting salaries for male and female employees, let's look at a boxplot of `bsal` by `sex`.
+```{r fig.height=3}
+boxplot(bsal~sex,data=wages,ylab="Sex",horizontal=TRUE,
+        xlab="Base Salary")
+```
 <div class="question">
-Did female employees tend to receive lower starting salaries than similarly qualified and experienced male employees?
+What do you think? What can you infer from this plot?
 </div>
 
 
 ---
+## T.test?
 
-class: center, middle
-
-# Data visualization
-
----
-
-## Data visualization
-
-> *"The simple graph has brought more information to the data analyst’s mind than any other device." — John Tukey*
-
-- Data visualization is the creation and study of the visual representation of data.
-
-- There are many tools for visualizing data (R is one of them), and many approaches/systems within R for making data visualizations (**ggplot2** is one of them, and that's the one we're going to use).
-
----
-
-## ggplot2, part of the tidyverse
-
-- ggplot2 is a data visualization package, that is part of the tidyverse 
-suite of packages
-
-- To use ggplot2 functions, first load tidyverse
-```{r}
-library(tidyverse)
-```
-
-- In ggplot2 the structure of the code for plots can often be summarized as
-```{r eval = FALSE}
-ggplot + 
-  geom_xxx
-```
-
-or, more precisely
+We could go further and try a t-test for the hypotheses:
 .small[
-```{r eval = FALSE}
-ggplot(data = [dataset], mapping = aes(x = [x-variable], y = [y-variable])) +
-   geom_xxx() +
-   other options
-```
+$$H_0: \mu_{male} - \mu_{female} \leq 0 \ \ \textrm{vs.} \ \ H_A: \mu_{male} - \mu_{female} > 0$$
 ]
-
-- Geoms, short for geometric objects, describe the type of plot you will produce
-
----
-
-## About ggplot2
-
-- ggplot2 is the name of the package
-- The `gg` in "ggplot2" stands for Grammar of Graphics
-- Inspired by the book **Grammar of Graphics** by Leland Wilkinson
-- `ggplot()` is the main function in ggplot2
-- For help with the ggplot2, see http://ggplot2.tidyverse.org/
-
----
-
-class: center, middle
-
-# Visualizing Star Wars
-
----
-
-## Dataset terminology
-
-<div class="question">
-What does each row represent? What does each column represent?
-</div>
-
-```{r message=FALSE}
-starwars
-```
-
----
-
-## What's in the Star Wars data?
-
-Take a `glimpse` at the data: 
 ```{r}
-glimpse(starwars)
+t.test(bsal~fsex,data=wages,alternative="greater")
 ```
-
----
-
-## What's in the Star Wars data?
-
-Run the following **in the Console** to view the help
-```{r eval = FALSE}
-?starwars
-```
-
-![starwars-help](img/02a/starwars-help.png)
 
 <div class="question">
-How many rows and columns does this dataset have? What does each row represent? What does each column represent?
+Is a t.test sufficient here? Any concerns?
 </div>
 
 
-<div class="question">
-Make a prediction: What relationship do you expect to see between height and mass?
-</div>
-
 ---
+## EDA
 
-## Mass vs. height
+- T-test shows men started at higher salaries than women (t=5.83, p $<$ .0001).
 
-```{r fig.width = 6, fig.height=3}
-ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
-  geom_point()
+- But, it **doesn't** control for other characteristics.
+
+- There are other variables that are correlated with `bsal`. Here's the correlation matrix of all numerical variables using the *corr* function in R.
+```{r echo=FALSE}
+kable(round(cor(wages[,!is.element(colnames(wages),c("sex","fsex"))]),2)) %>%
+  kable_styling(font_size = 20)
 ```
 
----
-
-## What's that warning?
-
-- Not all characters have height and mass information (hence 28 of them not plotted)
-
-```
-## Warning: Removed 28 rows containing missing values (geom_point).
-```
-
-- Going forward I'll supress the warning to save room on slides, but it's important to note it
 
 ---
+## EDA
 
-## Mass vs. height
-
-<div class="question">
-How would you describe this relationship? What other variables would help us understand data points that don't follow the overall trend? Who is the not so tall but really chubby character?
-</div>
-
-```{r fig.width = 6, fig.height=3, echo=FALSE, warning=FALSE}
-ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
-  geom_point()
+In fact, let's take a look at scatter plots of all variables
+```{r fig.height=4.5}
+pairs(wages)
 ```
 
+
 ---
+## EDA
 
-## Additional variables
+Too busy! Let's take a closer look at some variables.
 
-Can display additional variables with
+First, `bsal` vs. `senior`
+```{r fig.height=3}
+plot(wages$bsal~wages$senior,xlab="Seniority",ylab="Base Salary")
+abline(lm(bsal~senior,data=wages))
+```
 
-- aesthetics (like shape, colour, size), or
 
-- faceting (small multiples displaying different subsets)
+---
+## EDA
+
+Next, `bsal` vs. `senior`
+```{r fig.height=3.6}
+plot(wages$bsal~wages$age,xlab="Age",ylab="Base Salary")
+abline(lm(bsal~age,data=wages))
+```
+
+
+---
+## EDA
+
+`bsal` vs. `educ`
+```{r fig.height=3.6}
+plot(wages$bsal~wages$educ,xlab="Education",ylab="Base Salary")
+abline(lm(bsal~educ,data=wages))
+```
+
+
+---
+## EDA
+
+- Finally, `bsal` vs. `exper`
+```{r fig.height=3}
+plot(wages$bsal~wages$exper,xlab="Experience",ylab="Base Salary")
+abline(lm(bsal~exper,data=wages))
+```
+- Clearly, they are other variables that may be relevant in explaining baseline salary.
 
 ---
 
 class: center, middle
 
-# Aesthetics
+# Multiple Linear Regression
 
----
 
-## Aesthetics options
 
-Visual characteristics of plotting characters that can be **mapped to data** are
 
-- `color`
 
-- `size`
-
-- `shape`
-
-- `alpha` (transparency)
-
----
-
-## Mass vs. height + gender
-
-```{r fig.width = 7, fig.height=3.5, warning=FALSE}
-ggplot(data = starwars, mapping = aes(x = height, y = mass, color = gender)) +
-  geom_point()
-```
-
----
-
-## Aesthetics summary
-
-- Continuous variable are measured on a continuous scale
-- Discrete variables are measured (or often counted) on a discrete scale
-
-aesthetics    | discrete     | continuous
-------------- | ------------ | ------------
-color         | rainbow of colors | gradient
-size          | discrete steps    | linear mapping between radius and value
-shape         | different shape for each | shouldn't (and doesn't) work
-
----
-
-class: center, middle
-
-# Faceting
-
----
-
-## Faceting options
-
-- Smaller plots that display different subsets of the data
-
-- Useful for exploring conditional relationships and large data
-
----
-
-## Mass vs. height by gender
-
-.small[
-```{r fig.height=4, fig.width=8, warning=FALSE}
-ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
-  facet_grid(. ~ gender) +
-  geom_point()
-```
-]
-
----
-
-## Which bar plot is more appropriate?
-
-<div class="question">
-Which of the previous two bar plots is a more useful representation for visualizing the relationship between gender and hair color?
-</div>

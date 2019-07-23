@@ -1,137 +1,149 @@
 lessons:
-  - title: "Week 1"
+  - title: "WEEK 1"
   
   - date: "Tue, Aug 27"
     title: "Introduction to course"
     #slides: "lec-slides/01-intro.html"
     
-  - date: "Thur, Aug 29"
-    title: "Linear regression: introduction to multiple regression"
+  - title: "PART I: MULTIPLE LINEAR REGRESSION"
+    
+  - date: "Thur, Aug 29" 
+    title: "Introduction to multiple linear regression"
     #slides: "lec-slides/02-intro-reg.html" 
     
-  - title: "Week 2"
+  - title: "WEEK 2"
   
   - date: "Tue, Sept 3"
-    title: " "
+    title: "Model assessment, diagnostics and validation"
     
   - date: "Thur, Sept 5"
-    title: " "
+    title: "Model building and selection"
     
   - date: "Fri, Sept 6"
     title: "Lab 1: "
     
-  - title: "Week 3"
+  - title: "WEEK 3"
   
   - date: "Tue, Sept 10"
-    title: " "
+    title: "Transformations, multicollinearity and heteroscedasticity"
     
   - date: "Thur, Sept 12"
-    title: " "
+    title: "Case studies 1"
     
-  - title: "Week 4"
+  - title: "PART  II: GENERALIZED LINEAR MODELS"
+    
+  - title: "WEEK 4"
   
   - date: "Tue, Sept 17"
-    title: " "
+    title: "Introduction to logistic regression"
     
   - date: "Thur, Sept 19"
-    title: " "
+    title: "Logistic regression: inference vs prediction"
     
   - date: "Fri, Sept 20"
     title: "Lab 2: "
     
-  - title: "Week 5"
+  - title: "WEEK 5"
   
   - date: "Tue, Sept 24"
-    title: " "
+    title: "Logistic regression: model assessment and validation"
     
   - date: "Thur, Sept 26"
-    title: " "
+    title: "Multinomial logistic regression"
     
-  - title: "Week 6"
+  - title: "WEEK 6"
   
   - date: "Tue, Oct 1"
-    title: " "
+    title: "Poisson regression"
     
   - date: "Thur, Oct 3"
-    title: " "
+    title: "Probit regression"
     
   - date: "Fri, Oct 4"
-    title: "Lab 3: "
-    
-  - title: "Week 7"
+    title: "Lab 3: Team project 1 presentations"
+  
+  - title: "WEEK 7"
   
   - date: "Tue, Oct 8"
     title: "No class: fall break"
     
   - date: "Thur, Oct 10"
-    title: " "
+    title: "Case studies 2"
     
-  - title: "Week 8"
+  - title: "PART  III: MULTILEVEL MODELS"
+  
+  - title: "WEEK 8"
   
   - date: "Tue, Oct 15"
-    title: " "
+    title: "Multilevel linear models I"
     
   - date: "Thur, Oct 17"
-    title: " "
+    title: "Multilevel linear models II"
     
   - date: "Fri, Oct 18"
     title: "Lab 4: "
     
-  - title: "Week 9"
+  - title: "WEEK 9"
   
   - date: "Tue, Oct 22"
-    title: " "
-    
+    title: "Multilevel logistic regression"
+   
   - date: "Thur, Oct 24"
-    title: " "
-    
-  - title: "Week 10"
+    title: "Case studies 3"
+  
+  - title: "PART  IV: DEALING WITH MESSY DATA"
+  
+  - title: "WEEK 10"
   
   - date: "Tue, Oct 29"
-    title: " "
+    title: "Missing values, errors, and outliers; single imputation methods"
     
   - date: "Thur, Oct 31"
-    title: " "
+    title: "Multiple imputation"
     
   - date: "Fri, Nov 1"
     title: "Lab 5: "
     
-  - title: "Week 11"
+  - title: "PART  V: METHODS FOR CAUSAL INFERENCE"
+  
+  - title: "WEEK 11"
   
   - date: "Tue, Nov 5"
-    title: " "
+    title: "Association vs. causation; confounding"
     
   - date: "Thur, Nov 7"
-    title: " "
+    title: "The potential outcomeS framework: introduction, assumptions and estimands"
     
-  - title: "Week 12"
+  - title: "WEEK 12"
   
   - date: "Tue, Nov 12"
-    title: " "
+    title: "Matching, weighting, regression, and propensity scores methods"
     
   - date: "Thur, Nov 14"
-    title: " "
+    title: "Case studies 4"
     
   - date: "Fri, Nov 15"
-    title: "Lab 6: "
+    title: "Lab 6: Team project 2 presentations"
     
-  - title: "Week 13"
+  - title: "PART  VI: TIME SERIES MODELS"
+  
+  - title: "WEEK 13"
   
   - date: "Tue, Nov 19"
-    title: " "
+    title: "Time series models I"
     
   - date: "Thur, Nov 21"
-    title: " "
+    title: "Time series models II"
     
-  - title: "Week 14"
+  - title: "WEEK 14"
   
   - date: "Tue, Nov 26"
-    title: " "
+    title: "Course wrap up"
     
   - date: "Thur, Nov 28"
     title: "No class: reading period"
 
-  - title: "Week 15"
+  - title: "WEEK 15"
   
   - date: "Tue, Dec 3"
     title: "Final project presentations I"

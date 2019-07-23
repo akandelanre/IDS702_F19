@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>Introduction to multiple regression</title>
+    <title>Introduction to Multiple Linear Regression</title>
     <meta charset="utf-8" />
     <meta name="author" content="Dr. Olanrewaju Akande" />
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <script src="libs/kePrint/kePrint.js"></script>
     <link rel="stylesheet" href="slides.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Introduction to multiple regression
+# Introduction to Multiple Linear Regression
 ### Dr. Olanrewaju Akande
+### Aug 29, 2019
 
 ---
 
@@ -21,8 +23,12 @@ class: center, middle, inverse, title-slide
 
 
 
+- 
+
 
 ## Outline
+
+- Motivating Example
 
 - Multiple linear regression
 
@@ -36,17 +42,18 @@ class: center, middle, inverse, title-slide
 
 - Case study
 
----
 
+---
 ## Introduction
 
 - In the stats module of the MIDS summer online review, you were introduced to simple linear regression.
 
 - Today, we will begin our series of lectures on multiple linear regression. 
 
-- For now, we will restrict our attention to model specification, interpretation, testing, and predictions under multiple linear regression. 
+- For now, we will restrict our attention to model interpretation, testing, and predictions under multiple linear regression. 
 
-- In the next class, we will start to explore model assessment and validation. 
+- In the next class, we will start to explore model specification, assessment and validation. 
+
 
 ---
 
@@ -54,19 +61,28 @@ class: center, middle
 
 # Motivating Example
 
+
 ---
 
 ## Sex discrimination
+- In 1970’s, Harris Trust and Savings Bank was sued for discrimination on the basis of sex.  
 
-- In 1970’s, Harris Trust and Savings Bank was sued for discrimination on the basis of sex. 
+- Analysis of salaries of employees of one type (skilled, entry level clerical) presented as evidence
+by the defense.
 
 - The data is in the file *wagediscrim.txt* on Sakai.
 
-- 93 employees on data file (61 female, 32 male).
+- Did female employees tend to receive lower starting salaries than similarly qualified and experienced male employees?
+
+
+---
+## The Data
+
+93 employees on data file (61 female, 32 male).
 
 Variable    | Description
 :------------- | :------------ 
-bsal | Annual salary at time of
+bsal | Annual salary at time of hire
 sal77 | Annual salary in 1977.
 educ | years of education.
 exper | months previous work prior to hire at bank.
@@ -74,10 +90,11 @@ fsex | 1 if female, 0 if male
 senior | months worked at bank since hired
 age | months
 
+
 ---
 ## The Data
 
-- Let's get a sense of the data: how many rows, how many columns?
+Let's get a sense of the data: how many rows, how many columns?
 
 ```r
 wages = read.csv("data/wagediscrim.txt", header= T)
@@ -88,7 +105,7 @@ dim(wages)
 ## [1] 93  8
 ```
 
-- Let's take a look at the first few rows of the data
+Let's take a look at the first few rows of the data
 
 ```r
 head(wages)
@@ -104,10 +121,11 @@ head(wages)
 ## 6 6840 10380 Male     92 374   15  41.5    0
 ```
 
----
-## Exploratory Data Analysis
 
-- How about quick summaries of each variable to know the range of data we are working with
+---
+## Exploratory Data Analysis (EDA)
+
+How about quick summaries of each variable to know the range of data we are working with
 
 ```r
 wages$fsex &lt;- factor(wages$fsex)
@@ -132,292 +150,203 @@ summary(wages)
 ```
 
 
-
 ---
+## EDA
 
-## Sex discrimination
+Since we only care about comparing starting salaries for male and female employees, let's look at a boxplot of `bsal` by `sex`.
 
-- Analysis of salaries of employees of one type (skilled, entry level clerical) presented as evidence
-by the defense.
+```r
+boxplot(bsal~sex,data=wages,ylab="Sex",horizontal=TRUE,
+        xlab="Base Salary")
+```
 
+&lt;img src="figure/beamer-unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 &lt;div class="question"&gt;
-Did female employees tend to receive lower starting salaries than similarly qualified and experienced male employees?
+What do you think? What can you infer from this plot?
 &lt;/div&gt;
 
 
 ---
+## T.test?
 
-class: center, middle
-
-# Data visualization
-
----
-
-## Data visualization
-
-&gt; *"The simple graph has brought more information to the data analyst’s mind than any other device." — John Tukey*
-
-- Data visualization is the creation and study of the visual representation of data.
-
-- There are many tools for visualizing data (R is one of them), and many approaches/systems within R for making data visualizations (**ggplot2** is one of them, and that's the one we're going to use).
-
----
-
-## ggplot2, part of the tidyverse
-
-- ggplot2 is a data visualization package, that is part of the tidyverse 
-suite of packages
-
-- To use ggplot2 functions, first load tidyverse
-
-```r
-library(tidyverse)
-```
-
-- In ggplot2 the structure of the code for plots can often be summarized as
-
-```r
-ggplot + 
-  geom_xxx
-```
-
-or, more precisely
+We could go further and try a t-test for the hypotheses:
 .small[
-
-```r
-ggplot(data = [dataset], mapping = aes(x = [x-variable], y = [y-variable])) +
-   geom_xxx() +
-   other options
-```
+`$$H_0: \mu_{male} - \mu_{female} \leq 0 \ \ \textrm{vs.} \ \ H_A: \mu_{male} - \mu_{female} &gt; 0$$`
 ]
 
-- Geoms, short for geometric objects, describe the type of plot you will produce
+```r
+t.test(bsal~fsex,data=wages,alternative="greater")
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  bsal by fsex
+## t = 5.83, df = 51.329, p-value = 1.855e-07
+## alternative hypothesis: true difference in means is greater than 0
+## 95 percent confidence interval:
+##  582.9857      Inf
+## sample estimates:
+## mean in group 0 mean in group 1 
+##        5956.875        5138.852
+```
+
+&lt;div class="question"&gt;
+Is a t.test sufficient here? Any concerns?
+&lt;/div&gt;
+
 
 ---
+## EDA
 
-## About ggplot2
+- T-test shows men started at higher salaries than women (t=5.83, p `\(&lt;\)` .0001).
 
-- ggplot2 is the name of the package
-- The `gg` in "ggplot2" stands for Grammar of Graphics
-- Inspired by the book **Grammar of Graphics** by Leland Wilkinson
-- `ggplot()` is the main function in ggplot2
-- For help with the ggplot2, see http://ggplot2.tidyverse.org/
+- But, it **doesn't** control for other characteristics.
+
+- There are other variables that are correlated with `bsal`. Here's the correlation matrix of all numerical variables using the *corr* function in R.
+&lt;table class="table" style="font-size: 20px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; bsal &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; sal77 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; senior &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; age &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; educ &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; exper &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; bsal &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.42 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.29 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.03 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.41 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.17 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; sal77 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.42 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.13 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.55 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.42 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.37 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; senior &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.29 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.13 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.18 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.06 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.07 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; age &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.03 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.55 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.18 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.23 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.80 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; educ &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.41 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.42 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.06 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.23 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.10 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; exper &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.17 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.37 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.07 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.80 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.10 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+## EDA
+
+In fact, let's take a look at scatter plots of all variables
+
+```r
+pairs(wages)
+```
+
+&lt;img src="figure/beamer-unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+## EDA
+
+Too busy! Let's take a closer look at some variables.
+
+First, `bsal` vs. `senior`
+
+```r
+plot(wages$bsal~wages$senior,xlab="Seniority",ylab="Base Salary")
+abline(lm(bsal~senior,data=wages))
+```
+
+&lt;img src="figure/beamer-unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+## EDA
+
+Next, `bsal` vs. `senior`
+
+```r
+plot(wages$bsal~wages$age,xlab="Age",ylab="Base Salary")
+abline(lm(bsal~age,data=wages))
+```
+
+&lt;img src="figure/beamer-unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+## EDA
+
+`bsal` vs. `educ`
+
+```r
+plot(wages$bsal~wages$educ,xlab="Education",ylab="Base Salary")
+abline(lm(bsal~educ,data=wages))
+```
+
+&lt;img src="figure/beamer-unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+## EDA
+
+- Finally, `bsal` vs. `exper`
+
+```r
+plot(wages$bsal~wages$exper,xlab="Experience",ylab="Base Salary")
+abline(lm(bsal~exper,data=wages))
+```
+
+&lt;img src="figure/beamer-unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+- Clearly, they are other variables that may be relevant in explaining baseline salary.
 
 ---
 
 class: center, middle
 
-# Visualizing Star Wars
-
----
-
-## Dataset terminology
-
-&lt;div class="question"&gt;
-What does each row represent? What does each column represent?
-&lt;/div&gt;
-
-
-```r
-starwars
-```
-
-```
-## # A tibble: 87 x 13
-##    name  height  mass hair_color skin_color eye_color birth_year gender
-##    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
-##  1 Luke…    172    77 blond      fair       blue            19   male  
-##  2 C-3PO    167    75 &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
-##  3 R2-D2     96    32 &lt;NA&gt;       white, bl… red             33   &lt;NA&gt;  
-##  4 Dart…    202   136 none       white      yellow          41.9 male  
-##  5 Leia…    150    49 brown      light      brown           19   female
-##  6 Owen…    178   120 brown, gr… light      blue            52   male  
-##  7 Beru…    165    75 brown      light      blue            47   female
-##  8 R5-D4     97    32 &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
-##  9 Bigg…    183    84 black      light      brown           24   male  
-## 10 Obi-…    182    77 auburn, w… fair       blue-gray       57   male  
-## # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,
-## #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;
-```
-
----
-
-## What's in the Star Wars data?
-
-Take a `glimpse` at the data: 
-
-```r
-glimpse(starwars)
-```
-
-```
-## Observations: 87
-## Variables: 13
-## $ name       &lt;chr&gt; "Luke Skywalker", "C-3PO", "R2-D2", "Darth Vader", "L…
-## $ height     &lt;int&gt; 172, 167, 96, 202, 150, 178, 165, 97, 183, 182, 188, …
-## $ mass       &lt;dbl&gt; 77.0, 75.0, 32.0, 136.0, 49.0, 120.0, 75.0, 32.0, 84.…
-## $ hair_color &lt;chr&gt; "blond", NA, NA, "none", "brown", "brown, grey", "bro…
-## $ skin_color &lt;chr&gt; "fair", "gold", "white, blue", "white", "light", "lig…
-## $ eye_color  &lt;chr&gt; "blue", "yellow", "red", "yellow", "brown", "blue", "…
-## $ birth_year &lt;dbl&gt; 19.0, 112.0, 33.0, 41.9, 19.0, 52.0, 47.0, NA, 24.0, …
-## $ gender     &lt;chr&gt; "male", NA, NA, "male", "female", "male", "female", N…
-## $ homeworld  &lt;chr&gt; "Tatooine", "Tatooine", "Naboo", "Tatooine", "Alderaa…
-## $ species    &lt;chr&gt; "Human", "Droid", "Droid", "Human", "Human", "Human",…
-## $ films      &lt;list&gt; [&lt;"Revenge of the Sith", "Return of the Jedi", "The …
-## $ vehicles   &lt;list&gt; [&lt;"Snowspeeder", "Imperial Speeder Bike"&gt;, &lt;&gt;, &lt;&gt;, &lt;…
-## $ starships  &lt;list&gt; [&lt;"X-wing", "Imperial shuttle"&gt;, &lt;&gt;, &lt;&gt;, "TIE Advanc…
-```
-
----
-
-## What's in the Star Wars data?
-
-Run the following **in the Console** to view the help
-
-```r
-?starwars
-```
-
-![starwars-help](img/02a/starwars-help.png)
-
-&lt;div class="question"&gt;
-How many rows and columns does this dataset have? What does each row represent? What does each column represent?
-&lt;/div&gt;
-
-
-&lt;div class="question"&gt;
-Make a prediction: What relationship do you expect to see between height and mass?
-&lt;/div&gt;
-
----
-
-## Mass vs. height
-
-
-```r
-ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
-  geom_point()
-```
-
-```
-## Warning: Removed 28 rows containing missing values (geom_point).
-```
-
-![](02-intro-reg_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
-
----
-
-## What's that warning?
-
-- Not all characters have height and mass information (hence 28 of them not plotted)
-
-```
-## Warning: Removed 28 rows containing missing values (geom_point).
-```
-
-- Going forward I'll supress the warning to save room on slides, but it's important to note it
-
----
-
-## Mass vs. height
-
-&lt;div class="question"&gt;
-How would you describe this relationship? What other variables would help us understand data points that don't follow the overall trend? Who is the not so tall but really chubby character?
-&lt;/div&gt;
-
-![](02-intro-reg_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
-
----
-
-## Additional variables
-
-Can display additional variables with
-
-- aesthetics (like shape, colour, size), or
-
-- faceting (small multiples displaying different subsets)
-
----
-
-class: center, middle
-
-# Aesthetics
-
----
-
-## Aesthetics options
-
-Visual characteristics of plotting characters that can be **mapped to data** are
-
-- `color`
-
-- `size`
-
-- `shape`
-
-- `alpha` (transparency)
-
----
-
-## Mass vs. height + gender
-
-
-```r
-ggplot(data = starwars, mapping = aes(x = height, y = mass, color = gender)) +
-  geom_point()
-```
-
-![](02-intro-reg_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
-
----
-
-## Aesthetics summary
-
-- Continuous variable are measured on a continuous scale
-- Discrete variables are measured (or often counted) on a discrete scale
-
-aesthetics    | discrete     | continuous
-------------- | ------------ | ------------
-color         | rainbow of colors | gradient
-size          | discrete steps    | linear mapping between radius and value
-shape         | different shape for each | shouldn't (and doesn't) work
-
----
-
-class: center, middle
-
-# Faceting
-
----
-
-## Faceting options
-
-- Smaller plots that display different subsets of the data
-
-- Useful for exploring conditional relationships and large data
-
----
-
-## Mass vs. height by gender
-
-.small[
-
-```r
-ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
-  facet_grid(. ~ gender) +
-  geom_point()
-```
-
-![](02-intro-reg_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
-]
-
----
-
-## Which bar plot is more appropriate?
-
-&lt;div class="question"&gt;
-Which of the previous two bar plots is a more useful representation for visualizing the relationship between gender and hair color?
-&lt;/div&gt;
+# Multiple Linear Regression
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

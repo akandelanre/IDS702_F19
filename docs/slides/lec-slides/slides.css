@@ -5,7 +5,7 @@ body {
   font-family: 'AppleGothic',Futura,'URW Gothic L',sans-serif;
   font-weight: 300;
   color: #333333;
-  font-size: 40px;
+  font-size: 30px;
 }
 h2 {
   font-family: 'AppleGothic',Futura,'URW Gothic L',sans-serif;
@@ -37,6 +37,7 @@ a, a:hover, a:focus {
 }
 .remark-code, .remark-inline-code { 
   font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace; 
+  font-size: 65%;
 }
 .remark-code-line-highlighted     { background-color: #ffff88; }
 
@@ -140,3 +141,7 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
     height: 685px;
     width: 700px;
 }
+
+.small { font-size: 70% }
+
+
