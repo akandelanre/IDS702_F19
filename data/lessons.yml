@@ -123,7 +123,7 @@ lessons:
     title: "Case studies 4"
     
   - date: "Fri, Nov 15"
-    title: "Lab 6: "
+    title: "Lab 6: Comparing different causal inference methods"
     
   - title: "PART  VI: TIME SERIES MODELS"
   
@@ -138,7 +138,7 @@ lessons:
   - title: "WEEK 14"
   
   - date: "Tue, Nov 26"
-    title: "Introduction to nonparametric methods"
+    title: "Wrap up (would cover introduction to nonparametric methods should time permit)"
     
   - date: "Thur, Nov 28"
     title: "No class: reading period"
