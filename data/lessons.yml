@@ -3,7 +3,7 @@ lessons:
   
   - date: "Tue, Aug 27"
     title: "Introduction to course"
-    #slides: "lec-slides/01-intro.html"
+    slides: "lec-slides/01-intro.html"
     
   - title: "PART I: MULTIPLE LINEAR REGRESSION"
     
@@ -107,6 +107,8 @@ lessons:
   - title: "PART  V: METHODS FOR CAUSAL INFERENCE"
   
   - title: "WEEK 11"
+  
+  - title: "Final project proposal due"
   
   - date: "Tue, Nov 5"
     title: "Association vs. causation; confounding"

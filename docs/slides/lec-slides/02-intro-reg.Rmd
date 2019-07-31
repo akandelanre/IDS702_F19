@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Multiple Linear Regression"
+title: "Introduction to multiple linear regression"
 author: "Dr. Olanrewaju Akande"
 date: "Aug 29, 2019"
 output:
@@ -50,7 +50,6 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 })
 opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize', small.mar=TRUE)
 ```
-- 
 
 
 ## Outline
@@ -151,6 +150,8 @@ Since we only care about comparing starting salaries for male and female employe
 boxplot(bsal~sex,data=wages,ylab="Sex",horizontal=TRUE,
         xlab="Base Salary")
 ```
+
+--
 <div class="question">
 What do you think? What can you infer from this plot?
 </div>
@@ -167,6 +168,7 @@ $$H_0: \mu_{male} - \mu_{female} \leq 0 \ \ \textrm{vs.} \ \ H_A: \mu_{male} - \
 t.test(bsal~fsex,data=wages,alternative="greater")
 ```
 
+--
 <div class="question">
 Is a t.test sufficient here? Any concerns?
 </div>
@@ -210,7 +212,7 @@ abline(lm(bsal~senior,data=wages))
 ---
 ## EDA
 
-Next, `bsal` vs. `senior`
+Next, `bsal` vs. `age`
 ```{r fig.height=3.6}
 plot(wages$bsal~wages$age,xlab="Age",ylab="Base Salary")
 abline(lm(bsal~age,data=wages))
@@ -230,12 +232,12 @@ abline(lm(bsal~educ,data=wages))
 ---
 ## EDA
 
-- Finally, `bsal` vs. `exper`
+Finally, `bsal` vs. `exper`
 ```{r fig.height=3}
 plot(wages$bsal~wages$exper,xlab="Experience",ylab="Base Salary")
 abline(lm(bsal~exper,data=wages))
 ```
-- Clearly, they are other variables that may be relevant in explaining baseline salary.
+Clearly, they are other variables that may be relevant in explaining baseline salary.
 
 ---
 

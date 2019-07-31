@@ -4,11 +4,11 @@ markup: "mmark"
 ---
 
 ### Prerequisites
-Students are expected to know all topics covered in the MIDS summer course review and boot camp. These include basic statistical inference including hypothesis testing, confidence intervals, linear regression with one predictor, and exploratory data analysis methods. Students are also expected to be familiar with R/Rstudio. Due to space constraints, the course is open only to students in the MIDS program.
+Students are expected to know all topics covered in the MIDS summer course review and boot camp. These include basic probability (including conditional probability, expectations and common probability distributions), and statistical inference (including hypothesis testing, confidence intervals, linear regression with one predictor, and exploratory data analysis). Students are also expected to be familiar with R/Rstudio. Due to space constraints, the course is open only to students in the MIDS program.
 
 ### Class
 
-Class time is designed to be as interactive as possible. My role as instructor is to introduce you new tools and techniques, but it is up to you to take them and make use of them. The statistical techniques we will cover are best learned by practical data analysis, so as much as possible you will be working on various datasets through a variety of tasks and activities throughout each class.
+Class time is designed to be as interactive as possible. My role as instructor is to introduce you new tools and techniques, but it is up to you to take them and make use of them. The statistical techniques we will cover are best learned by practical data analysis, so you will be working on various datasets as much as possible, through a variety of tasks and activities throughout each class. Ask as many questions as possible during and outside classes; there are no stupid questions. 
 
 ### Graded Work
 
@@ -25,24 +25,23 @@ Lab Assignments | 10%
 
 There are no make-ups for assignments or the projects except for medical or familial emergencies or for reasons approved by the instructor before the due date. See the instructor in advance of relevant due dates to discuss possible alternatives. 
 	
-Grades may be curved at the end of the semester. Cumulative averages of 90% -- 100% are guaranteed at least an A-, 80% -- 89% at least a B-, and 70% -- 79% at least a C-, however the exact ranges for letter grades will be determined after the final exam. 
+Grades may be curved at the end of the semester. Cumulative averages of 90% -- 100% are guaranteed at least an A-, 80% -- 89% at least a B-, and 70% -- 79% at least a C-, however the exact ranges for letter grades will be determined at the end of the course.
 
 
 ### Descriptions of graded work
 
 #### Methods and Data Analysis Assignments
-Methods and Data Analysis assignments are posted on the IDS 702 course website. Students turn in these assignments at the beginning of class on the due date. Students are permitted to work with others on the assignments, but each person must write up and turn in her or his own answers. The Methods and Data Analysis assignments include questions on the computational and the mathematical aspects of the methods that underpin the statistical models we learn during the semester, and questions that ask students to apply the modeling skills discussed during the semester. Assignments should be turned in using a typesetting system such as LaTeX or R Markdown.
+Methods and data analysis assignments are posted on the course website. Students turn in these assignments at the beginning of class on the due date. Students are permitted to work with others on the assignments, but each person must write up and turn in her or his own answers. The assignments include questions on the computational and the mathematical aspects of the methods that underpin the statistical models we learn during the semester, and questions that ask students to apply the modeling skills discussed during the semester. Assignments should be turned in using a typesetting system such as LaTeX or R Markdown.
 
 
 #### Lab Assignments
-The objective of the labs is to give you hands on experience with data analysis using modern statistical software. The labs will also provide you with tools that you will need to complete the project successfully. All team members are expected to contribute equally to the completion of each assignment and you will be asked to evaluate your team members after a few assignments are due.
+The objective of the lab assigments is to give you more hands-on experience with data analysis using R. The labs times also gives you an additional platform to ask for help for your team and individual projects. Lab attendance is not mandatory, however, each lab assigment should be submitted in timely fashion on the due date.
 
 #### Team Projects
-For the team projects, students work in teams to analyze data selected by the instructor. Students write a report with their data analysis findings. Students may have the opportunity to present their results in class. Detailed instructions will be made available on the website.
+For the team projects, students work in teams to analyze data selected by the instructor. Students write a report with their data analysis findings. Students will have the opportunity to present their results in class. Detailed instructions will be made available later.
 
 #### Final Project
-For the final project, students analyze a data-based research question of their choosing, subject to the instructor's approval. The data should comprise several variables amenable to statistical analyses via modeling. Students can bring in their own research data sets, or they can ask the instructor for assistance with identifying appropriate data. Students present their results in a poster session. Detailed instructions are available on the Sakai site.
-
+For the final project, students analyze a data-based research question of their choosing, subject to the instructor's approval. The data should comprise several variables amenable to statistical analyses via modeling. Students can bring in their own research data sets, or they can ask the instructor for assistance with identifying appropriate data. Students present their results in a class at the end of the semester. Detailed instructions will be made available later.
 
 
 ### Academic integrity:
@@ -60,6 +59,13 @@ Remember the Duke Community Standard that you have agreed to abide by:
 Cheating on exams or plagiarism on homework assignments, lying about an illness or absence and other forms of academic dishonesty are a breach of trust with classmates and faculty, violate the <a href="http://www.studentaffairs.duke.edu/conduct/resources/dcs">Duke Community Standard</a>, and will not be tolerated. Such incidences will result in a 0 grade for all parties involved.  Additionally, there may be penalties to your final class grade along with being reported to the <a href="http://www.studentaffairs.duke.edu/conduct/about/ucbhearings">Undergraduate Conduct Board</a>.
 
 Please review the Academic Dishonesty policies <a href="https://studentaffairs.duke.edu/conduct">here</a>.
+
+
+### Diversity & Inclusiveness:
+
+In line with the MIDS culture, this course is designed so that students from all backgrounds and perspectives all feel welcome both in and out of class. Please feel free to talk to me (in person or via email) if you do not feel well-served by any aspect of this class, or if some aspect of class is not welcoming or accessible to you.
+
+My goal is for you to succeed in this course, therefore, please let me know immediately if you feel you are struggling with any part of the course more than you know how to manage. Doing so will not affect your grades, but it will allow me to provide the resources to help you succeed in the course.
 
 
 ### Disability Statement

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>Introduction to Multiple Linear Regression</title>
+    <title>Introduction to multiple linear regression</title>
     <meta charset="utf-8" />
     <meta name="author" content="Dr. Olanrewaju Akande" />
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
@@ -13,7 +13,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Introduction to Multiple Linear Regression
+# Introduction to multiple linear regression
 ### Dr. Olanrewaju Akande
 ### Aug 29, 2019
 
@@ -23,7 +23,6 @@ class: center, middle, inverse, title-slide
 
 
 
-- 
 
 
 ## Outline
@@ -161,6 +160,8 @@ boxplot(bsal~sex,data=wages,ylab="Sex",horizontal=TRUE,
 ```
 
 &lt;img src="figure/beamer-unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+--
 &lt;div class="question"&gt;
 What do you think? What can you infer from this plot?
 &lt;/div&gt;
@@ -192,6 +193,7 @@ t.test(bsal~fsex,data=wages,alternative="greater")
 ##        5956.875        5138.852
 ```
 
+--
 &lt;div class="question"&gt;
 Is a t.test sufficient here? Any concerns?
 &lt;/div&gt;
@@ -306,7 +308,7 @@ abline(lm(bsal~senior,data=wages))
 ---
 ## EDA
 
-Next, `bsal` vs. `senior`
+Next, `bsal` vs. `age`
 
 ```r
 plot(wages$bsal~wages$age,xlab="Age",ylab="Base Salary")
@@ -332,7 +334,7 @@ abline(lm(bsal~educ,data=wages))
 ---
 ## EDA
 
-- Finally, `bsal` vs. `exper`
+Finally, `bsal` vs. `exper`
 
 ```r
 plot(wages$bsal~wages$exper,xlab="Experience",ylab="Base Salary")
@@ -340,7 +342,7 @@ abline(lm(bsal~exper,data=wages))
 ```
 
 &lt;img src="figure/beamer-unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
-- Clearly, they are other variables that may be relevant in explaining baseline salary.
+Clearly, they are other variables that may be relevant in explaining baseline salary.
 
 ---
 

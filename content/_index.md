@@ -27,20 +27,20 @@ By the end of this course, students should be able to
 
 <font color="#6CA0DC"><i class="fas fa-university fa-lg"></i></font> &nbsp; 270 Gross Hall
 
-<font color="#6CA0DC"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Tues and Thurs 10:05 - 11:20
+<font color="#6CA0DC"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Tue/Thur 10:05 - 11:20am
 
 #### Labs
 
 <font color="#6CA0DC"><i class="fas fa-university fa-lg"></i></font> &nbsp; 270 Gross Hall
 
-<font color="#6CA0DC"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Every other Fri 10:00 - 11:20
+<font color="#6CA0DC"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Every other Fri 10:00 - 11:20am
 
 ### Teaching Team and Office Hours 
 
 {.table .table-condensed .table-striped .text-left}
 <span></span>     | <span></span>     | <span></span>    | <span></span>    |  <span></span>      
 ------------------|-------------------|------------------|------------------|------------------ 
-Instructor        | [Dr. Olanrewaju Michael Akande](https://akandelanre.github.io.) | <a href="mailto:olanrewaju.akande@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/akandelanre" title="GitHub"><i class="fa fa-github"></i></a> | TBD | 256 Gross Hall
+Instructor        | [Dr. Olanrewaju Michael Akande](https://akandelanre.github.io.) | <a href="mailto:olanrewaju.akande@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/akandelanre" title="GitHub"><i class="fa fa-github"></i></a> | Mon/Wed 3:00 - 4:00pm | 256 Gross Hall
 TAs               | [Azucena Morales](https://datascience.duke.edu/lidia-azu-azucena-morales-vasquez) | <a href="mailto:azucena.morales@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | TBD
                   | [TBD](https://datascience.duke.edu/) | <a href="mailto:walker.harrison@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | TBD
                   
