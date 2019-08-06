@@ -1,6 +1,6 @@
 ---
 title: "Introduction to IDS 702: modeling and representation of data"
-author: "Dr. Olanrewaju Akande"
+author: "Dr. Olanrewaju Michael Akande"
 date: "Aug 27, 2019"
 output:
   xaringan::moon_reader:

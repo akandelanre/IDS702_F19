@@ -1,6 +1,6 @@
 ---
 title: "Introduction to multiple linear regression"
-author: "Dr. Olanrewaju Akande"
+author: "Dr. Olanrewaju Michael Akande"
 date: "Aug 29, 2019"
 output:
   xaringan::moon_reader:
@@ -14,8 +14,8 @@ output:
 ---
 
 ```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
-library(tidyverse)
-library(magick)
+#library(tidyverse)
+#library(magick)
 library(knitr)
 library(kableExtra)
 ```
@@ -24,7 +24,7 @@ library(kableExtra)
 # R options
 options(
   htmltools.dir.version = FALSE, # for blogdown
-  show.signif.stars = FALSE,     # for regression output
+  #show.signif.stars = FALSE,     # for regression output
   warm = 1
   )
 # Set dpi and height for images
@@ -66,43 +66,57 @@ opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size
 
 - Predictions
 
-- Case study
-
 
 ---
 ## Introduction
 
 - In the stats module of the MIDS summer online review, you were introduced to simple linear regression.
 
+--
+
 - Today, we will begin our series of lectures on multiple linear regression. 
 
+--
+
 - For now, we will restrict our attention to model interpretation, testing, and predictions under multiple linear regression. 
+
+--
 
 - In the next class, we will start to explore model specification, assessment and validation. 
 
 
 ---
-
 class: center, middle
 
 # Motivating Example
 
 
 ---
-
 ## Sex discrimination
+
 - In 1970’s, Harris Trust and Savings Bank was sued for discrimination on the basis of sex.  
+
+--
 
 - Analysis of salaries of employees of one type (skilled, entry level clerical) presented as evidence
 by the defense.
 
+--
+
 - The data is in the file *wagediscrim.txt* on Sakai.
 
-- Did female employees tend to receive lower starting salaries than similarly qualified and experienced male employees?
+--
+
+- We are interested in answering the question: **did female employees tend to receive lower starting salaries than similarly qualified and experienced male employees?**
+
+--
+<div class="question">
+Which statistical tests can we use to probe the question above?
+</div>
 
 
 ---
-## The Data
+## Data
 
 93 employees on data file (61 female, 32 male).
 
@@ -118,11 +132,11 @@ age | months
 
 
 ---
-## The Data
+## Data
 
 Let's get a sense of the data: how many rows, how many columns?
 ```{r}
-wages = read.csv("data/wagediscrim.txt", header= T)
+wages <- read.csv("data/wagediscrim.txt", header= T)
 dim(wages)
 ```
 
@@ -133,10 +147,11 @@ head(wages)
 
 
 ---
-## Exploratory Data Analysis (EDA)
+## Exploratory data analysis (EDA)
 
 How about quick summaries of each variable to know the range of data we are working with
 ```{r}
+wages$sex <- factor(wages$sex,levels=c("Male","Female"))
 wages$fsex <- factor(wages$fsex)
 summary(wages)
 ```
@@ -160,12 +175,12 @@ What do you think? What can you infer from this plot?
 ---
 ## T.test?
 
-We could go further and try a t-test for the hypotheses:
+We could go further and try a t-test for the hypotheses.
 .small[
-$$H_0: \mu_{male} - \mu_{female} \leq 0 \ \ \textrm{vs.} \ \ H_A: \mu_{male} - \mu_{female} > 0$$
+$$H_0: \mu_{\textrm{male}} - \mu_{\textrm{female}} \leq 0 \ \ \textrm{vs.} \ \ H_A: \mu_{\textrm{male}} - \mu_{\textrm{female}} > 0$$
 ]
 ```{r}
-t.test(bsal~fsex,data=wages,alternative="greater")
+t.test(bsal~sex,data=wages,alternative="greater")
 ```
 
 --
@@ -174,10 +189,30 @@ Is a t.test sufficient here? Any concerns?
 </div>
 
 
+
+---
+## Simple linear regression (SLR)?
+
+How about fitting a simple linear regression to the two variables.
+.small[
+$$ \textrm{bsal}_i = \beta_0 + \beta_1 \textrm{sex}_i + \epsilon_i; \ \ \epsilon_i \sim N(0, \sigma^2).$$
+]
+```{r}
+model1 <- lm(bsal~sex,data=wages); summary(model1)
+```
+
+--
+<div class="question">
+What can we infer from these results?
+</div>
+
+
 ---
 ## EDA
 
-- T-test shows men started at higher salaries than women (t=5.83, p $<$ .0001).
+- .block[
+T-test shows men started at higher salaries than women $(t=5.83, p < .0001)$; same conclusion from the regression.
+]
 
 - But, it **doesn't** control for other characteristics.
 
@@ -191,10 +226,28 @@ kable(round(cor(wages[,!is.element(colnames(wages),c("sex","fsex"))]),2)) %>%
 ---
 ## EDA
 
-In fact, let's take a look at scatter plots of all variables
-```{r fig.height=4.5}
+- In fact, let's take a look at scatter plots of all variables
+
+- First, recall the description of all the variables.
+
+Variable    | Description
+:------------- | :------------ 
+bsal | Annual salary at time of hire
+sal77 | Annual salary in 1977.
+educ | years of education.
+exper | months previous work prior to hire at bank.
+fsex | 1 if female, 0 if male
+senior | months worked at bank since hired
+age | months
+
+
+---
+## EDA
+
+```{r fig.height=4.8}
 pairs(wages)
 ```
+
 
 
 ---
@@ -237,13 +290,426 @@ Finally, `bsal` vs. `exper`
 plot(wages$bsal~wages$exper,xlab="Experience",ylab="Base Salary")
 abline(lm(bsal~exper,data=wages))
 ```
-Clearly, they are other variables that may be relevant in explaining baseline salary.
+
 
 ---
+## EDA
 
+- Clearly, they are other variables that may be relevant in explaining baseline salary.
+
+--
+
+- We need to explore other statistical methods than the t-test and simple linear regression.
+
+--
+
+- We need methods that can explore the relationship between baseline salary and sex while also controlling for the other variables that clearly may be relevant.
+
+--
+
+- This brings us to multiple linear regression (which I'll henceforth refer to as MLR).
+
+
+---
 class: center, middle
 
 # Multiple Linear Regression
+
+
+---
+## MLR
+
+- Mathematically, MLR assumes the following distribution for a response variable $y_i$ given multiple covariates/predictors $\boldsymbol{x}_i = (x_{i1}, x_{i2}, \ldots, x_{ip})$.
+.block[
+.small[
+$$y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip} + \epsilon_i; \ \ \epsilon_i \sim N(0, \sigma^2).$$
+]
+]
+
+--
+
+- Another way to write this is:
+.block[
+.small[
+$$f(y_i | \boldsymbol{x}_i) = N(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip}, \sigma^2).$$
+]
+]
+
+--
+
+- MLR assumes that the conditional average or expected value of a response variable is a linear function of potential predictors; the linearity is in terms of the "unknown" parameters (intercept and slopes).
+
+--
+
+- Just like in SLR, MLR also assumes values of the response variable follow a normal curve within any combination of predictors.
+
+
+---
+## MLR
+
+- Just as we had under SLR, here each $\beta_j$ represents the true "unknown" value of the parameter, while $\hat{\beta}_j$ represents the estimate of $\beta_j$.
+
+--
+
+- Similarly, $y_i$ represents the true value of the response variable, while $\hat{y}_i$ represents the predicted value. That is, 
+.block[
+.small[
+$$\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta} x_{i2} + \ldots + \hat{\beta} x_{ip}.$$
+]
+]
+
+--
+
+- Also, the residuals $e_i$ are our estimates of the true "unobserved" errors $\epsilon_i$. Thus, 
+.block[
+.small[
+$$e_i = y_i - \left[\hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta} x_{i2} + \ldots + \hat{\beta} x_{ip}\right] = y_i - \hat{y}_i.$$
+]
+]
+
+--
+
+- Since the $e_i$'s estimate the $\epsilon_i$'s, we expect them to also be independent, centered at zero, and have constant variance. We will get into this more under model assessment. 
+
+
+---
+## MLR: math
+
+- Estimated coefficients are found by taking partial derivatives of
+.small[
+$$\sum^n_{i=1} \left(y_i - \left[\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip} \right] \right)^2.$$
+]
+
+--
+
+- Resulting formulas are too messy to write down, although there is a very nice matrix algebra representation, which we will see on the next slide.
+
+--
+
+- Estimated value of regression variance is
+.block[
+.small[
+$$\hat{\sigma}^2 = s_e^2 = \sum^n_{i=1} \dfrac{\left(y_i - \hat{y}_i \right)^2}{n-(p+1)} = \sum^n_{i=1} \dfrac{e_i^2}{n-(p+1)}.$$
+]
+]
+
+--
+
+- R squared has same interpretation under both SLR and MLR.
+
+
+---
+## MLR: matrix representation
+
+- Let
+.small[
+$$
+\boldsymbol{y} =
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+\vdots\\
+y_n \\
+\end{bmatrix}
+\hspace{1em}
+\boldsymbol{X} =
+\begin{bmatrix}
+1 & x_{11} & x_{12} & \ldots & x_{1p} \\
+1 & x_{21} & x_{22} & \ldots & x_{2p} \\
+\vdots & \vdots & \vdots & \vdots & \vdots \\
+1 & x_{n1} & x_{n2} & \ldots & x_{np} \\
+\end{bmatrix}
+\hspace{1em}
+\boldsymbol{\beta} =
+\begin{bmatrix}
+\beta_1\\
+\beta_2 \\
+\vdots \\
+\beta_p \\
+\end{bmatrix}
+\hspace{1em}
+\boldsymbol{\epsilon} =
+\begin{bmatrix}
+\epsilon_1\\
+\epsilon_2 \\
+\vdots \\
+\epsilon_n \\
+\end{bmatrix}
+$$ 
+]
+
+--
+
+- Then, we can write the MLR model as
+.block[
+.small[
+$$\boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}$$
+]
+]
+
+--
+
+- The OLS estimates of all $(p+1)$ coefficients (intercept plus $p$ slopes) is then given by
+.block[
+.small[
+$$\hat{\boldsymbol{\beta}} = \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T \boldsymbol{y}$$
+]
+]
+
+--
+<div class="question">
+Ideally, n should be bigger than p. Why?
+</div>
+
+
+---
+## MLR: matrix representation
+
+- In matrix form,
+.block[
+.small[
+$$s_e^2 = \sum^n_{i=1} \dfrac{\left(y_i - \hat{y}_i \right)^2}{n-(p+1)} = \dfrac{(\boldsymbol{y}-\boldsymbol{X}\hat{\boldsymbol{\beta}})^T(\boldsymbol{y}-\boldsymbol{X}\hat{\boldsymbol{\beta}})}{n-(p+1)} = \dfrac{\boldsymbol{e}^T\boldsymbol{e}}{n-(p+1)}.$$
+]
+]
+
+--
+
+- The variance of the OLS estimates of all $(p+1)$ coefficients (intercept plus $p$ slopes) is
+.block[
+.small[
+$$\mathbb{V}ar\left[ \hat{\boldsymbol{\beta}} \right] = \sigma^2 \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} $$
+]
+]
+
+--
+
+- Notice that this is a covariance matrix; the square root of the diagonal elements give us the standard errors for each $\beta_j$, which we can use for hypothesis testing and interval estimation.
+--
+<div class="question">
+What are the off-diagonal elements?
+</div>
+
+--
+
+- When estimating $\mathbb{V}ar[\hat{\boldsymbol{\beta}}]$, plug in $s_e^2$ as an estimate of $\sigma^2$.
+
+
+---
+## Back to our example
+
+Let's fit the following default MLR model to our example using R.
+.small[
+$$\textrm{Avg. bsal} = \textrm{Intercept} + \beta_1 \textrm{sex} + \beta_2 \textrm{senior} + \beta_3 \textrm{age} + \beta_4 \textrm{educ} + \beta_5 \textrm{exper}$$
+]
+
+--
+
+We can estimate $\hat{\boldsymbol{\beta}}$ in R directly as follows:
+```{r}
+X <- model.matrix(~ sex + senior + age + educ + exper, data= wages)
+y <- as.matrix(wages$bsal)
+beta_hat <- solve(t(X)%*%X)%*%t(X)%*%y; beta_hat
+sigmasquared_hat <- t(y-X%*%beta_hat)%*%(y-X%*%beta_hat)/(nrow(X)-ncol(X))
+SE_beta_hat <- sqrt(diag(c(sigmasquared_hat)*solve(t(X)%*%X))); SE_beta_hat
+```
+
+
+
+---
+## Back to our example
+
+Let's fit the same MLR model using the _lm_ command in R.
+```{r}
+regwage <- lm(bsal~ sex + senior + age + educ + exper, data= wages)
+summary(regwage)
+```
+
+
+---
+## Interpretation of coefficients
+
+- Each estimated coefficient is amount $y$ is expected to increase when the value of its corresponding predictor is increased by one, _holding the values of the other predictors constant_.
+
+--
+
+- Example: estimated coefficient of educ is approximately 92.
+
+  .block[
+  _Interpretation_: For each additional year of education for employee, we expect salary to increase by about $92, holding all other variables constant.
+  ]
+
+--
+
+- Estimated coefficient of sex is approximately -768.
+
+  .block[
+  _Interpretation_: For employees who started at the same time, had the same education and experience, and were the same age, women earned $768 less on average than men.
+  ]
+  
+
+---
+## Which variable is the strongest predictor of the outcome?
+  
+- The coefficient that has the strongest linear association with the outcome variable is the one
+with the largest absolute value of $T$ (referred to as $t$-value in the R output), the test statistic, which equals the coefficient over the corresponding SE.
+
+--
+
+- T is not size of the coefficient. The size of the coefficient is sensitive to scales of predictors, but $T$ is not, since it is a standardized measure.
+
+--
+
+- Example: In wages regression, seniority is a better predictor than education because it has a larger $T$.
+
+
+---
+## Hypothesis tests for coefficients
+
+- The reported t-values and p-values are used to test whether a particular coefficient equals 0, given that all other coefficients are in the model.
+
+--
+
+- Examples:
+  - The test for whether the coefficient of education equals zero has p-value $= .0004$. Hence, reject the null hypothesis; it appears that education is a useful predictor of baseline salary when all the other predictors are in the model.
+
+--
+
+  - The test for whether the coefficient of experience equals zero has p-value $= .6364$. Hence, we cannot reject the null hypothesis; it appears that experience is not a particularly useful predictor of baseline salary when all other predictors are in the model.
+
+
+---
+## Hypothesis tests for coefficients
+
+- Fortunately, R (and pretty much all statistical software) computes both the t-values and p-values for us automatically.
+
+--
+
+  <div class="question">
+How do we calculate the t-values and p-values manually?
+</div>
+
+--
+
+- The t-values (test statistics) have the usual form:
+.block[
+.small[
+$$T = \dfrac{\textrm{Observed} - \textrm{Expected}}{SE} = \dfrac{\textrm{Point Estimate} - \textrm{Null Value}}{SE}$$
+]
+]
+
+--
+
+- For p value, use area under a t-distribution with $n-(p+1)$ degrees of freedom, where $p$ is the
+number of predictors (minus the intercept) in the model.
+
+--
+
+- In this problem, the degrees of freedom equal $93 - 6 = 87$.
+
+
+---
+## CIs for regression coefficients
+
+- A 95% CI for the coefficients is obtained in the usual way. Recall the general form for two-sided CIs from the online review material:
+.block[
+.small[
+$$CI = pe \pm SE \times C_{\alpha}$$
+]
+]
+
+  where $pe$ is the point estimate, and $C_{\alpha}$ is a multiplier (critical value) that depends on the confidence level.
+
+--
+
+- For MLR, the multiplier is obtained from the t-distribution with $n-(p+1)$ degrees of freedom.
+
+--
+
+- Example: A 95% CI for the population regression coefficient of age equals: $(0.63 - 1.96\times0.72, 0.63 + 1.96\times0.72)$.
+
+
+---
+## CIs for regression coefficients
+
+- We can compute confidence intervals very easily in R.
+  ```{r}
+confint(regwage,level = 0.95)
+```
+
+--
+
+- For employees with the same age, seniority, education, and experience, we expect the average starting salary for female employees to be between 511 and 1024 dollars less than the average starting salary for male employees.
+
+--
+
+- More succinctly,
+  For employees with the same age, seniority, education, and experience, we expect female employees’ average starting salary to be around $767 less than male employees' average salary, with 95% CI in dollars = (-1024, -512).
+
+
+---
+## Notes about tests and CIs
+
+- When sample size is large enough, probably reject null hypothesis of $\beta_j = 0$.
+  - Consider practical significance, not just statistical significance.
+  
+--
+
+- When sample size is small, may not be enough evidence to reject null hypothesis of $\beta_j = 0$.
+  - When you fail to reject null hypothesis, don't be too hasty to say that predictor has no linear association with the outcome. 
+  - There may be an association, just not strong enough to detect with this sample (or perhaps a nonlinear one).
+  
+
+---
+## Predictions
+
+- Example: Prediction of beginning wages for 25 year old woman with 12 years of education, 10 months of seniority, and two years of experience:
+.block[
+.small[
+$$\hat{y}_i = 6277.9 - 767.9(1) - 22.6(10) + 0.63(300) + 92.3(12) + 0.50(24) = 6592.6$$
+]
+]
+
+--
+
+- Easier to do in R using the _predict_ command. We can also get confidence and prediction intervals using the same command.
+  ```{r, warning=F}
+newdata <- data.frame(sex="Female",senior=10,age=c(25*12),educ=12,exper=c(2*12))
+preds <- predict(regwage,newdata,interval="confidence"); preds
+preds <- predict(regwage,newdata,interval="prediction"); preds
+```
+
+
+---
+## Final notes
+
+- We can't say for sure that our model has not violated any of the assumptions. We must do model assessment just as with SLR.
+
+--
+
+- Also, how sure are we that this is actually a good model?
+
+--
+
+- We will address these issues and more in the next class.
+
+--
+
+- .block[
+Be very wary of extrapolation! Because there are several predictors, you can fall into the extrapolation trap in many ways.
+]
+
+--
+
+  <div class="question">
+What do we mean by extrapolation?
+</div>
+
+
+--
+
+- .block[
+Note: multiple regression shows association. It does NOT prove causality. Only a carefully designed observational study or randomized experiment can show causality.
+]
 
 
 

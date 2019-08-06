@@ -11,7 +11,7 @@ h2 {
   font-weight: bold;
   color: #075767;
   font-size: 12px;
-  margin: 0.25em 0 0.5em 0;
+  margin: 0.25em 0 0.5em 0; 
 }
 h1, h3 {
  font-family: 'AppleGothic',Futura,'URW Gothic L',sans-serif;
@@ -36,7 +36,7 @@ a, a:hover, a:focus {
 }
 .remark-code, .remark-inline-code { 
   font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace; 
-  font-size: 65%;
+  font-size: 55%;
 }
 .remark-code-line-highlighted     { background-color: #ffff88; }
 
@@ -141,10 +141,11 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
     width: 700px;
 }
 
-.small { font-size: 60% }
+.small { font-size: 65% }
 
 .tiny { font-size: 25% }
 
-.large { font-size: 80% } 
+.large { font-size: 85% }  
 
+.block {background-color: #c0f4fc;}
 

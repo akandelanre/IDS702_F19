@@ -9,7 +9,7 @@ lessons:
     
   - date: "Thur, Aug 29" 
     title: "Introduction to multiple linear regression"
-    #slides: "lec-slides/02-intro-reg.html"
+    slides: "lec-slides/02-intro-reg.html"
     
   - title: "WEEK 2"
   
