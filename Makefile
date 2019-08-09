@@ -1,7 +1,3 @@
-REMOTEUSER ?= mc301
-HOST ?= gort.stat.duke.edu
-DIR ?= /web/isds/docs/courses/Spring18/Sta199
-REMOTE ?= $(REMOTEUSER)@$(HOST):$(DIR)
 
 .PHONY: clean
 clean:

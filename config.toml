@@ -26,7 +26,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   location = "Social Science Research Institute, Duke University"
   gravatarEmail = "olanrewaju.akande@duke.edu"
   # Your profile picture
-  picture = "img/avatar-icon.jpg" 
+  picture = "img/avatar-icon.jpg"
   twitter = "Akande_OM"
  
 # Menu Configuration
@@ -96,5 +96,5 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [params]
   dateFormat = "January 2, 2006"
-  background = "img/background_image3.png" 
-  favicon = "img/mids_duke_logo.png"
+  background = "https://akandelanre.github.io./background_image3.png" 
+  favicon = "https://akandelanre.github.io./mids_duke_logo.png"
