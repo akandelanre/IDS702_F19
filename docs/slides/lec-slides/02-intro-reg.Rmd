@@ -29,15 +29,6 @@ options(
   )
 # Set dpi and height for images
 knitr::opts_chunk$set(fig.height = 2.65, dpi = 300) 
-# ggplot2 color palette with gray
-color_palette <- list(gray = "#999999", 
-                      salmon = "#E69F00", 
-                      lightblue = "#56B4E9", 
-                      green = "#009E73", 
-                      yellow = "#F0E442", 
-                      darkblue = "#0072B2", 
-                      red = "#D55E00", 
-                      purple = "#CC79A7")
 # For nonsese...
 htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 # For magick
@@ -46,7 +37,7 @@ dev.off <- function(){
 }
 
 knit_hooks$set(small.mar = function(before, options, envir) {
-    if (before) par(mar = c(4, 4, 0.5, 1)) 
+    if (before) par(mar = c(4, 4, 1.5, 1.5)) 
 })
 opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize', small.mar=TRUE)
 ```
@@ -256,7 +247,7 @@ pairs(wages)
 Too busy! Let's take a closer look at some variables.
 
 First, `bsal` vs. `senior`
-```{r fig.height=3}
+```{r fig.height=3.3}
 plot(wages$bsal~wages$senior,xlab="Seniority",ylab="Base Salary")
 abline(lm(bsal~senior,data=wages))
 ```
@@ -286,7 +277,7 @@ abline(lm(bsal~educ,data=wages))
 ## EDA
 
 Finally, `bsal` vs. `exper`
-```{r fig.height=3}
+```{r fig.height=3.6}
 plot(wages$bsal~wages$exper,xlab="Experience",ylab="Base Salary")
 abline(lm(bsal~exper,data=wages))
 ```
@@ -499,7 +490,7 @@ What are the off-diagonal elements?
 
 Let's fit the following default MLR model to our example using R.
 .small[
-$$\textrm{Avg. bsal} = \textrm{Intercept} + \beta_1 \textrm{sex} + \beta_2 \textrm{senior} + \beta_3 \textrm{age} + \beta_4 \textrm{educ} + \beta_5 \textrm{exper}$$
+$$\textrm{bsal}_i = \beta_0 + \beta_1 \textrm{sex}_i + \beta_2 \textrm{senior}_i + \beta_3 \textrm{age}_i + \beta_4 \textrm{educ}_i + \beta_5 \textrm{exper}_i + \epsilon_i$$
 ]
 
 --

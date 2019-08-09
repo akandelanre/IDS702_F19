@@ -10,14 +10,16 @@ lessons:
   - date: "Thur, Aug 29" 
     title: "Introduction to multiple linear regression"
     slides: "lec-slides/02-intro-reg.html"
+    reading: "02_intro-reg-reading.html"
     
   - title: "WEEK 2"
   
   - date: "Tue, Sept 3"
     title: "Model assessment, diagnostics and validation"
+    #slides: "lec-slides/03-reg-model-assess.html"
     
   - date: "Thur, Sept 5"
-    title: "Model building and selection"
+    title: "Transformations, multicollinearity and heteroscedasticity"
     
   - date: "Fri, Sept 6"
     title: "Lab 1: "
@@ -25,7 +27,7 @@ lessons:
   - title: "WEEK 3"
   
   - date: "Tue, Sept 10"
-    title: "Transformations, multicollinearity and heteroscedasticity"
+    title: "Model building and selection"
     
   - date: "Thur, Sept 12"
     title: "Case studies 1"

@@ -1,0 +1,25 @@
+---
+title: "Reading for introduction to multiple linear regression"
+output: 
+  html_document: 
+    theme: yeti
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Due
+
+Thur, Aug 29
+
+## Optional:
+
+- [Data Analysis Using Regression and Multilevel/Hierarchical Models](https://www.amazon.com/gp/product/052168689X/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=052168689X&linkCode=as2&tag=andrsblog0f-20&linkId=PX5B5V6ZPCT2UIYV):
+    + Section 3.1: One predictor
+    + Section 3.2: Multiple predictors
+    + Section 3.4: Statistical inference
+
+- [An Introduction to Statistical Learning with Applications in R](http://faculty.marshall.usc.edu/gareth-james/ISL/):
+    + Section 3.1: Simple linear regression
+    + Section 3.2: Multiple linear regression 

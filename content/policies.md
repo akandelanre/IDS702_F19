@@ -31,17 +31,21 @@ Grades may be curved at the end of the semester. Cumulative averages of 90% -- 1
 ### Descriptions of graded work
 
 #### Methods and Data Analysis Assignments
-Methods and data analysis assignments are posted on the course website. Students turn in these assignments at the beginning of class on the due date. Students are permitted to work with others on the assignments, but each person must write up and turn in her or his own answers. The assignments include questions on the computational and the mathematical aspects of the methods that underpin the statistical models we learn during the semester, and questions that ask students to apply the modeling skills discussed during the semester. Assignments should be turned in using a typesetting system such as LaTeX or R Markdown.
+Methods and data analysis assignments are posted on the course website. Students turn in these assignments at the beginning of class on the due date. Students are permitted to work with others on the assignments, but each person must write up and turn in her or his own answers. The assignments include questions on the computational and the mathematical aspects of the methods that underpin the statistical models we learn during the semester, and questions that ask students to apply the modeling skills discussed during the semester. The methods part of the assignments can be written by hand but the data analysis part must be typed up preferably using a typesetting system such as LaTeX or R Markdown.
 
 
 #### Lab Assignments
-The objective of the lab assigments is to give you more hands-on experience with data analysis using R. The labs times also gives you an additional platform to ask for help for your team and individual projects. Lab attendance is not mandatory, however, each lab assigment should be submitted in timely fashion on the due date.
+The objective of the lab assignments is to give you more hands-on experience with data analysis using R. The labs times also gives you an additional platform to ask for help for your team and individual projects. Lab attendance is not mandatory on days when team presentations will not hold, however, each lab assignment should be submitted in timely fashion on the due date.
 
 #### Team Projects
 For the team projects, students work in teams to analyze data selected by the instructor. Students write a report with their data analysis findings. Students will have the opportunity to present their results in class. Detailed instructions will be made available later.
 
 #### Final Project
 For the final project, students analyze a data-based research question of their choosing, subject to the instructor's approval. The data should comprise several variables amenable to statistical analyses via modeling. Students can bring in their own research data sets, or they can ask the instructor for assistance with identifying appropriate data. Students present their results in a class at the end of the semester. Detailed instructions will be made available later.
+
+### Late Submission Policy
+- You will lose 50% of the total points on each homework if you submit within the first 24 hours after it is due, and 100% of the total points if you submit later than that.
+- You will lose 40% of the total points on each lab if you submit within the first 24 hours after it is due, and 100% of the total points if you submit later than that.
 
 
 ### Academic integrity:

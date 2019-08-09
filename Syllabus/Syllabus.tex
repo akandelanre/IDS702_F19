@@ -1,0 +1,222 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}
+\usepackage{setspace,color}
+\setstretch{1.5} %double spacing
+\geometry{bottom=0.8in, top=1in, left = 0.8in, right=0.8in}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!65!black},
+    citecolor={blue!65!black},
+    urlcolor={red!80!black}
+}
+\setlength{\parindent}{0in}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Olanrewaju Michael Akande, Ph.D.}
+\lhead{IDS 702 -- Fall 2019}
+\rfoot{Page \thepage}
+	
+\begin{document}
+\begin{center}
+{\textbf{IDS 702:\ Modeling and Representation of Data} \\ \textit{Fall 2019} \\ \textit{Duke University}}
+\end{center}
+
+\renewcommand{\arraystretch}{2}
+
+\noindent\textbf{Instructor:} \textit{Olanrewaju Michael Akande}
+
+\noindent\textbf{Email:} \textit{\href{mailto:olanrewaju.akande@duke.edu}{olanrewaju.akande@duke.edu}}
+
+\noindent\textbf{Course Website:} \textit{TBD} %\href{http://www2.stat.duke.edu/~oma9/STA111_SummerI_2018/}{http://www2.stat.duke.edu/$\sim$oma9/STA111\_SummerI\_2018/}
+
+\noindent\textbf{Lectures:} \textit{TBD}
+%Mon, Tues, Wed, Thurs and Fri, 11:00am - 12:15pm, Allen 103
+
+\noindent\textbf{Labs:} \textit{MAYBE?}
+%Mon and Wed, 1:30pm - 2:45pm, Allen 103
+
+\noindent\textbf{Office:} \textit{256 Gross Hall}
+
+\noindent\textbf{Office Hours:} \textit{TBD, 256 Gross Hall. Other hours available by appointment.}
+%Tues and Thurs 12:30pm - 1:30pm, Old Chemistry 211A
+
+\noindent\textbf{Textbook:} \textit{ TBD.}
+%Probability and Statistics (4th edition) by De Groot and Schervish
+
+\noindent\textbf{Reading materials:}  \textit{Available on course website. Sakai?}
+
+\noindent\textbf{Important Dates:} \textit{Friday, October 4, 7:30pm -- Fall break begins} \\
+\vspace{-2pt}
+\hspace{1.28in} \textit{Wednesday, October 9, 8:30am -- Fall break ends} \\
+\vspace{-2pt}
+\hspace{1.28in} \textit{Tuesday, November 26, 10:30pm -- Thanksgiving recess; Graduate classes end}
+
+\setlength{\unitlength}{1.1in}
+\begin{picture}(6,.1) 
+\put(0,0) {\line(1,0){6.25}}         
+\end{picture}
+
+\vskip.25in
+\noindent \textbf{Course Overview}
+
+\noindent 
+Statistical models are necessary for analyzing the type of multivariate (often large) datasets that are usually encountered in data science and statistical science. This is a graduate level course that aims to provide students with the statistical data analysis tools needed to succeed as data scientists. In this course, you will learn several parametric modeling techniques such as generalized linear models, models for multilevel data and time series models. You will also learn to handle messy data, including data with missing or erroneous values, and data with outliers or non-standard distributions. You will be able to assess model fit, validate model assumptions and more generally, check whether proposed statistical models are appropriate for any given data. You will also learn causal inference under the potential outcomes framework. Should time permit, you may also learn nonparametric models such as classification and regression trees. Although this course emphasizes data analysis over rigorous mathematical theory, students who wish to explore the mathematical theory in more detail than what is covered in class are welcome to engage with and request further reading materials from the instructor outside of class. 
+
+
+\newpage
+\vskip.25in
+\noindent \textbf{Learning Objectives}
+
+By the end of this course, students should be able to
+\begin{itemize}
+	\item Use the statistical methods and models covered in class to analyze real multivariate data that intersect with various fields. 
+	\item Assess the adequacy of statistical models to any given data and make a decision on what to do in cases when certain models are not appropriate for a given dataset.
+	\item Cleanup and analyze messy datasets using approaches covered in class.
+	\item Hone collaborative and presentations skills through the process of consistent team work on and class presentations of team projects.
+\end{itemize}
+
+%To learn statistical methods for analyzing multivariate data sets and to understand how these methods are applied in practice.
+%To learn how to check whether proposed statistical models are appropriate for given data, and what to do in some cases when they are not appropriate.
+%To develop an understanding of approaches for working with messy data.
+%To learn the process of team work in data science and statistical science.
+
+\vskip.25in
+\noindent\textbf{Prerequisites}
+
+\noindent Students are expected to know all topics covered in the MIDS summer course review and boot camp. These include basic statistical inference including significance tests and confidence intervals, linear regression with one predictor, and exploratory data analysis methods. Students are also expected to be familiar with \textsf{R}. Due to space constraints, the
+course is open only to students in the MIDS program.
+
+
+\vskip.25in
+\noindent \textbf{Course Format} 
+\begin{itemize}
+	\item This is a very hands-on data modeling class. Each class will feature analysis on at least one dataset and students will be expected to analyze many datasets in class. Therefore, remember to bring your laptops to class. 
+	
+\item Lectures will include a combination of notes/slides, working through theory in class and some group work to understand applications. Notes will be available on the website by 11:59pm the day before each class and are provided in advance to allow you pay more attention in class. Make sure to read the notes before class and perhaps print them so you can focus better and take notes instead. You are responsible for all the material covered in class and assigned textbook readings. Ask questions in class, during office hours or send an e-mail, but do not wait until the last minute.
+
+\item There will be 15-min in-class quizzes Tuesdays and Thursdays. 
+
+\item Homework assignments will be posted immediately after class on Fridays and will be due at the beginning of class the following Wednesday. The assignments are to help you develop a better understanding of the material covered in class and prepare for exams, so take them seriously! You must show ALL work to receive credit. You are encouraged to work with each other on the homework problems, but you must turn in your own work. If you copy someone else's work, both parties will fail the assignment and be reported to the Office of Student Conduct. If you have any questions about what constitutes plagiarism, do not hesitate to ask.
+
+\item Lab assignments MUST be submitted by 11:59pm the same day.
+The objective of the lab is to give you hands-on experience with data analysis using modern statistical software. We will use a statistical analysis package called RStudio, which is a front end for the R
+statistical language. %You can use RStudio by signing on to \url{https://vm-manage.oit.duke.edu/containers}. 
+\end{itemize}
+
+\vskip.25in
+\noindent\textbf{Class Materials}
+
+Lecture notes, labs and other reading resources will be posted on the course website while homework assignments and practice questions will be posted on Sakai.
+
+\vskip.25in
+\noindent \textbf{Grading} 
+\begin{itemize}
+\item There are no make-ups for assignments or projects except for medical or familial emergencies or for reasons
+approved by the instructor before the due date. See the instructor in advance of relevant due dates to discuss
+possible alternatives.
+%Missed labs, homework, quizzes and exams are excused only by presenting an official Dean's excuse. You are not allowed to present more than one official excuse. 
+
+\item Your final grade will be determined as follows: 
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+Component & Percentage \\ \hline
+Class Participation & 5\% \\
+Lab Reports & 10\% \\
+Quizzes & 15\% \\
+Homework & 20\% \\
+Midterm & 20\% \\
+Final Exam & 30\% \\ \hline 
+\end{tabular}
+\end{table}
+\item Grades may be curved at the end of the semester. Cumulative averages of 90\% -- 100\% are guaranteed at least an A-, 80\% -- 89\% at least a B-, and 70\% -- 79\% at least a C-, however the exact ranges for letter grades will be determined after the final exam. 
+
+%\item See the instructor in advance of relevant due dates to discuss possible alternatives.
+
+\item There will be 8--10 quizzes, 5 homework assignments, and 8--10 labs. The two lowest quiz scores and the lowest homework score will be dropped (this should give you enough cover for genuine and unavoidable absences). There will be no labs on the sixth week to provide you with more time to prepare for the final exam.
+\end{itemize}
+
+\vskip.25in
+\noindent \textbf{Late Submission Policy} 
+\begin{itemize}
+	\item  You will lose 40\% of points on each homework if you submit a day after it is due and 100\% if you submit later than that.
+	\item You will lose 50\% of points on each lab if you submit a day after it is due and 100\% if you submit later than that.
+\end{itemize}
+
+\vskip.25in
+\noindent \textbf{Course Schedule \footnotemark} 
+
+We will cover the topics below. We may spend different amounts of time on each topic, depending on the interests of students.
+\footnotetext{This is a tentative outline and it will be updated as we proceed. See the course website for a detailed schedule.}
+\begin{enumerate}
+	\item Introduction to course
+	\item Linear regression: methods and practice
+	\begin{enumerate}
+		\item Multiple regression
+		\item Model assessment and validation
+		\item Multicollinearity
+		\item Heteroscedasticity
+	\end{enumerate}
+	\item Logistic regression: methods and practice
+	\item Multinomial logistic and Poisson regression
+	\item Introduction to multilevel models
+	\begin{enumerate}
+		\item Fixed effects vs random effects
+		\item Mixed effects models
+	\end{enumerate}
+	\item Dealing with messy data: missing values, errors, and outliers
+	\item Time series models
+	\item Methods for causal inference
+	\begin{enumerate}
+		\item Association vs. causation, confounding, and Simpson's paradox.
+		\item The potential outcome framework: potential outcomes, assignment mechanism and estimands.
+		\item Observational studies with ignorable assignment mechanism and propensity scores: assumptions of ignorability (unconfoundedness), matching, weighting, regression, and propensity scores methods. 
+	\end{enumerate}
+	\item Wrap up: Models versus algorithms
+	
+	
+	
+\item[] \textbf{Week 1 (Chapters 1-2)}   \\
+Interpretations and definition of probability, experiments and events, summary statistics and histograms, permutations and combinations, conditional probability, independent events, and Bayes' theorem.
+\item[] \textbf{Week 2 (Chapters 3-5)} \\
+Introduction to random variables, probability mass functions, cumulative distribution functions, discrete distributions, probability density functions, continuous distributions, marginal, joint and conditional distributions, expectations -- mean, variance, covariance and correlation --, and introduction to some special distributions -- Bernoulli, Binomial, hyper-geometric, Poisson, negative binomial, multinomial, gamma and normal distributions.
+\item[] \textbf{Week 3 (Chapters 6-7)}\\
+The law of large numbers, central limit theorem and continuity correction, Bayesian estimation and inference, prior and posterior distributions, conjugacy, maximum likelihood estimators and their properties, improving an estimator, sufficient statistics, distributions of linear combinations, and functions of random variables.
+\item[] \textbf{Week 4 (Chapters 8-9)} \\
+Sampling distribution of a statistic, confidence and credible intervals, interpreting confidence and credible intervals, some specific confidence intervals, unbiased estimators, the student-t and Chi-square distributions, simple hypothesis testing, type I and II errors, two-sided hypothesis testing, power calculations, and introduction to Bayesian hypothesis testing.
+\item[] \textbf{Week 5 (Chapters 10-11)} \\
+Tests of independence, goodness of fit tests, contingency tables, Simpson's paradox, the method of least squares and simple linear regression, introduction to multiple, nonlinear and nonparametric regression, model validation and assessment tools, and one-way analysis of variance.
+\item[] \textbf{Week 6 (Chapters 11-12)} \\
+Two-way analysis of variance, simulation, bootstrap; REVISION.
+\end{enumerate}
+
+
+\vskip.25in
+\noindent\textbf{Academic Integrity}  
+
+Duke University is a community dedicated to scholarship, leadership, and service and to the principles of honesty, fairness, respect, and accountability. Citizens of this community commit to reflect upon and uphold these principles in all academic and nonacademic endeavors, and to protect and promote a culture of integrity. To uphold the \href{https://studentaffairs.duke.edu/conduct/about-us/duke-community-standard}{Duke Community Standard}:
+
+\begin{itemize}
+	\item I will not lie, cheat, or steal in my academic endeavors;
+	\item I will conduct myself honorably in all my endeavors; and
+	\item I will act if the Standard is compromised.
+\end{itemize}
+
+Cheating on exams or plagiarism on homework assignments, lying about an illness or absence and other forms of academic dishonesty are a breach of trust with classmates and faculty, violate the Duke Community Standard, and will not be tolerated. Such incidences will result in a 0 grade for all parties involved. Additionally, there may be penalties to your final class grade along with being reported to the Undergraduate Conduct Board. Please review the academic dishonesty policies at \url{https://studentaffairs.duke.edu/conduct/z-policies/academic-dishonesty}.
+
+\vskip.25in
+\noindent\textbf{Disability Statement} 
+
+Students with disabilities who believe that they may need accommodations in the class are encouraged to contact the \href{https://access.duke.edu/students/staff.php}{Student Disabilities Access Office} at 919.668.1267 or \href{mailto:disabilities@aas.duke.edu}{disabilities@aas.duke.edu}  as soon as possible to better ensure that such accommodations are implemented in a timely fashion.
+
+\vskip.25in
+\noindent\textbf{Other Information} 
+
+For every lecture, you will need a simple calculator for quizzes, exams and homework.  Graphical capability is not required, and questions are worded so that advanced calculators confer no advantage. I will provide you any other material needed for the quizzes and exam. Again, do not hesitate to come to my office during office hours or by appointment to discuss a homework problem or any aspect of the course, and working in groups is highly recommended.  Questions related to course assignments and honesty policy should be directed to me. DO NOT search for direct answers to homework questions online; ask me instead.
+
+
+\end{document}

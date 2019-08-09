@@ -1,0 +1,355 @@
+---
+title: "Model assessment, diagnostics and validation"
+author: "Dr. Olanrewaju Michael Akande"
+date: "Sept 3, 2019"
+output:
+  xaringan::moon_reader:
+    css: "slides.css"
+    logo: img/class_logo.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+#library(tidyverse)
+#library(magick)
+library(knitr)
+library(kableExtra)
+```
+
+```{r setup, include=FALSE}
+# R options
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  #show.signif.stars = FALSE,     # for regression output
+  warm = 1
+  )
+# Set dpi and height for images
+knitr::opts_chunk$set(fig.height = 2.65, dpi = 300) 
+# For nonsese...
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+# For magick
+dev.off <- function(){
+  invisible(grDevices::dev.off())
+}
+
+knit_hooks$set(small.mar = function(before, options, envir) {
+    if (before) par(mar =  c(4, 4, 1.5, 1.5)) 
+})
+opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize', small.mar=TRUE)
+```
+
+
+## Outline
+
+- Recap of last lecture
+
+- Checking model assumptions
+
+- Leverage, influence, and standardized residuals
+
+- Prediction and validation
+
+- Questions
+
+
+---
+## Introduction
+
+- In the last class, we started our introduction to multiple linear regression. 
+
+--
+
+- We saw how to write down and fit MLR models. However, we ignored a very importance part of fitting any model.
+
+--
+
+- We need to assess whether or not the assumptions of the model actually hold for the data at hand. That's exactly what we will dive in today.
+
+--
+
+- We will also cover model validation via in-sample and out-of-sample predictions.
+
+--
+
+- In the next class, we will move on to transformations, multicollinearity and heteroscedasticity.
+
+
+---
+class: center, middle
+
+# Assumptions for MLR
+
+
+---
+## Assumptions for MLR?
+
+- Inference (CIs, p-values, or predictions) can only be meaningful when the regression assumptions are plausible.
+
+- <div class="question">
+Can you list the assumptions for MLR?
+</div>
+
+--
+
+- The main assumptions are:
+
+--
+
+  1. Validity
+
+--
+
+  2. Linearity
+
+--
+
+  3. Independence of errors
+
+--
+
+  4. Equal variance
+
+--
+
+  5. Normality
+
+
+---
+## Checking assumptions
+
+- The validity assumption is about whether the data and model are even suitable for answering the research question. 
+
+--
+
+- To quote the Gelman and Hill book,
+
+  .block[
+  "Optimally, this means that the outcome measure should accurately reflect the phenomenon of interest, the model should include all relevant predictors, and the model should generalize to cases to which it will be applied. 
+  
+  For example, a model of earnings will not necessarily tell you about pattern of total assets, neither will a model of test scores necessarily tell you about child intelligence or cognitive development."
+  ]
+
+--
+
+- For this assumption, you should always keep in mind, the types of questions you can and cannot answer reliably from both the data and the model.
+
+
+---
+## Checking assumptions
+
+- Checking assumptions 2 - 5 usually requires examining the residuals after model fitting.
+
+--
+
+- For linearity, usually, a plot of the residuals versus each predictor will do.
+
+--
+
+  <div class="question">
+What should we look out for in such a plot?
+</div>
+
+--
+
+- Note that the residuals contain information about the response variable variable $y$ that has not been explained by the covariates in the model.
+
+--
+
+- Thus, when we plot the residuals against each predictor, we should NOT expect to see any pattern.
+
+--
+
+- .block[
+Some pattern in any of the plots is usually an indication of a relationship between $y$ and that predictor, which has not been captured yet in the model.
+]
+
+
+---
+## Checking assumptions
+
+- To check both independence of the errors and the equal variance assumption, usually a plot of the residuals versus the fitted values will do.
+
+--
+
+- .block[
+The points in the plot should look random (for independence) and be "roughly" equally spread out around zero (for equal variance).
+]
+
+--
+
+- To check normality, it is often sufficient to look at a qq-plot (quantile-quantile plot) which compares the distribution of the standardized residuals to the theoretical quantiles of a standard normal distribution.
+
+--
+
+- .block[
+Linearity of the points around the 45 degree line of the qq-plot would suggest the normality assumption is not violated.
+]
+
+--
+
+- One can also look at a histogram of the residuals, but it is much harder to judge deviations from normality through histograms.
+
+
+---
+## Checking assumptions
+
+For example, let's revisit the same data from last class. 
+
+Recall the model we fit to the data and the results:
+.small[
+$$\textrm{Avg. bsal} = \textrm{Intercept} + \beta_1 \textrm{sex} + \beta_2 \textrm{senior} + \beta_3 \textrm{age} + \beta_4 \textrm{educ} + \beta_5 \textrm{exper}$$
+]
+```{r, include=FALSE, eval=TRUE}
+wages <- read.csv("data/wagediscrim.txt", header= T)
+wages$sex <- factor(wages$sex,levels=c("Male","Female"))
+wages$fsex <- factor(wages$fsex)
+```
+```{r, echo=FALSE,eval=TRUE,results='hold'}
+regwage <- lm(bsal~ sex + senior + age + educ + exper, data= wages)
+summary(regwage)
+```
+
+---
+## Checking linearity
+
+Now, let's plot the residuals against each predictor. First, let's look at `senior`.
+```{r fig.height=3}
+plot(y=regwage$residual, x = wages$senior, xlab = "Seniority", ylab = "Residual")
+abline(0,0)
+```
+
+--
+<div class="question">
+Do you see any clear violations of the linearity assumption?
+</div>
+
+
+---
+## Checking linearity
+
+Next, let's look at `age`.
+```{r fig.height=3}
+plot(y=regwage$residual, x = wages$age, xlab = "Age", ylab = "Residual")
+abline(0,0)
+```
+
+--
+<div class="question">
+Do you see any clear violations of the linearity assumption?
+</div>
+
+
+---
+## Checking linearity
+
+Next, let's look at `educ`.
+```{r fig.height=3}
+plot(y=regwage$residual, x = wages$educ, xlab = "Education", ylab = "Residual")
+abline(0,0)
+```
+
+--
+<div class="question">
+Do you see any clear violations of the linearity assumption?
+</div>
+
+
+---
+## Checking linearity
+
+Next, let's look at `exper`.
+```{r fig.height=3}
+plot(y=regwage$residual, x = wages$exper, xlab = "Experience", ylab = "Residual")
+abline(0,0)
+```
+
+--
+<div class="question">
+Do you see any clear violations of the linearity assumption?
+</div>
+
+
+---
+## Checking independence and equal variance
+
+```{r fig.height=3.3}
+plot(regwage,which=1)
+```
+
+--
+<div class="question">
+Do you see any clear violations of the independence and equal variance assumptions?
+</div>
+
+
+---
+## Checking normality
+
+```{r fig.height=3.6}
+plot(regwage,which=2)
+```
+
+--
+<div class="question">
+Do you see any clear violations of the normality assumption?
+</div>
+
+
+---
+## Takeaways from residual plots
+
+- Looks like we may have to worry about the assumption of linearity being violated for age and experience.
+
+- There appears to be some quadratic trend for both variables, so let's improve the model by adding the squared term for each variable. 
+
+- First, let's mean-center the continuous predictor to improve interpretation of outputs (especially the intercept).
+
+- Centering does not really improve model fit, however it does help with multicollinearity (which we will dive into properly in the next class).
+
+- Essentially, a transformed variable $x_j^2$ may be highly correlated with the untransformed counterpart $x_j$, which we want to avoid. Centering $x_j$ before taking the square helps with that.
+
+
+---
+## Advice to aid interpretation
+
+- Intercepts are often hard to interpret, because they represent value when all predictors equal zero. This
+may be an unrealistic or uninteresting c ase.
+
+Instead, for each continuous predictor, subtract its
+mean from every value. Use these mean centered
+predictors in regression
+
+I ntercept interpreted as average value of Y at the
+average value of X, which is much more interpretable.
+
+From now on, we mean center continuous predictors.
+
+---
+### 
+
+```{r fig.height=4}
+plot(regwage,which=4)
+```
+
+
+---
+### 
+
+```{r fig.height=4}
+plot(regwage,which=5)
+```
+
+
+---
+### 
+
+```{r fig.height=4}
+plot(regwage,which=6)
+```
+
+
+

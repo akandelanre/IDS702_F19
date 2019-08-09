@@ -2,7 +2,9 @@
 markup: "mmark"
 ---
 
-**THIS WEBSITE IS STILL UNDER CONSTRUCTION!!!**
+<br />
+#### Please find the syllabus here: [Syllabus](https://akandelanre.github.io./IDS702_F19/Syllabus/main.pdf)
+<br />
 
 ### Course Overview
 Statistical models are necessary for analyzing the type of multivariate (often large) datasets that are usually encountered in data science and statistical science. This is a graduate level course, within the curriculum for Duke's Master in Interdisciplinary Data Science (MIDS) program, that aims to provide students with the statistical data analysis tools needed to succeed as data scientists. 
@@ -41,8 +43,8 @@ By the end of this course, students should be able to
 <span></span>     | <span></span>     | <span></span>    | <span></span>    |  <span></span>      
 ------------------|-------------------|------------------|------------------|------------------ 
 Instructor        | [Dr. Olanrewaju Michael Akande](https://akandelanre.github.io.) | <a href="mailto:olanrewaju.akande@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/akandelanre" title="GitHub"><i class="fa fa-github"></i></a> | Mon/Wed 3:00 - 4:00pm | 256 Gross Hall
-TAs               | [Azucena Morales](https://datascience.duke.edu/lidia-azu-azucena-morales-vasquez) | <a href="mailto:azucena.morales@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | TBD
-                  | [TBD](https://datascience.duke.edu/) | <a href="mailto:walker.harrison@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | TBD
+TAs               | [Azucena Morales](https://datascience.duke.edu/lidia-azu-azucena-morales-vasquez) | <a href="mailto:azucena.morales@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | Thurs 2:30 - 4:30pm | TBD
+                  | [TBD](https://datascience.duke.edu/) | <a href="mailto:azucena.morales@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | TBD
                   
 
 ### Texts
