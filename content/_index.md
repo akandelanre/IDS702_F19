@@ -2,10 +2,6 @@
 markup: "mmark"
 ---
 
-<br />
-#### Please find the syllabus here: [Syllabus](https://akandelanre.github.io./IDS702_F19/Syllabus.pdf)
-<br />
-
 ### Course Overview
 Statistical models are necessary for analyzing the type of multivariate (often large) datasets that are usually encountered in data science and statistical science. This is a graduate level course, within the curriculum for Duke's Master in Interdisciplinary Data Science (MIDS) program, that aims to provide students with the statistical data analysis tools needed to succeed as data scientists. 
 

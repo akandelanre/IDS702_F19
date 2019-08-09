@@ -26,7 +26,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   location = "Social Science Research Institute, Duke University"
   gravatarEmail = "olanrewaju.akande@duke.edu"
   # Your profile picture
-  picture = "img/avatar-icon.jpg"
+  picture = "img/avatar-icon.jpg" 
   twitter = "Akande_OM"
  
 # Menu Configuration
@@ -38,12 +38,18 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   url = "/"
 [[menu.main]]
   weight = 2
+  identifier = "syllabus_pdf"
+  name = "Syllabus"
+  pre = "<i class=\"material-icons\">book</i>"
+  url = "syllabus_pdf/Syllabus.pdf"
+[[menu.main]]
+  weight = 3
   identifier = "syllabus"
   name = "Class Schedule"
   pre = "<i class=\"material-icons\">date_range</i>"
   url = "/syllabus"
 [[menu.main]]
-  weight = 3
+  weight = 4
   identifier = "policies"
   name = "Policies"
   pre = "<i class=\"material-icons\">gavel</i>"
@@ -90,6 +96,5 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [params]
   dateFormat = "January 2, 2006"
-  #background = "http://www2.stat.duke.edu/courses/Spring18/Sta199/img/mugesketch.png"
-  background = "https://akandelanre.github.io./background_image3.png" 
-  favicon = "https://akandelanre.github.io./mids_duke_logo.png"
+  background = "img/background_image3.png" 
+  favicon = "img/mids_duke_logo.png"
