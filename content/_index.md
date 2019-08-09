@@ -3,7 +3,7 @@ markup: "mmark"
 ---
 
 <br />
-#### Please find the syllabus here: [Syllabus](https://akandelanre.github.io./IDS702_F19/Syllabus/main.pdf)
+#### Please find the syllabus here: [Syllabus](https://akandelanre.github.io./IDS702_F19/Syllabus.pdf)
 <br />
 
 ### Course Overview
