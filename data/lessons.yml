@@ -16,7 +16,7 @@ lessons:
   
   - date: "Tue, Sept 3"
     title: "Model assessment, diagnostics and validation"
-    #slides: "lec-slides/03-reg-model-assess.html"
+    slides: "lec-slides/03-reg-model-assess.html"
     
   - date: "Thur, Sept 5"
     title: "Transformations, multicollinearity and heteroscedasticity"
