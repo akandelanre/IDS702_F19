@@ -1,5 +1,5 @@
 ---
-title: "Model assessment, diagnostics and validation"
+title: "MLR: model assessment, diagnostics and validation"
 author: "Dr. Olanrewaju Michael Akande"
 date: "Sept 3, 2019"
 output:
@@ -28,7 +28,7 @@ options(
   warm = 1
   )
 # Set dpi and height for images
-knitr::opts_chunk$set(fig.height = 2.65, dpi = 300) 
+knitr::opts_chunk$set(fig.height = 2.65, dpi = 300,fig.align='center',fig.show='hold',size='footnotesize', small.mar=TRUE) 
 # For nonsese...
 htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 # For magick
@@ -39,7 +39,6 @@ dev.off <- function(){
 knit_hooks$set(small.mar = function(before, options, envir) {
     if (before) par(mar =  c(4, 4, 1.5, 1.5)) 
 })
-opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize', small.mar=TRUE)
 ```
 
 
@@ -63,7 +62,7 @@ opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size
 
 --
 
-- We saw how to write down and fit MLR models. However, we ignored a very importance part of fitting any model.
+- We saw how to write down and fit MLR models. However, we ignored a very important part of fitting any model.
 
 --
 
@@ -75,7 +74,7 @@ opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size
 
 --
 
-- In the next class, we will move on to transformations, multicollinearity and heteroscedasticity.
+- In the next class, we will move on to transformations (which we will touch on a bit today), multicollinearity and heteroscedasticity.
 
 
 ---
@@ -197,9 +196,7 @@ Linearity of the points around the 45 degree line of the qq-plot would suggest t
 ---
 ## Checking assumptions
 
-For example, let's revisit the same data from last class. 
-
-Recall the model we fit to the data and the results:
+For example, let's revisit the same data from last class. Recall the model we fit to the data and the results:
 .small[
 $$\textrm{Avg. bsal} = \textrm{Intercept} + \beta_1 \textrm{sex} + \beta_2 \textrm{senior} + \beta_3 \textrm{age} + \beta_4 \textrm{educ} + \beta_5 \textrm{exper}$$
 ]
@@ -316,17 +313,13 @@ Do you see any clear violations of the normality assumption?
 ---
 ## Advice to aid interpretation
 
-- Intercepts are often hard to interpret, because they represent value when all predictors equal zero. This
-may be an unrealistic or uninteresting c ase.
-
-Instead, for each continuous predictor, subtract its
-mean from every value. Use these mean centered
-predictors in regression
-
-I ntercept interpreted as average value of Y at the
-average value of X, which is much more interpretable.
-
-From now on, we mean center continuous predictors.
+- Intercepts are often hard to interpret, because they represent value when all predictors equal zero. This may be an unrealistic or uninteresting case.
+
+- Instead, for each continuous predictor, subtract its mean from every value. Use these mean centered predictors in regression
+
+- Intercept interpreted as average value of Y at the average value of X, which is much more interpretable.
+
+- From now on, we mean center continuous predictors.
 
 ---
 ### 

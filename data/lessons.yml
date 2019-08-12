@@ -4,25 +4,29 @@ lessons:
   - date: "Tue, Aug 27"
     title: "Introduction to course"
     slides: "lec-slides/01-intro.html"
+    hw: "hw-00.html"
+    #hw: "hw-00-key.html"
     
   - title: "PART I: MULTIPLE LINEAR REGRESSION"
+    reading: "reading-01.html"
     
   - date: "Thur, Aug 29" 
     title: "Introduction to multiple linear regression"
     slides: "lec-slides/02-intro-reg.html"
-    reading: "02_intro-reg-reading.html"
+    hw: "hw-01.html"
     
   - title: "WEEK 2"
   
   - date: "Tue, Sept 3"
-    title: "Model assessment, diagnostics and validation"
-    slides: "lec-slides/03-reg-model-assess.html"
+    title: "Model assessment, diagnostics and validation."
+    #slides: "lec-slides/03-reg-model-assess.html"
     
   - date: "Thur, Sept 5"
-    title: "Transformations, multicollinearity and heteroscedasticity"
+    title: "Transformations, multicollinearity and heteroscedasticity (HW1 DUE!)"
+    hw: "New-hw-02.html"
     
   - date: "Fri, Sept 6"
-    title: "Lab 1: "
+    title: "Lab 1: multiple linear regression"
     
   - title: "WEEK 3"
   
@@ -30,7 +34,10 @@ lessons:
     title: "Model building and selection"
     
   - date: "Thur, Sept 12"
-    title: "Case studies 1"
+    title: "Case studies 1 (HW2 DUE!)"
+    
+  - title: "Final project outline"
+    project: "final-project.html"
     
   - title: "PART  II: GENERALIZED LINEAR MODELS"
     
@@ -38,6 +45,7 @@ lessons:
   
   - date: "Tue, Sept 17"
     title: "Introduction to logistic regression"
+    hw: "New-hw-03.html"
     
   - date: "Thur, Sept 19"
     title: "Logistic regression: inference vs prediction"
@@ -48,7 +56,8 @@ lessons:
   - title: "WEEK 5"
   
   - date: "Tue, Sept 24"
-    title: "Logistic regression: model assessment and validation"
+    title: "Logistic regression: model assessment and validation (HW3 DUE!)"
+    project: "team-project-01.html"
     
   - date: "Thur, Sept 26"
     title: "Multinomial logistic regression"
@@ -62,7 +71,7 @@ lessons:
     title: "Probit regression"
     
   - date: "Fri, Oct 4"
-    title: "Lab 3: Team project 1 presentations"
+    title: "Lab 3: team project 1 presentations"
   
   - title: "WEEK 7"
   
@@ -89,6 +98,7 @@ lessons:
   
   - date: "Tue, Oct 22"
     title: "Multilevel logistic regression"
+    project: "team-project-02.html"
    
   - date: "Thur, Oct 24"
     title: "Case studies 3"
@@ -99,12 +109,13 @@ lessons:
   
   - date: "Tue, Oct 29"
     title: "Missing values, errors, and outliers; single imputation methods"
+    hw: "New-hw-04.html"
     
   - date: "Thur, Oct 31"
     title: "Multiple imputation"
     
   - date: "Fri, Nov 1"
-    title: "Lab 5: Team project 2 presentations"
+    title: "Lab 5: team project 2 presentations"
     
   - title: "PART  V: METHODS FOR CAUSAL INFERENCE"
   
@@ -113,7 +124,8 @@ lessons:
   - title: "Final project proposal due"
   
   - date: "Tue, Nov 5"
-    title: "Association vs. causation; confounding"
+    title: "Association vs. causation; confounding (HW4 DUE!)"
+    hw: "New-hw-05.html"
     
   - date: "Thur, Nov 7"
     title: "The potential outcomes framework: introduction, assumptions and estimands"
@@ -124,10 +136,10 @@ lessons:
     title: "Matching, weighting, regression, and propensity scores methods"
     
   - date: "Thur, Nov 14"
-    title: "Case studies 4"
+    title: "Case studies 4. (HW5 DUE!)"
     
   - date: "Fri, Nov 15"
-    title: "Lab 6: Comparing different causal inference methods"
+    title: "Lab 6: comparing different causal inference methods"
     
   - title: "PART  VI: TIME SERIES MODELS"
   
@@ -142,7 +154,8 @@ lessons:
   - title: "WEEK 14"
   
   - date: "Tue, Nov 26"
-    title: "Wrap up (would cover introduction to nonparametric methods should time permit)"
+    #title: "Wrap up (would cover introduction to nonparametric methods should time permit)"
+    title: "Wrap up (work on final project)"
     
   - date: "Thur, Nov 28"
     title: "No class: reading period"

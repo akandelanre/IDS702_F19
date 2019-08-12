@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>Model assessment, diagnostics and validation</title>
+    <title>MLR: model assessment, diagnostics and validation</title>
     <meta charset="utf-8" />
     <meta name="author" content="Dr. Olanrewaju Michael Akande" />
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
@@ -12,7 +12,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Model assessment, diagnostics and validation
+# MLR: model assessment, diagnostics and validation
 ### Dr. Olanrewaju Michael Akande
 ### Sept 3, 2019
 
@@ -44,7 +44,7 @@ class: center, middle, inverse, title-slide
 
 --
 
-- We saw how to write down and fit MLR models. However, we ignored a very importance part of fitting any model.
+- We saw how to write down and fit MLR models. However, we ignored a very important part of fitting any model.
 
 --
 
@@ -56,7 +56,7 @@ class: center, middle, inverse, title-slide
 
 --
 
-- In the next class, we will move on to transformations, multicollinearity and heteroscedasticity.
+- In the next class, we will move on to transformations (which we will touch on a bit today), multicollinearity and heteroscedasticity.
 
 
 ---
@@ -178,9 +178,7 @@ Linearity of the points around the 45 degree line of the qq-plot would suggest t
 ---
 ## Checking assumptions
 
-For example, let's revisit the same data from last class. 
-
-Recall the model we fit to the data and the results:
+For example, let's revisit the same data from last class. Recall the model we fit to the data and the results:
 .small[
 `$$\textrm{Avg. bsal} = \textrm{Intercept} + \beta_1 \textrm{sex} + \beta_2 \textrm{senior} + \beta_3 \textrm{age} + \beta_4 \textrm{educ} + \beta_5 \textrm{exper}$$`
 ]
@@ -221,7 +219,7 @@ plot(y=regwage$residual, x = wages$senior, xlab = "Seniority", ylab = "Residual"
 abline(0,0)
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -239,7 +237,7 @@ plot(y=regwage$residual, x = wages$age, xlab = "Age", ylab = "Residual")
 abline(0,0)
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -257,7 +255,7 @@ plot(y=regwage$residual, x = wages$educ, xlab = "Education", ylab = "Residual")
 abline(0,0)
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -275,7 +273,7 @@ plot(y=regwage$residual, x = wages$exper, xlab = "Experience", ylab = "Residual"
 abline(0,0)
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -291,7 +289,7 @@ Do you see any clear violations of the linearity assumption?
 plot(regwage,which=1)
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -307,7 +305,7 @@ Do you see any clear violations of the independence and equal variance assumptio
 plot(regwage,which=2)
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -332,17 +330,13 @@ Do you see any clear violations of the normality assumption?
 ---
 ## Advice to aid interpretation
 
-- Intercepts are often hard to interpret, because they represent value when all predictors equal zero. This
-may be an unrealistic or uninteresting c ase.
-
-Instead, for each continuous predictor, subtract its
-mean from every value. Use these mean centered
-predictors in regression
-
-I ntercept interpreted as average value of Y at the
-average value of X, which is much more interpretable.
-
-From now on, we mean center continuous predictors.
+- Intercepts are often hard to interpret, because they represent value when all predictors equal zero. This may be an unrealistic or uninteresting case.
+
+- Instead, for each continuous predictor, subtract its mean from every value. Use these mean centered predictors in regression
+
+- Intercept interpreted as average value of Y at the average value of X, which is much more interpretable.
+
+- From now on, we mean center continuous predictors.
 
 ---
 ### 
@@ -352,7 +346,7 @@ From now on, we mean center continuous predictors.
 plot(regwage,which=4)
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -363,7 +357,7 @@ plot(regwage,which=4)
 plot(regwage,which=5)
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -374,7 +368,7 @@ plot(regwage,which=5)
 plot(regwage,which=6)
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

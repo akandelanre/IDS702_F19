@@ -31,7 +31,7 @@ Grades may be curved at the end of the semester. Cumulative averages of 90% -- 1
 ### Descriptions of graded work
 
 #### Methods and Data Analysis Assignments
-Methods and data analysis assignments are posted on the course website. Students turn in these assignments at the beginning of class on the due date. Students are permitted to work with others on the assignments, but each person must write up and turn in her or his own answers. The assignments include questions on the computational and the mathematical aspects of the methods that underpin the statistical models we learn during the semester, and questions that ask students to apply the modeling skills discussed during the semester. The methods part of the assignments can be written by hand but the data analysis part must be typed up preferably using a typesetting system such as LaTeX or R Markdown.
+Methods and data analysis assignments are posted on the course website. Students turn in these assignments at the beginning of class on the due date. Students are permitted to work with others on the assignments, but each person must write up and turn in her or his own answers. The assignments include questions on the computational and the mathematical aspects of the methods that underpin the statistical models we learn during the semester, and questions that ask students to apply the modeling skills discussed during the semester. The assignments must be typed up using R Markdown, LaTeX or another word processor, and submitted on Sakai under Assignments. Note that you will not be able to make online submissions after the due date, so be sure to submit before or by the Sakai-specified deadline.
 
 
 #### Lab Assignments

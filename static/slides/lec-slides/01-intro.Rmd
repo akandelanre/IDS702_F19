@@ -22,7 +22,7 @@ options(
   )
 # Set dpi and height for images
 library(knitr)
-opts_chunk$set(fig.height = 2.65, dpi = 300) 
+knitr::opts_chunk$set(fig.height = 2.65, dpi = 300,fig.align='center',fig.show='hold',size='footnotesize', small.mar=TRUE) 
 # For nonsese...
 htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 ```
@@ -80,7 +80,7 @@ Dr. Olanrewaju Michael Akande
 <i class="fa fa-envelope"></i> &nbsp; [olanrewaju.akande@duke.edu](mailto:olanrewaju.akande@duke.edu) <br>
 <i class="fa fa-home"></i> &nbsp; [akandelanre.github.io.](https://akandelanre.github.io/IDS702_F19/) <br>
 <i class="fa fa-university"></i> &nbsp; [256 Gross Hall](https://maps.duke.edu/?id=21#!m/6866?s/Gross%20Hall) <br>
-<i class="fa fa-calendar"></i> &nbsp; Mon and Wed 3:00 - 4:00pm
+<i class="fa fa-calendar"></i> &nbsp; Mon/Tue 3:00 - 4:00pm
 
 
 
@@ -92,15 +92,15 @@ Dr. Olanrewaju Michael Akande
 
 <i class="fa fa-envelope"></i> &nbsp; [azucena.morales@duke.edu](mailto:azucena.morales@duke.edu) <br>
 <i class="fa fa-university"></i> &nbsp; [Gross Hall](https://maps.duke.edu/?id=21#!m/6866?s/Gross%20Hall) <br>
-<i class="fa fa-calendar"></i> &nbsp; TBD
+<i class="fa fa-calendar"></i> &nbsp; Thur 2:30 - 4:30pm
 
 <br>
 
-[TBD](https://akandelanre.github.io/IDS702_F19/)
+Chenxi Wu
 
-<i class="fa fa-envelope"></i> &nbsp; [TBD](mailto:walker.harrison@duke.edu) <br>
+<i class="fa fa-envelope"></i> &nbsp; [chenxi.wu@duke.edu](mailto:chenxi.wu@duke.edu) <br>
 <i class="fa fa-university"></i> &nbsp; [Gross Hall](https://maps.duke.edu/?id=21#!m/6866?s/Gross%20Hall) <br>
-<i class="fa fa-calendar"></i> &nbsp; TBD
+<i class="fa fa-calendar"></i> &nbsp; Wed 3:00 - 5:00pm
 
 
 
@@ -273,7 +273,7 @@ Lab Assignments | 10%
 
 ## Lab assignments
 
-- Lab assigments are meant to give you more hands-on experience with data analysis using R. 
+- Lab assignments are meant to give you more hands-on experience with data analysis using R. 
 
 --
 
@@ -281,7 +281,7 @@ Lab Assignments | 10%
 
 --
 
-- Attendance is not mandatory, however, each lab assigment should be submitted in timely fashion on the due date.
+- Attendance is not mandatory, however, each lab assignment should be submitted in timely fashion on the due date.
 
 
 

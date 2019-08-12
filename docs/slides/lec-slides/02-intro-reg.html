@@ -167,14 +167,14 @@ summary(wages)
 ---
 ## EDA
 
-Since we only care about comparing starting salaries for male and female employees, let's look at a boxplot of `bsal` by `sex`.
+Since we only care about comparing starting salaries for male and female employees, let's look at a boxplot of *bsal* by `sex`.
 
 ```r
 boxplot(bsal~sex,data=wages,ylab="Sex",horizontal=TRUE,
         xlab="Base Salary")
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-intro-reg_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -361,7 +361,7 @@ age | months
 pairs(wages)
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-intro-reg_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -377,7 +377,7 @@ plot(wages$bsal~wages$senior,xlab="Seniority",ylab="Base Salary")
 abline(lm(bsal~senior,data=wages))
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-intro-reg_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -390,7 +390,7 @@ plot(wages$bsal~wages$age,xlab="Age",ylab="Base Salary")
 abline(lm(bsal~age,data=wages))
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-intro-reg_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -403,7 +403,7 @@ plot(wages$bsal~wages$educ,xlab="Education",ylab="Base Salary")
 abline(lm(bsal~educ,data=wages))
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-intro-reg_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -416,7 +416,7 @@ plot(wages$bsal~wages$exper,xlab="Experience",ylab="Base Salary")
 abline(lm(bsal~exper,data=wages))
 ```
 
-&lt;img src="figure/beamer-unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="02-intro-reg_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---

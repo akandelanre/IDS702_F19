@@ -38,9 +38,9 @@ By the end of this course, students should be able to
 {.table .table-condensed .table-striped .text-left}
 <span></span>     | <span></span>     | <span></span>    | <span></span>    |  <span></span>      
 ------------------|-------------------|------------------|------------------|------------------ 
-Instructor        | [Dr. Olanrewaju Michael Akande](https://akandelanre.github.io.) | <a href="mailto:olanrewaju.akande@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/akandelanre" title="GitHub"><i class="fa fa-github"></i></a> | Mon/Wed 3:00 - 4:00pm | 256 Gross Hall
-TAs               | [Azucena Morales](https://datascience.duke.edu/lidia-azu-azucena-morales-vasquez) | <a href="mailto:azucena.morales@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | Thurs 2:30 - 4:30pm | TBD
-                  | [TBD](https://datascience.duke.edu/) | <a href="mailto:azucena.morales@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | TBD | TBD
+Instructor        | [Dr. Olanrewaju Michael Akande](https://akandelanre.github.io.) | <a href="mailto:olanrewaju.akande@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/akandelanre" title="GitHub"><i class="fa fa-github"></i></a> | Mon/Tue 3:00 - 4:00pm | 256 Gross Hall
+TAs               | [Azucena Morales](https://datascience.duke.edu/lidia-azu-azucena-morales-vasquez) | <a href="mailto:azucena.morales@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | Thur 2:30 - 4:30pm | Gross Hall
+                  | Chenxi Wu | <a href="mailto:chenxi.wu@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | Wed 3:00 - 5:00pm | Gross Hall
                   
 
 ### Texts
