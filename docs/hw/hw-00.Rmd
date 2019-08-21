@@ -1,6 +1,6 @@
 ---
 title: "Conceptual review questions about hypothesis tests and confidence intervals"
-date: "Due: start of class, Thursday, August 29"
+date: "In class exercise for Tuesday, August 27"
 output: 
   html_document: 
     css: hw.css

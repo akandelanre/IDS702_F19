@@ -18,6 +18,7 @@ output:
 #library(magick)
 library(knitr)
 library(kableExtra)
+library(lattice)
 ```
 
 ```{r setup, include=FALSE}
@@ -44,7 +45,7 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 
 ## Outline
 
-- Motivating Example
+- Motivating example
 
 - Multiple linear regression
 
@@ -64,11 +65,19 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 
 --
 
-- Today, we will begin our series of lectures on multiple linear regression. 
+- From the review materials, you should know how to fit a simple linear regression model and assess whether or not the model assumptions are violated. 
 
 --
 
-- For now, we will restrict our attention to model interpretation, testing, and predictions under multiple linear regression. 
+- We will use those ideas as building blocks for the models we will explore throughout this class!
+
+--
+
+- Today, we begin our series of lectures on multiple linear regression. 
+
+--
+
+- For now, we will restrict our attention to model interpretation, testing, and basic predictions under multiple linear regression. 
 
 --
 
@@ -97,7 +106,7 @@ by the defense.
 
 --
 
-- We are interested in answering the question: **did female employees tend to receive lower starting salaries than similarly qualified and experienced male employees?**
+- We are interested in answering the question: **did female employees tend to receive lower base/starting salaries than similarly qualified and experienced male employees?**
 
 --
 <div class="question">
@@ -150,7 +159,7 @@ summary(wages)
 ---
 ## EDA
 
-Since we only care about comparing starting salaries for male and female employees, let's look at a boxplot of *bsal* by `sex`.
+Since we only care about comparing starting salaries for male and female employees, let's look at a boxplot of .hlight[bsal] by .hlight[sex].
 ```{r fig.height=3}
 boxplot(bsal~sex,data=wages,ylab="Sex",horizontal=TRUE,
         xlab="Base Salary")
@@ -206,7 +215,7 @@ T-test shows men started at higher salaries than women $(t=5.83, p < .0001)$; sa
 
 - But, it **doesn't** control for other characteristics.
 
-- There are other variables that are correlated with `bsal`. Here's the correlation matrix of all numerical variables using the *corr* function in R.
+- There are other variables that are correlated with .hlight[bsal]. Here's the correlation matrix of all numerical variables using the .hlight[corr] function in R.
 ```{r echo=FALSE}
 kable(round(cor(wages[,!is.element(colnames(wages),c("sex","fsex"))]),2)) %>%
   kable_styling(font_size = 20)
@@ -234,8 +243,8 @@ age | months
 ---
 ## EDA
 
-```{r fig.height=4.8}
-pairs(wages)
+```{r fig.height=4.6}
+pairs(wages[,!is.element(colnames(wages),c("sal77","sex","fsex"))])
 ```
 
 
@@ -243,42 +252,48 @@ pairs(wages)
 ---
 ## EDA
 
-Too busy! Let's take a closer look at some variables.
-
-First, `bsal` vs. `senior`
+The plot looks a bit busy! Let's take a closer look one variable at a time. First, .hlight[bsal] vs. .hlight[senior].
 ```{r fig.height=3.3}
-plot(wages$bsal~wages$senior,xlab="Seniority",ylab="Base Salary")
-abline(lm(bsal~senior,data=wages))
+xyplot(bsal~senior,groups=wages$sex,data=wages,xlab="Seniority",ylab="Base Salary",
+       panel=function(x,y,...) {panel.xyplot(x,y,...)
+         panel.abline(lm(y~x)) },
+       auto.key=list(x=0.75,y=0.95,text=c("Male","Female"),points=F,lines=T))
 ```
 
 
 ---
 ## EDA
 
-Next, `bsal` vs. `age`
+Next, .hlight[bsal] vs. .hlight[age]
 ```{r fig.height=3.6}
-plot(wages$bsal~wages$age,xlab="Age",ylab="Base Salary")
-abline(lm(bsal~age,data=wages))
+xyplot(bsal~age,groups=wages$sex,data=wages,xlab="Age",ylab="Base Salary",
+       panel=function(x,y,...) {panel.xyplot(x,y,...)
+         panel.abline(lm(y~x)) },
+       auto.key=list(x=0.75,y=0.95,text=c("Male","Female"),points=F,lines=T))
 ```
 
 
 ---
 ## EDA
 
-`bsal` vs. `educ`
+.hlight[bsal] vs. .hlight[educ]
 ```{r fig.height=3.6}
-plot(wages$bsal~wages$educ,xlab="Education",ylab="Base Salary")
-abline(lm(bsal~educ,data=wages))
+xyplot(bsal~educ,groups=wages$sex,data=wages,xlab="Education",ylab="Base Salary",
+       panel=function(x,y,...) {panel.xyplot(x,y,...)
+         panel.abline(lm(y~x)) },
+       auto.key=list(x=0.05,y=0.95,text=c("Male","Female"),points=F,lines=T))
 ```
 
 
 ---
 ## EDA
 
-Finally, `bsal` vs. `exper`
+Finally, .hlight[bsal] vs. .hlight[exper]
 ```{r fig.height=3.6}
-plot(wages$bsal~wages$exper,xlab="Experience",ylab="Base Salary")
-abline(lm(bsal~exper,data=wages))
+xyplot(bsal~exper,groups=wages$sex,data=wages,xlab="Experience",ylab="Base Salary",
+       panel=function(x,y,...) {panel.xyplot(x,y,...)
+         panel.abline(lm(y~x)) },
+       auto.key=list(x=0.75,y=0.95,text=c("Male","Female"),points=F,lines=T))
 ```
 
 
@@ -385,6 +400,10 @@ $$\hat{\sigma}^2 = s_e^2 = \sum^n_{i=1} \dfrac{\left(y_i - \hat{y}_i \right)^2}{
 
 --
 
+- Most software packages will estimate $s_e^2$ automatically.
+
+--
+
 - R squared has same interpretation under both SLR and MLR.
 
 
@@ -401,7 +420,7 @@ y_2 \\
 \vdots\\
 y_n \\
 \end{bmatrix}
-\hspace{1em}
+\hspace{0.5em}
 \boldsymbol{X} =
 \begin{bmatrix}
 1 & x_{11} & x_{12} & \ldots & x_{1p} \\
@@ -409,21 +428,30 @@ y_n \\
 \vdots & \vdots & \vdots & \vdots & \vdots \\
 1 & x_{n1} & x_{n2} & \ldots & x_{np} \\
 \end{bmatrix}
-\hspace{1em}
+\hspace{0.5em}
 \boldsymbol{\beta} =
 \begin{bmatrix}
+\beta_0\\
 \beta_1\\
 \beta_2 \\
 \vdots \\
 \beta_p \\
 \end{bmatrix}
-\hspace{1em}
+\hspace{0.5em}
 \boldsymbol{\epsilon} =
 \begin{bmatrix}
 \epsilon_1\\
 \epsilon_2 \\
 \vdots \\
 \epsilon_n \\
+\end{bmatrix}
+\hspace{0.5em}
+\boldsymbol{I} =
+\begin{bmatrix}
+1 & 0 & \ldots & 0 \\
+0 & 1 & \ldots & 0 \\
+\vdots & \vdots & \vdots & \vdots \\
+0 & 0 & \ldots & 1 \\
 \end{bmatrix}
 $$ 
 ]
@@ -433,7 +461,7 @@ $$
 - Then, we can write the MLR model as
 .block[
 .small[
-$$\boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}$$
+$$\boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}; \ \ \boldsymbol{\epsilon} \sim N(0, \sigma^2 \boldsymbol{I}).$$
 ]
 ]
 
@@ -442,7 +470,7 @@ $$\boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}$$
 - The OLS estimates of all $(p+1)$ coefficients (intercept plus $p$ slopes) is then given by
 .block[
 .small[
-$$\hat{\boldsymbol{\beta}} = \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T \boldsymbol{y}$$
+$$\hat{\boldsymbol{\beta}} = \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T \boldsymbol{y}.$$
 ]
 ]
 
@@ -450,6 +478,45 @@ $$\hat{\boldsymbol{\beta}} = \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \
 <div class="question">
 Ideally, n should be bigger than p. Why?
 </div>
+
+--
+
+  There are many ways around the $p > n$ problem but those are beyond the scope of this class.
+
+
+---
+## MLR: matrix representation
+
+- The predictions can then be written as
+.block[
+.small[
+$$\hat{\boldsymbol{y}} =  \boldsymbol{X}\hat{\boldsymbol{\beta}} = \boldsymbol{X} \left[\left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T \boldsymbol{y} \right] = \left[\boldsymbol{X} \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T \right] \boldsymbol{y}.$$
+]
+]
+
+--
+
+- The residuals can be written as
+.block[
+.small[
+$$\boldsymbol{e} = \boldsymbol{y} - \hat{\boldsymbol{y}} = \boldsymbol{y} - \left[\boldsymbol{X} \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T \right] \boldsymbol{y} =  \left[\boldsymbol{1}_n - \boldsymbol{X} \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T \right] \boldsymbol{y}$$
+]
+]
+where $\boldsymbol{1}_n$ is a matrix of ones
+
+--
+
+- The $n \times n$ matrix
+.block[
+.small[
+$$\boldsymbol{H} = \boldsymbol{X} \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T$$
+]
+]
+is often called the .hlight[projection matrix] or the .hlight[hat matrix].
+
+--
+
+- We will see some important features of the elements of $\boldsymbol{H}$ in the next class.
 
 
 ---
@@ -508,7 +575,7 @@ SE_beta_hat <- sqrt(diag(c(sigmasquared_hat)*solve(t(X)%*%X))); SE_beta_hat
 ---
 ## Back to our example
 
-Let's fit the same MLR model using the _lm_ command in R.
+Let's fit the same MLR model using the .hlight[lm] command in R.
 ```{r}
 regwage <- lm(bsal~ sex + senior + age + educ + exper, data= wages)
 summary(regwage)
@@ -522,15 +589,19 @@ summary(regwage)
 
 --
 
-- Example: estimated coefficient of educ is approximately 92.
+- For example, the estimated coefficient of .hlight[educ] is approximately 92.
 
   .block[
   _Interpretation_: For each additional year of education for employee, we expect salary to increase by about $92, holding all other variables constant.
   ]
+  
+--
+
+- That interpretation is a bit different when dealing with a binary variable (more generally, categorical/factor variables).
 
 --
 
-- Estimated coefficient of sex is approximately -768.
+- For example, the estimated coefficient of .hlight[sex] is approximately -768.
 
   .block[
   _Interpretation_: For employees who started at the same time, had the same education and experience, and were the same age, women earned $768 less on average than men.
@@ -545,17 +616,17 @@ with the largest absolute value of $T$ (referred to as $t$-value in the R output
 
 --
 
-- T is not size of the coefficient. The size of the coefficient is sensitive to scales of predictors, but $T$ is not, since it is a standardized measure.
+- $T$ is NOT size of the coefficient. The size of the coefficient is sensitive to scales of predictors, but $T$ is not, since it is a standardized measure.
 
 --
 
-- Example: In wages regression, seniority is a better predictor than education because it has a larger $T$.
+- Example: In our regression, seniority is a better predictor than education because it has a larger $T$.
 
 
 ---
 ## Hypothesis tests for coefficients
 
-- The reported t-values and p-values are used to test whether a particular coefficient equals 0, given that all other coefficients are in the model.
+- The reported t-values and p-values are used to test whether a particular coefficient equals 0, GIVEN that all other variables are in the model.
 
 --
 
@@ -583,18 +654,24 @@ How do we calculate the t-values and p-values manually?
 - The t-values (test statistics) have the usual form:
 .block[
 .small[
-$$T = \dfrac{\textrm{Observed} - \textrm{Expected}}{SE} = \dfrac{\textrm{Point Estimate} - \textrm{Null Value}}{SE}$$
+$$T = \dfrac{\textrm{Observed} - \textrm{Expected}}{SE} = \dfrac{\textrm{Point Estimate} - \textrm{Null Value}}{SE} = \dfrac{\hat{\beta}_j - 0}{\sqrt{\left[s^2_e \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1}\right]_{jj}}}$$
 ]
 ]
 
 --
 
-- For p value, use area under a t-distribution with $n-(p+1)$ degrees of freedom, where $p$ is the
+- For p-value, use area under a t-distribution with $n-(p+1)$ degrees of freedom, where $p$ is the
 number of predictors (minus the intercept) in the model.
 
 --
 
 - In this problem, the degrees of freedom equal $93 - 6 = 87$.
+
+--
+  .block[
+You should know how to compute the p-values directly using the .hlight[pt] function in R (from the summer review materials).
+]
+
 
 
 ---
@@ -611,17 +688,29 @@ $$CI = pe \pm SE \times C_{\alpha}$$
 
 --
 
-- For MLR, the multiplier is obtained from the t-distribution with $n-(p+1)$ degrees of freedom.
+- For MLR, we have
+  .block[
+.small[
+$$CI = \hat{\beta}_j \pm SE \times C_{\alpha} = \hat{\beta}_j \pm C_{\alpha} \times \sqrt{\left[s^2_e \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1}\right]_{jj}} \ ,$$
+]
+]
+
+  and the multiplier is obtained from the t-distribution with $n-(p+1)$ degrees of freedom.
 
 --
 
-- Example: A 95% CI for the population regression coefficient of age equals: $(0.63 - 1.96\times0.72, 0.63 + 1.96\times0.72)$.
+- Example: A 95% "two-sided" CI for the population regression coefficient of age equals: $(0.63 - 1.988 \times0.72, 0.63 + 1.988 \times0.72) = (-0.80,2.06)$.
+
+--
+  .block[
+  Find the multiplier (1.988) in R by using the command .hlight[qt(0.975,df=87)].
+  ]
 
 
 ---
 ## CIs for regression coefficients
 
-- We can compute confidence intervals very easily in R.
+- We can compute "two-sided" confidence intervals very easily in R.
   ```{r}
 confint(regwage,level = 0.95)
 ```
@@ -632,27 +721,32 @@ confint(regwage,level = 0.95)
 
 --
 
-- More succinctly,
-  For employees with the same age, seniority, education, and experience, we expect female employees’ average starting salary to be around $767 less than male employees' average salary, with 95% CI in dollars = (-1024, -512).
+- More succinctly, for employees with the same age, seniority, education, and experience, we expect female employees’ average starting salary to be around $767 less than male employees' average salary, with 95% CI in dollars = (-1024, -512).
 
 
 ---
 ## Notes about tests and CIs
 
-- When sample size is large enough, probably reject null hypothesis of $\beta_j = 0$.
-  - Consider practical significance, not just statistical significance.
+- When sample size is large enough, you will probably reject the null hypothesis $H_0: \beta_j = 0$.
+  - This is because as $n$ increases, the SE will decrease, most likely blowing up the test statistic $T$.
+  - Thus, you should consider practical significance, not just statistical significance.
   
 --
 
-- When sample size is small, may not be enough evidence to reject null hypothesis of $\beta_j = 0$.
-  - When you fail to reject null hypothesis, don't be too hasty to say that predictor has no linear association with the outcome. 
+- When sample size is small, there simply may not be enough evidence to reject null hypothesis $H_0: \beta_j = 0$.
+  - When you fail to reject the null hypothesis, don't be too hasty to say that predictor has no linear association with the outcome. 
   - There may be an association, just not strong enough to detect with this sample (or perhaps a nonlinear one).
+  - It may also be that the association is not significant because you are already controlling for other characteristics.
   
 
 ---
 ## Predictions
 
-- Example: Prediction of beginning wages for 25 year old woman with 12 years of education, 10 months of seniority, and two years of experience:
+- Making predictions using the fitted model is straightforward.
+
+--
+
+- For example, suppose we want to prediction baseline salary for a 25 year old woman with 12 years of education, 10 months of seniority, and two years of experience. We can simply plugin these values into the estimated model:
 .block[
 .small[
 $$\hat{y}_i = 6277.9 - 767.9(1) - 22.6(10) + 0.63(300) + 92.3(12) + 0.50(24) = 6592.6$$
@@ -661,7 +755,7 @@ $$\hat{y}_i = 6277.9 - 767.9(1) - 22.6(10) + 0.63(300) + 92.3(12) + 0.50(24) = 6
 
 --
 
-- Easier to do in R using the _predict_ command. We can also get confidence and prediction intervals using the same command.
+- Easier to do in R using the .hlight[predict] command. We can also get confidence and prediction intervals using the same command.
   ```{r, warning=F}
 newdata <- data.frame(sex="Female",senior=10,age=c(25*12),educ=12,exper=c(2*12))
 preds <- predict(regwage,newdata,interval="confidence"); preds
@@ -676,11 +770,11 @@ preds <- predict(regwage,newdata,interval="prediction"); preds
 
 --
 
-- Also, how sure are we that this is actually a good model?
+- Also, how sure are we that this is actually a good model for this data?
 
 --
 
-- We will address these issues and more in the next class.
+- We will address these issues and more in the next few classes.
 
 --
 

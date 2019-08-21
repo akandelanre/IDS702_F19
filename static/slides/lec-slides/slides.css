@@ -37,7 +37,7 @@ a, a:hover, a:focus {
 }
 .remark-code, .remark-inline-code { 
   font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace;
-  font-size: 70%;
+  font-size: 64%; 
 }
 .remark-code-line-highlighted     { background-color: #ffff88; }
 
@@ -142,11 +142,11 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
     width: 700px;
 }
 
-.small { font-size: 75% }
+.small { font-size: 80% } 
 
 .tiny { font-size: 25% }
 
-.large { font-size: 85% }  
+.large { font-size: 90% }  
 
 .block {background-color: #c0f4fc;}
 
@@ -154,4 +154,7 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
     font-size: 21px;
     font-weight: lighter;
 }
+
+.hlight{color: #cf814a;}
+
 

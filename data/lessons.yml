@@ -19,7 +19,7 @@ lessons:
   
   - date: "Tue, Sept 3"
     title: "Model assessment, diagnostics and validation."
-    #slides: "lec-slides/03-reg-model-assess.html"
+    slides: "lec-slides/03-reg-model-assess.html"
     
   - date: "Thur, Sept 5"
     title: "Transformations, multicollinearity and heteroscedasticity (HW1 DUE!)"
@@ -121,7 +121,8 @@ lessons:
   
   - title: "WEEK 11"
   
-  - title: "Final project proposal due"
+  - date: "Mon, Nov 4"
+    title: "Final project proposal due"
   
   - date: "Tue, Nov 5"
     title: "Association vs. causation; confounding (HW4 DUE!)"

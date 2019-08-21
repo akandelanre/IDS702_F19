@@ -18,6 +18,7 @@ output:
 #library(magick)
 library(knitr)
 library(kableExtra)
+library(lattice)
 ```
 
 ```{r setup, include=FALSE}
@@ -28,7 +29,7 @@ options(
   warm = 1
   )
 # Set dpi and height for images
-knitr::opts_chunk$set(fig.height = 2.65, dpi = 300,fig.align='center',fig.show='hold',size='footnotesize', small.mar=TRUE) 
+knitr::opts_chunk$set(fig.height = 2.65,dpi =300,fig.align='center',fig.show='hold',size='footnotesize',small.mar=TRUE) 
 # For nonsese...
 htmltools::tagList(rmarkdown::html_dependency_font_awesome())
 # For magick
@@ -62,7 +63,7 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 
 --
 
-- We saw how to write down and fit MLR models. However, we ignored a very important part of fitting any model.
+- We saw how to write down and fit MLR models. However, we ignored a very important part of fitting any model: model assessment and validation.
 
 --
 
@@ -84,9 +85,11 @@ class: center, middle
 
 
 ---
-## Assumptions for MLR?
+## Assumptions for MLR
 
 - Inference (CIs, p-values, or predictions) can only be meaningful when the regression assumptions are plausible.
+
+--
 
 - <div class="question">
 Can you list the assumptions for MLR?
@@ -95,32 +98,20 @@ Can you list the assumptions for MLR?
 --
 
 - The main assumptions are:
+  
+  1. Linearity
+  
+  2. Independence of errors
+  
+  3. Equal variance
 
---
-
-  1. Validity
-
---
-
-  2. Linearity
-
---
-
-  3. Independence of errors
-
---
-
-  4. Equal variance
-
---
-
-  5. Normality
+  4. Normality
 
 
 ---
-## Checking assumptions
+## First, think about validity of the model
 
-- The validity assumption is about whether the data and model are even suitable for answering the research question. 
+- Validity is about whether the data and model are even suitable for answering the research question. 
 
 --
 
@@ -134,17 +125,23 @@ Can you list the assumptions for MLR?
 
 --
 
-- For this assumption, you should always keep in mind, the types of questions you can and cannot answer reliably from both the data and the model.
+- You should always keep in mind the types of questions you can and cannot answer reliably from both the data and model.
 
 
 ---
 ## Checking assumptions
 
-- Checking assumptions 2 - 5 usually requires examining the residuals after model fitting.
+- .block[
+  Generally it is a good idea to start with exploratory data analysis (which we did a bit of in the last class) rather than jumping right into modeling.
+  ]
 
 --
 
-- For linearity, usually, a plot of the residuals versus each predictor will do.
+- Checking all four assumptions usually requires examining the residuals after model fitting.
+
+--
+
+- For .hlight[linearity], a plot of the residuals versus each predictor will often do.
 
 --
 
@@ -163,14 +160,14 @@ What should we look out for in such a plot?
 --
 
 - .block[
-Some pattern in any of the plots is usually an indication of a relationship between $y$ and that predictor, which has not been captured yet in the model.
+Some pattern in any of the plots is usually an indication of a relationship (often nonlinear) between $y$ and that predictor, which has not been captured yet in the model.
 ]
 
 
 ---
 ## Checking assumptions
 
-- To check both independence of the errors and the equal variance assumption, usually a plot of the residuals versus the fitted values will do.
+- To check both .hlight[independence] of the errors and the .hlight[equal variance] assumption, usually a plot of the residuals versus the fitted values will do.
 
 --
 
@@ -180,12 +177,12 @@ The points in the plot should look random (for independence) and be "roughly" eq
 
 --
 
-- To check normality, it is often sufficient to look at a qq-plot (quantile-quantile plot) which compares the distribution of the standardized residuals to the theoretical quantiles of a standard normal distribution.
+- To check .hlight[normality], it is often sufficient to look at a qq-plot (quantile-quantile plot) which compares the distribution of the standardized residuals to the theoretical quantiles of a standard normal distribution.
 
 --
 
 - .block[
-Linearity of the points around the 45 degree line of the qq-plot would suggest the normality assumption is not violated.
+Clustering of the points around the 45 degree line of the qq-plot usually implies the normality assumption is not violated.
 ]
 
 --
@@ -196,9 +193,9 @@ Linearity of the points around the 45 degree line of the qq-plot would suggest t
 ---
 ## Checking assumptions
 
-For example, let's revisit the same data from last class. Recall the model we fit to the data and the results:
+Let's revisit the same data from last class. Recall the model we fit to the data and the results:
 .small[
-$$\textrm{Avg. bsal} = \textrm{Intercept} + \beta_1 \textrm{sex} + \beta_2 \textrm{senior} + \beta_3 \textrm{age} + \beta_4 \textrm{educ} + \beta_5 \textrm{exper}$$
+$$\textrm{bsal}_i = \beta_0 + \beta_1 \textrm{sex}_i + \beta_2 \textrm{senior}_i + \beta_3 \textrm{age}_i + \beta_4 \textrm{educ}_i + \beta_5 \textrm{exper}_i + \epsilon_i$$
 ]
 ```{r, include=FALSE, eval=TRUE}
 wages <- read.csv("data/wagediscrim.txt", header= T)
@@ -213,7 +210,7 @@ summary(regwage)
 ---
 ## Checking linearity
 
-Now, let's plot the residuals against each predictor. First, let's look at `senior`.
+Now, let's plot the residuals against each predictor. First, let's look at .hlight[senior].
 ```{r fig.height=3}
 plot(y=regwage$residual, x = wages$senior, xlab = "Seniority", ylab = "Residual")
 abline(0,0)
@@ -228,7 +225,7 @@ Do you see any clear violations of the linearity assumption?
 ---
 ## Checking linearity
 
-Next, let's look at `age`.
+Next, let's look at .hlight[age].
 ```{r fig.height=3}
 plot(y=regwage$residual, x = wages$age, xlab = "Age", ylab = "Residual")
 abline(0,0)
@@ -243,7 +240,7 @@ Do you see any clear violations of the linearity assumption?
 ---
 ## Checking linearity
 
-Next, let's look at `educ`.
+Next, let's look at .hlight[educ].
 ```{r fig.height=3}
 plot(y=regwage$residual, x = wages$educ, xlab = "Education", ylab = "Residual")
 abline(0,0)
@@ -258,7 +255,7 @@ Do you see any clear violations of the linearity assumption?
 ---
 ## Checking linearity
 
-Next, let's look at `exper`.
+Next, let's look at .hlight[exper].
 ```{r fig.height=3}
 plot(y=regwage$residual, x = wages$exper, xlab = "Experience", ylab = "Residual")
 abline(0,0)
@@ -301,48 +298,437 @@ Do you see any clear violations of the normality assumption?
 
 - Looks like we may have to worry about the assumption of linearity being violated for age and experience.
 
-- There appears to be some quadratic trend for both variables, so let's improve the model by adding the squared term for each variable. 
+--
+
+- There appears to be some quadratic trend for both variables and possible non-constant variance, so let's improve the model by adding the squared term for each variable. 
+
+--
 
 - First, let's mean-center the continuous predictor to improve interpretation of outputs (especially the intercept).
 
-- Centering does not really improve model fit, however it does help with multicollinearity (which we will dive into properly in the next class).
+--
+
+- Centering does not really improve model fit, however it does help with interpretability. 
+
+--
+
+- Intercepts especially are often hard to interpret, because they represent value when all predictors equal zero. This may be an unrealistic or uninteresting case.
+
+
+---
+## Centering
+
+- Instead, for each continuous predictor, we can subtract its mean from every value, and use these mean centered predictors in regression instead.
+
+--
+
+- The intercept can now be interpreted as average value of $Y$ at the average value of $X$, which is much more interpretable.
+
+--
+
+- Centering can be especially useful in models with interactions (which we are yet to explore).
+
+--
+
+- Centering can also help with multicollinearity (which we will dive into properly in the next class).
+
+--
 
 - Essentially, a transformed variable $x_j^2$ may be highly correlated with the untransformed counterpart $x_j$, which we want to avoid. Centering $x_j$ before taking the square helps with that.
 
+--
+
+- From now on for this example, we will mean center continuous predictors.
+
 
 ---
-## Advice to aid interpretation
+## Centering
 
-- Intercepts are often hard to interpret, because they represent value when all predictors equal zero. This may be an unrealistic or uninteresting case.
+```{r}
+wages$agec <- c(scale(wages$age,scale=F))
+wages$seniorc <- c(scale(wages$senior,scale=F))
+wages$experc <- c(scale(wages$exper,scale=F))
+wages$educc <- c(scale(wages$educ,scale=F))
+regwagec <- lm(bsal~ sex + seniorc + agec + educc + experc, data= wages)
+summary(regwagec)
+```
 
-- Instead, for each continuous predictor, subtract its mean from every value. Use these mean centered predictors in regression
-
-- Intercept interpreted as average value of Y at the average value of X, which is much more interpretable.
-
-- From now on, we mean center continuous predictors.
 
 ---
-### 
+## Centering
 
-```{r fig.height=4}
+- Notice that the coefficients for the predictors have not changed but the intercept has changed.
+
+--
+
+- We interpret the intercept as the average baseline salary for male employees who are 474 months old, have 82 months of seniority, 12.5 years of education, and 101 months of experience.
+  ```{r}
+colMeans(wages[,c("age","senior","educ","exper")])
+```
+
+--
+
+- Now, back to the model diagnostics and refinement.
+
+--
+
+- Let's add the squared terms of the centered age and centered experience predictors to the dataset and refit the model. 
+  ```{r}
+wages$agec2 <- wages$agec^2
+wages$experc2 <- wages$experc^2
+```
+
+
+---
+## Re-fitting the model
+
+```{r}
+regwagecsquares <- lm(bsal~sex+seniorc+agec+agec2+educc+experc+experc2,data=wages)
+summary(regwagecsquares)
+```
+
+
+---
+## Interpreting the new model
+
+Clearly, .hlight[experc2] is an important predictor given all other predictors. However, it can be tough to interpret its effect using the coefficient. Instead, let's visualize the effect of changing experience.
+
+```{r}
+#First, make the 20 values of experience that you want to examine
+newexper <- seq(from=10,to=300,by=5)
+newexperc <- newexper - mean(wages$exper)
+newexperc2 <- newexperc^2
+newdata <- data.frame(matrix(0, nrow=length(newexper), ncol=7))
+names(newdata) <- c("sex","seniorc","agec","agec2","educc","experc","experc2")
+newdata$experc <- newexperc; newdata$experc2 <- newexperc2; newdata$sex <- "Male"
+#Since we use mean-centered predictors, the rows in the new dataset correspond to 
+#people with average values of seniority, age, and education. 
+preds_male <- predict(regwagecsquares,newdata,interval="confidence"); preds_male[1:3,]
+newdata$sex <- "Female"; 
+preds_female <- predict(regwagecsquares,newdata,interval="confidence"); preds_female[1:3,]
+```
+
+
+---
+## Interpreting the new model
+
+```{r fig.height=3.3}
+plot(y=preds_male[,"fit"],x=newexper,xlab="Experience",ylab="Predicted Wages",
+     main="Expected Change in B.Wages with Experience",col="darkblue",ylim=c(4700,6300))
+points(y=preds_female[,"fit"], x=newexper,col="orange")
+legend("bottomright",c("Male","Female"),col=c("darkblue","orange"),lty=c(2,2))
+#Remember that this is with average values of other predictors.
+```
+
+--
+<div class="question">
+Why do we have the exact same trend for male and female?
+</div>
+
+
+---
+## Interpreting the new model
+
+```{r fig.height=3.3}
+#if you want to get the 95% confidence bands on the plot as well, you can do the following
+plot(y=preds_male[,"fit"], x=newexper, xlab="Experience", ylab="Predicted Wages",
+     main="Expected Change in B.Wages with Experience",col="darkblue",ylim=c(4200,6700))
+points(y=preds_female[,"fit"], x=newexper,col="orange")
+legend("bottomright",c("Male","Female"),col=c("darkblue","orange"),lty=c(1,1))
+lines(y=preds_male[,"lwr"],x=newexper,col="darkblue",lty=2)
+lines(y=preds_male[,"upr"],x=newexper,col="darkblue",lty=2)
+lines(y=preds_female[,"lwr"],x=newexper,col="orange",lty=2)
+lines(y=preds_female[,"upr"],x=newexper,col="orange",lty=2)
+```
+
+
+---
+## Leverage, influence, and standardized residuals
+
+- The summer review material briefly covered outlier, high leverage and influential points.
+
+--
+
+- Individual observations can have large impact on the estimates of coefficients and SEs.
+
+--
+
+- Sometimes these points are obvious from scatter plots, and sometimes they are not, especially in multivariate data.
+
+--
+
+- Concepts and metrics of leverage, influence, and standardized residuals can help identify impactful and unusual points.
+
+--
+
+- An .hlight[outlier] is a data point whose value does not follow the general trend of the rest of the data.
+
+--
+
+- <div class="question">
+When does a data point have high leverage? When is a data point influential? How can we identify them?
+</div>
+
+
+---
+## Leverage
+
+- Points with extreme predictor values are called .hlight[high leverage] points. 
+
+--
+
+- That is, the predictor values for these points are far outside the range of values for most of the other points.
+
+--
+
+- Thus, leverage has nothing to do with values of the response variable $\boldsymbol{y}$.
+
+--
+
+- Leverage points POTENTIALLY have large impact on the estimates of coefficients and SEs.
+
+--
+
+- For those very comfortable with linear algebra, the leverage score $h_{ii}$ for record $i$ is defined as the $i$th diagonal element of the projection or hat matrix.
+.block[
+.small[
+$$\boldsymbol{H} = \boldsymbol{X} \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T.$$
+]
+]
+
+
+---
+## Leverage
+
+- Recall that
+.block[
+.small[
+$$\hat{\boldsymbol{y}} = \left[\boldsymbol{X} \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T \right] \boldsymbol{y} = \boldsymbol{H}\boldsymbol{y}.$$
+]
+]
+
+--
+
+- Therefore, the leverage score $h_{ii}$ for observation $i$ is a measure of its "influence" on the regression line.
+
+--
+
+- Some properties of $h_{ii}$:
+
+  - $0 \leq h_{ii} \leq 1$.
+  
+  - $\mathbb{Var}[e_i] = (1-h_{ii}) \sigma^2$.
+  
+  - High leverage points are often determined by paying attention to any observation for which $h_{ii} > 2p/n$.
+
+
+---
+## High leverage: what to do?
+
+- Points with high leverage deserve special attention:
+  
+--
+
+  - Make sure that they do not result from data entry errors.
+  
+--
+
+  - Make sure that they are in scope for the types of individuals for which you want to make predictions.
+  
+--
+
+  - Make sure that you look at the impact of those points on estimates, especially when you have interactions in the model.
+
+--
+
+- Just because a point is a high leverage point does not mean it will have a large effect on regression. When this happens, we say that the observation is .hlight[influential].
+
+--
+
+- Whether or not a high leverage point actually affects the regression line depends on the value of the response variable...
+
+
+---
+## Cook's distance
+
+- What if a point has a large impact on the estimates of the regression coefficients?
+
+--
+
+  - Dropping that point should change the coefficients significantly.
+
+--
+
+  - Consequently, a significant change in the coefficients should also change that point's predicted $y_i$ value by a lot.
+  
+--
+
+- For every point, we could delete it, re-run the regression, and see which points lead to big changes in the predicted $y_i$'s; very time consuming!
+
+--
+
+- However, .hlight[Cook's distance] gives a formula for quantifying the influence of the $i$th observation, if it is removed from the sample. We have
+.block[
+.small[
+$$D_i = \sum^n_{j=1} \dfrac{\left(\hat{y}_j - \hat{y}_{j(i)} \right)^2}{s_e^2(p+1)}$$
+]
+]
+
+  where $\hat{y}_{j(i)}$ is the predicted value after excluding the $i$th observation.
+
+--
+
+- It turns out that $D_i$ can also be expressed using the leverage score $h_{ii}$.
+
+
+---
+## Big Cook's distances: what to do?
+
+- Examine Cook's distances to look for large values.
+
+--
+
+  - Make sure there are no data entry errors in those points.
+
+--
+
+  - For each point with high Cook's distance, fit the model with and without that point, and compare the results.
+  
+--
+
+- The consensus seems to be that $D_i >1$ indicates an observation is an influential value, but we generally pay attention to observations with $D_i >0.5$.
+
+--
+
+- If the results (predictions or scientific interpretations) do not change much, just report the final model based on all data points and you don't really need to report anything about the Cook's distances.
+
+--
+
+- If results change a lot, you have several options...
+
+
+---
+## Cook's distance: What to do if large changes in results?
+
+- It is generally OK to drop observations based on PREDICTOR values if
+
+--
+
+  1. It is scientifically meaningful to do so; and
+  
+--
+  
+  2. You intended to fit a model over the smaller $X$ range to begin with (and just forgot). When this is the case, you should mention this in your analysis write-up and be careful when making predictions to avoid extrapolation.
+
+--
+
+- It is generally NOT OK to drop an observation based on its RESPONSE value (assuming no data errors in that value). These are
+legitimate observations and dropping them is essentially cheating by changing the data to fit the model.
+
+--
+
+- You should try transformations or collect more data.
+
+
+---
+## Standardized residuals (also called internally studentized residuals)
+
+- How do we best identify outliers, i.e., points that don’t fit the pattern implied by the line? We look for points with relatively large residuals.
+
+--
+
+- It would be nice to have a common scale to interpret what a “big” residual is, across all problems.
+
+--
+
+- As with most metrics in statistics, we look at each residual divided by its standard error (hence the term standardized residual).
+
+--
+
+- The SE of any residual (that is, $e_i$ and not $\epsilon_i$) depends on the values of the predictors.
+
+--
+
+- As such, it turns out that the residuals for high leverage predictors have smaller variance than residuals for low leverage predictors.
+
+--
+
+- Intuition: the regression line tries to fit high leverage points as closely as possible, which results in smaller residuals for those points.
+
+
+---
+## Standardized residuals (also called internally studentized residuals)
+
+- Standardized residuals have a Normal(0,1) distribution.
+
+--
+
+- Values with large standardized residuals are outliers, in that they don’t fit the pattern implied by the line.
+
+--
+
+- Like any normal distribution, we expect "some" large standardized values, e.g., 5% of standardized residuals should be outside (-2,2), but NOT a lot of them!
+
+--
+
+- Values with large standardized residuals are not necessarily influential on the regression line. A point can be an outlier without impacting the line. We need to examine their Cook's distance to determine influence.
+
+--
+
+- In fact, really one should do residual plots with standardized residuals instead of regular ones, since they can reflect constant variance assumption when it is true.
+
+
+---
+## Back to our example
+
+Can we try to identify (if any) outliers, high leverage points and influential points?
+
+```{r fig.height=3.3}
 plot(regwage,which=4)
 ```
 
+--
+<div class="question">
+Are there any high leverage points?
+</div>
 
 ---
-### 
+## Back to our example
 
-```{r fig.height=4}
+```{r fig.height=3.6}
 plot(regwage,which=5)
 ```
 
+--
+<div class="question">
+Are there any outliers or influential points?
+</div>
+
 
 ---
-### 
+## Final notes
 
-```{r fig.height=4}
-plot(regwage,which=6)
-```
+- As before, it is generally OK to drop observations based on PREDICTOR values if
 
+--
+
+  1. It is scientifically meaningful to do so; and
+  
+--
+  
+  2. You intended to fit a model over the smaller $X$ range to begin with (and just forgot). When this is the case, you should mention this in your analysis write-up and be careful when making predictions to avoid extrapolation.
+
+--
+
+- It is generally NOT OK to drop an observation based on its RESPONSE value (assuming no data errors in that value). These are
+legitimate observations and dropping them is essentially cheating by changing the data to fit the model.
+
+--
+
+- You should try transformations or collect more data.
+
+--
+
+- Or just do nothing! It can be okay to have some outliers. Examine their influence on your results and report them.
 
 
