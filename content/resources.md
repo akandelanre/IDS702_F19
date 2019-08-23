@@ -12,7 +12,7 @@ These textbooks are great resources for some of the topics we will cover. You do
 
 ### R and R Markdown Resources
 
-R Markdown is a great way to create high quality reports and presentations with embedded chunks of R code. R Markdown would be my personal favorite for creating your reports and typing up your assignments for this course, but you are welcome to use any word processor of your choice. To learn more about R Markdown and for other resources for programming in R, see the links below. 
+R Markdown can be used to create high quality reports and presentations with embedded chunks of R code. R Markdown would be my personal favorite for creating your reports and typing up your assignments for this course, but you are welcome to use any word processor of your choice. To learn more about R Markdown and for other resources for programming in R, see the links below. 
 
 1. [R for Data Science (by Hadley Wickham & Garrett Grolemund)](https://r4ds.had.co.nz)
 2. [Introduction to R Markdown (Article by Garrett Grolemund)](https://rmarkdown.rstudio.com/articles_intro.html)
@@ -24,13 +24,13 @@ R Markdown is a great way to create high quality reports and presentations with 
 
 ### LaTeX
 
-You may also use LaTeX to create your reports and presentations. It can be easier to create your TeX and LaTeX documents using online editors such as [Overleaf](https://www.overleaf.com) (simply create a free account and you are good to go!). However, that need not be the case. If you prefer to create them locally/offline on your personal computers, you'll need to download a TeX distribution (the most popular choices are [MiKTeX](https://miktex.org/download) for Windows and [MacTeX](http://www.tug.org/mactex/) for macOS) plus an editor (I personally prefer [TeXstudio](https://www.texstudio.org) but feel free to download anyone of your choice). Follow the links below for some options, and to also learn how to use LaTeX.
+You may also use LaTeX to create your reports and presentations. You may find it easier to create your TeX and LaTeX documents using online editors such as [Overleaf](https://www.overleaf.com) (simply create a free account and you are good to go!). However, that need not be the case. If you prefer to create them locally/offline on your personal computers, you will need to download a TeX distribution (the most popular choices are [MiKTeX](https://miktex.org/download) for Windows and [MacTeX](http://www.tug.org/mactex/) for macOS) plus an editor (I personally prefer [TeXstudio](https://www.texstudio.org) but feel free to download any editor of your choice). Follow the links below for some options, and to also learn how to use LaTeX.
 1. [Learn LaTeX in 30 minutes](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes)
 2. [Choosing a LaTeX Compiler](https://www.overleaf.com/learn/latex/Choosing_a_LaTeX_Compiler).
 
 ### Interesting Articles
 
-These are articles I find interesting either as supplementary readings for topics covered in class, or as good sources that cover concepts I think you should know, but which we may not have time to cover.
+These are articles I find interesting either as supplementary readings for topics covered in class, or as good sources that cover concepts I think you should know, but which we may not have time to cover. I strongly suggest you find time to (at the very least) take a "quick peek" at each article.
 
 1. [A Dirty Dozen: Twelve P-Value Misconceptions (by Steven Goodman)](https://www.sciencedirect.com/science/article/pii/S0037196308000620)
 2. [American Statistical Association Statement on P-values](https://www.amstat.org//asa/files/pdfs/P-ValueStatement.pdf)
