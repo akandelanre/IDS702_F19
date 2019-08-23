@@ -37,9 +37,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/resources/</guid>
-      <description>You may find the following resources useful.
-R and R Markdown Resources R Markdown is a great way to create high quality reports and presentations with embedded chunks of R code. R Markdown would be my personal favorite for creating your reports and typing up your assignments. To learn more about R Markdown and for other resources for programming in R, see the links below.
- R for Data Science (by Hadley Wickham &amp;amp; Garrett Grolemund) Introduction to R Markdown (Article by Garrett Grolemund) Introduction to R Markdown (Slides by Andrew Cho) R Markdown Cheat Sheet Data Visualization with ggplot2 Cheat Sheet Other Useful Cheat Sheets  LaTeX You may also use LaTeX to create your reports and presentations.</description>
+      <description>Supplementary Textbooks These textbooks are great resources for some of the topics we will cover. You do not need to buy them, but you may be able to borrow them from Duke library should you need extra reading materials, besides the class slides and main textbooks. I may also select and adapt questions from the books for your homework assignments from time to time, but you will not need access to them when I do so.</description>
     </item>
     
   </channel>

@@ -3,11 +3,16 @@ title: "Resources"
 markup: "mmark"
 ---
 
-You may find the following resources useful.
+### Supplementary Textbooks
+
+These textbooks are great resources for some of the topics we will cover. You do not need to buy them, but you may be able to borrow them from Duke library should you need extra reading materials, besides the class slides and main textbooks. I may also select and adapt questions from the books for your homework assignments from time to time, but you will not need access to them when I do so.
+1. [Ramsey, F.L. and Schafer, D.W. (2013), "The Statistical Sleuth: A Course in Methods of Data Analysis (3rd ed)."](https://www.amazon.com/Statistical-Sleuth-Course-Methods-Analysis/dp/1133490670)
+2. [Imbens, G. W. and Rubin, D. B. (2015), "Causal Inference for Statistics, Social, and Biomedical Sciences: An Introduction"](https://www.amazon.com/gp/product/0521885884/ref=ppx_yo_dt_b_asin_title_o05_s00?ie=UTF8&psc=1)
+3. [Agresti, A. (2013), "Categorical Data Analysis (3rd ed)."](https://www.amazon.com/Statistical-Sleuth-Course-Methods-Analysis/dp/1133490670)
 
 ### R and R Markdown Resources
 
-R Markdown is a great way to create high quality reports and presentations with embedded chunks of R code. R Markdown would be my personal favorite for creating your reports and typing up your assignments. To learn more about R Markdown and for other resources for programming in R, see the links below. 
+R Markdown is a great way to create high quality reports and presentations with embedded chunks of R code. R Markdown would be my personal favorite for creating your reports and typing up your assignments for this course, but you are welcome to use any word processor of your choice. To learn more about R Markdown and for other resources for programming in R, see the links below. 
 
 1. [R for Data Science (by Hadley Wickham & Garrett Grolemund)](https://r4ds.had.co.nz)
 2. [Introduction to R Markdown (Article by Garrett Grolemund)](https://rmarkdown.rstudio.com/articles_intro.html)
@@ -15,6 +20,7 @@ R Markdown is a great way to create high quality reports and presentations with 
 4. [R Markdown Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
 5. [Data Visualization with ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf)
 6. [Other Useful Cheat Sheets](https://www.rstudio.com/resources/cheatsheets/#import)
+7. [A very (very!) basic R Markdown template](http://www2.stat.duke.edu/~oma9/STA111_SummerI_2018/Labs/Lab.Rmd)
 
 ### LaTeX
 
