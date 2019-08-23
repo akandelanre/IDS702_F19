@@ -24,11 +24,13 @@ R Markdown is a great way to create high quality reports and presentations with 
 
 ### LaTeX
 
-You may also use LaTeX to create your reports and presentations. It can be easier to create your TeX and LaTeX documents using online editors such as [Overleaf](https://www.overleaf.com) (simply create a free account and you are good to go!). However, that need not be the case. If you prefer to create them locally/offline on your personal computers, you'll need to a TeX distribution (the most popular choices are [MiKTeX](https://miktex.org/download) for Windows and [MacTeX](http://www.tug.org/mactex/) for macOS) plus an editor (I personally prefer [TeXstudio](https://www.texstudio.org) but feel free to download anyone of your choice). Follow the links below for some options, and to also learn how to use LaTeX.
+You may also use LaTeX to create your reports and presentations. It can be easier to create your TeX and LaTeX documents using online editors such as [Overleaf](https://www.overleaf.com) (simply create a free account and you are good to go!). However, that need not be the case. If you prefer to create them locally/offline on your personal computers, you'll need to download a TeX distribution (the most popular choices are [MiKTeX](https://miktex.org/download) for Windows and [MacTeX](http://www.tug.org/mactex/) for macOS) plus an editor (I personally prefer [TeXstudio](https://www.texstudio.org) but feel free to download anyone of your choice). Follow the links below for some options, and to also learn how to use LaTeX.
 1. [Learn LaTeX in 30 minutes](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes)
 2. [Choosing a LaTeX Compiler](https://www.overleaf.com/learn/latex/Choosing_a_LaTeX_Compiler).
 
 ### Interesting Articles
+
+These are articles I find interesting either as supplementary readings for topics covered in class, or as good sources that cover concepts I think you should know, but which we may not have time to cover.
 
 1. [A Dirty Dozen: Twelve P-Value Misconceptions (by Steven Goodman)](https://www.sciencedirect.com/science/article/pii/S0037196308000620)
 2. [American Statistical Association Statement on P-values](https://www.amstat.org//asa/files/pdfs/P-ValueStatement.pdf)
