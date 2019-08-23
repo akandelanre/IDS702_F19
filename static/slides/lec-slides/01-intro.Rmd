@@ -91,7 +91,7 @@ Dr. Olanrewaju Michael Akande
 [Azucena Morales](https://datascience.duke.edu/lidia-azu-azucena-morales-vasquez)
 
 <i class="fa fa-envelope"></i> &nbsp; [azucena.morales@duke.edu](mailto:azucena.morales@duke.edu) <br>
-<i class="fa fa-university"></i> &nbsp; [Gross Hall](https://maps.duke.edu/?id=21#!m/6866?s/Gross%20Hall) <br>
+<i class="fa fa-university"></i> &nbsp; [257 Gross Hall](https://maps.duke.edu/?id=21#!m/6866?s/Gross%20Hall) <br>
 <i class="fa fa-calendar"></i> &nbsp; Thur 2:30 - 4:30pm
 
 <br>
@@ -99,7 +99,7 @@ Dr. Olanrewaju Michael Akande
 Chenxi Wu
 
 <i class="fa fa-envelope"></i> &nbsp; [chenxi.wu@duke.edu](mailto:chenxi.wu@duke.edu) <br>
-<i class="fa fa-university"></i> &nbsp; [Gross Hall](https://maps.duke.edu/?id=21#!m/6866?s/Gross%20Hall) <br>
+<i class="fa fa-university"></i> &nbsp; [257 Gross Hall](https://maps.duke.edu/?id=21#!m/6866?s/Gross%20Hall) <br>
 <i class="fa fa-calendar"></i> &nbsp; Wed 3:00 - 5:00pm
 
 

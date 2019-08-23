@@ -31,5 +31,16 @@
       <description>Prerequisites Students are expected to know all topics covered in the MIDS summer course review and boot camp. These include basic probability (including conditional probability, expectations and common probability distributions), and statistical inference (including hypothesis testing, confidence intervals, linear regression with one predictor, and exploratory data analysis). Students are also expected to be familiar with R/Rstudio. Due to space constraints, the course is open only to students in the MIDS program.</description>
     </item>
     
+    <item>
+      <title>Resources</title>
+      <link>/resources/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/resources/</guid>
+      <description>You may find the following resources useful.
+R and R Markdown Resources R Markdown is a great way to create high quality reports and presentations with embedded chunks of R code. R Markdown would be my personal favorite for creating your reports and typing up your assignments. To learn more about R Markdown and for other resources for programming in R, see the links below.
+ R for Data Science (by Hadley Wickham &amp;amp; Garrett Grolemund) Introduction to R Markdown (Article by Garrett Grolemund) Introduction to R Markdown (Slides by Andrew Cho) R Markdown Cheat Sheet Data Visualization with ggplot2 Cheat Sheet Other Useful Cheat Sheets  LaTeX You may also use LaTeX to create your reports and presentations.</description>
+    </item>
+    
   </channel>
 </rss>

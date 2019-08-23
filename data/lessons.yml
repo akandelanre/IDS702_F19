@@ -134,10 +134,10 @@ lessons:
   - title: "WEEK 12"
   
   - date: "Tue, Nov 12"
-    title: "Matching, weighting, regression, and propensity scores methods"
+    title: "Completely randomized experiments: model-based approach"
     
   - date: "Thur, Nov 14"
-    title: "Case studies 4. (HW5 DUE!)"
+    title: "Observational studies: matching, weighting, regression, and propensity scores methods (HW5 DUE!)"
     
   - date: "Fri, Nov 15"
     title: "Lab 6: comparing different causal inference methods"

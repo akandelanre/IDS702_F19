@@ -39,8 +39,8 @@ By the end of this course, students should be able to
 <span></span>     | <span></span>     | <span></span>    | <span></span>    |  <span></span>      
 ------------------|-------------------|------------------|------------------|------------------ 
 Instructor        | [Dr. Olanrewaju Michael Akande](https://akandelanre.github.io.) | <a href="mailto:olanrewaju.akande@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; <a href="https://github.com/akandelanre" title="GitHub"><i class="fa fa-github"></i></a> | Mon/Tue 3:00 - 4:00pm | 256 Gross Hall
-TAs               | [Azucena Morales](https://datascience.duke.edu/lidia-azu-azucena-morales-vasquez) | <a href="mailto:azucena.morales@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | Thur 2:30 - 4:30pm | Gross Hall
-                  | Chenxi Wu | <a href="mailto:chenxi.wu@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | Wed 3:00 - 5:00pm | Gross Hall
+TAs               | [Azucena Morales](https://datascience.duke.edu/lidia-azu-azucena-morales-vasquez) | <a href="mailto:azucena.morales@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | Thur 2:30 - 4:30pm | 257 Gross Hall
+                  | Chenxi Wu | <a href="mailto:chenxi.wu@duke.edu" title="email"><i class="fa fa-envelope"></i></a> | Wed 3:00 - 5:00pm | 257 Gross Hall
                   
 
 ### Texts
@@ -57,4 +57,12 @@ _Lecture notes and slides, lab exercises and other reading resources will be pos
 
 You should have access to a laptop and bring it to every class, fully charged.
 
+### Green Classroom
+
+<img style="float: left;" src="/img/DukeGreenClassroomCertification-Logo.png">
+This course has achieved Duke’s Green Classroom Certification. The certification indicates that the faculty member teaching this course has taken significant steps to green the delivery of this course. Your faculty member has completed a checklist indicating their common practices in areas of this course that have an environmental impact, such as paper and energy consumption. Some common practices implemented by faculty to reduce the environmental impact of their course include allowing electronic submission of assignments, providing online readings and turning off lights and electronics in the classroom when they are not in use. The eco-friendly aspects of course delivery may vary by faculty, by course and throughout the semester. Learn more at [http://sustainability.duke.edu/action/certifications/classroom/index.php](http://sustainability.duke.edu/action/certifications/classroom/index.php).
+
+### Acknowledgement
+
+This web page contains materials such as lecture slides, homework assignments, and datasets developed or adapted by [Dr. Jerry Reiter](http://www2.stat.duke.edu/~jerry/).
 
