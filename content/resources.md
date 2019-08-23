@@ -6,6 +6,7 @@ markup: "mmark"
 ### Supplementary Textbooks
 
 These textbooks are great resources for some of the topics we will cover. You do not need to buy them, but you may be able to borrow them from Duke library should you need extra reading materials, besides the class slides and main textbooks. I may also select and adapt questions from the books for your homework assignments from time to time, but you will not need access to them when I do so.
+
 1. [Ramsey, F.L. and Schafer, D.W. (2013), "The Statistical Sleuth: A Course in Methods of Data Analysis (3rd ed)."](https://www.amazon.com/Statistical-Sleuth-Course-Methods-Analysis/dp/1133490670)
 2. [Imbens, G. W. and Rubin, D. B. (2015), "Causal Inference for Statistics, Social, and Biomedical Sciences: An Introduction"](https://www.amazon.com/gp/product/0521885884/ref=ppx_yo_dt_b_asin_title_o05_s00?ie=UTF8&psc=1)
 3. [Agresti, A. (2013), "Categorical Data Analysis (3rd ed)."](https://www.amazon.com/Statistical-Sleuth-Course-Methods-Analysis/dp/1133490670)
@@ -25,6 +26,7 @@ R Markdown can be used to create high quality reports and presentations with emb
 ### LaTeX
 
 You may also use LaTeX to create your reports and presentations. You may find it easier to create your TeX and LaTeX documents using online editors such as [Overleaf](https://www.overleaf.com) (simply create a free account and you are good to go!). However, that need not be the case. If you prefer to create them locally/offline on your personal computers, you will need to download a TeX distribution (the most popular choices are [MiKTeX](https://miktex.org/download) for Windows and [MacTeX](http://www.tug.org/mactex/) for macOS) plus an editor (I personally prefer [TeXstudio](https://www.texstudio.org) but feel free to download any editor of your choice). Follow the links below for some options, and to also learn how to use LaTeX.
+
 1. [Learn LaTeX in 30 minutes](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes)
 2. [Choosing a LaTeX Compiler](https://www.overleaf.com/learn/latex/Choosing_a_LaTeX_Compiler).
 
