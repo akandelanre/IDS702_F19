@@ -693,7 +693,7 @@ Are there any high leverage points?
 </div>
 
 ---
-## Back to our example
+## Standardized residuals: What to do if large outliers?
 
 ```{r fig.height=3.6}
 plot(regwage,which=5)
@@ -706,7 +706,7 @@ Are there any outliers or influential points?
 
 
 ---
-## Final notes
+## Standardized residuals: What to do if large outliers?
 
 - As before, it is generally OK to drop observations based on PREDICTOR values if
 
@@ -730,5 +730,87 @@ legitimate observations and dropping them is essentially cheating by changing th
 --
 
 - Or just do nothing! It can be okay to have some outliers. Examine their influence on your results and report them.
+
+
+---
+## Mean squared error
+
+- One particularly useful metric for measuring model fit (especially when the goal is prediction) is the mean squared error (MSE):
+.block[
+.small[
+$$\textrm{MSE} = \dfrac{1}{n} \sum_{i=1}^{n} \left(y_i - \hat{y}_i \right)^2.$$
+]
+]
+
+--
+
+- This value will be small when our predictions $\hat{y}_i$ are close to the true $y_i$'s. 
+
+--
+
+- While it may be useful to calculate .hlight[within-sample MSE] using the same dataset (usually referred to as .hlight[training data]) that was used to fit the model, it is often more useful to calculate .hlight[out-of-sample MSE] using a different dataset (usually referred to as  .hlight[test data]).
+
+--
+
+- In other words, while it may be great to know that our model fits the data used in fitting it well, it would be even better to see that our model also fits new or future data well.
+
+--
+
+- This is essentially asking the question: what does our model tell us about what might happen in the future?
+
+
+---
+## Mean squared error
+
+- If we have a large amount of data, we can split our sample into training and test datasets.
+
+--
+
+- The test dataset should contain new observations $(y_{1i},\boldsymbol{x}_{1i})$ that are not represented in the training dataset $(y_{0i},\boldsymbol{x}_{0i})$.
+
+--
+
+- Then the .hlight[test MSE] or .hlight[out-of-sample MSE] is given by
+.block[
+.small[
+$$\textrm{MSE}_\textrm{test} = \dfrac{1}{n_\textrm{test}} \sum_{i=1}^{n_\textrm{test}} \left(y_{1i} - \hat{y}_{1i} \right)^2.$$
+]
+]
+
+  where $\hat{y}_{1i}$ is the predicted response for a new observation in the test dataset using the model developed in the training dataset, and $n_\textrm{test}$ is the number of new observations in the test dataset. 
+
+--
+
+- The smaller the MSE (whether in-sample or out-of-sample), the better. 
+
+--
+
+- However, because "small" can be relative depending on the scale of $y$, we often use MSEs when comparing different models (again, particularly when the goal is prediction). We will see this in the next class.
+
+
+---
+## Training and test data
+
+- Test data are important because of the problem of .hlight[overfitting].
+
+--
+
+- Overfitting arises when the model is working too hard to find the perfect predictions in the training data and is not broadly generalizable because it has been picking up some patterns that are just reflecting random error.
+
+--
+
+- We generally expect the test MSE to be somewhat larger than the training MSE because our model has been developed to minimize the training MSE.
+
+--
+
+- Overfitting refers to a situation in which a different model (generally a simpler one) fit to the training data would result in a smaller test MSE (indicating better out-of-sample prediction).
+
+--
+
+- We may be able to identify this problem when comparing the out-of-sample MSEs of different models (including the parsimonous models).
+
+--
+
+- Note that in small datasets, the random split of the data can have considerable impact on the results; out-of-sample MSEs can differ greatly depending on which random sample we take. 
 
 

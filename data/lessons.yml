@@ -22,7 +22,7 @@ lessons:
     slides: "lec-slides/03-reg-model-assess.html"
     
   - date: "Thur, Sept 5"
-    title: "Transformations, multicollinearity and heteroscedasticity (HW1 DUE!)"
+    title: "Interaction terms, transformations, multicollinearity and heteroscedasticity (HW1 DUE!)"
     hw: "New-hw-02.html"
     
   - date: "Fri, Sept 6"

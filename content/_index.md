@@ -9,6 +9,7 @@ In this course, you will learn the general work flow for building statistical mo
 
 Although this course emphasizes data analysis over rigorous mathematical theory, students who wish to explore the mathematical theory in more detail than what is covered in class are welcome to engage with and request further reading materials from the instructor outside of class.
 
+
 ### Learning Objectives
 
 By the end of this course, students should be able to
@@ -33,6 +34,7 @@ By the end of this course, students should be able to
 
 <font color="#6CA0DC"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; Every other Fri 10:00 - 11:20am
 
+
 ### Teaching Team and Office Hours 
 
 {.table .table-condensed .table-striped .text-left}
@@ -53,9 +55,26 @@ TAs               | [Azucena Morales](https://datascience.duke.edu/lidia-azu-azu
 
 _Lecture notes and slides, lab exercises and other reading resources will be posted on the course website. We will only loosely follow these textbooks._ 
 
+
 ### Materials
 
 You should have access to a laptop and bring it to every class, fully charged.
+
+
+### Important Dates
+
+{.table .table-condensed .table-striped .text-left}
+ <span></span>     | <span></span>
+-----------|---------------------------------
+Monday, September 2 | Labor day; classes in session
+Fri, September 6 | Drop/add ends
+Fri, October 4, 7:30pm | Fall break begins
+Wed, October 9, 8:30am | Fall break ends
+Mon, November 4, 11:59pm | Final project proposal due
+Tue, November 26, 10:30pm | Thanksgiving; graduate classes end
+Tue, December 3 | Final project presentations
+Thur, December 5 | Final project presentations
+
 
 ### Green Classroom
 
