@@ -112,12 +112,6 @@ Can you list the assumptions for MLR?
 ---
 ## Checking assumptions
 
-- .block[
-  Generally it is a good idea to start with exploratory data analysis (which we did a bit of in the last class) rather than jumping right into modeling.
-  ]
-
---
-
 - Checking all four assumptions usually requires examining the residuals after model fitting.
 
 --
@@ -591,7 +585,7 @@ When does a data point have high leverage? When is a data point influential? How
 
 --
 
-- For those very comfortable with linear algebra, the leverage score `\(h_{ii}\)` for record `\(i\)` is defined as the `\(i\)`th diagonal element of the projection or hat matrix.
+- For those very comfortable with linear algebra, the leverage score `\(h_{ii}\)` for record `\(i\)` is defined as the `\(i^\textrm{th}\)` diagonal element of the projection or hat matrix.
 .block[
 .small[
 `$$\boldsymbol{H} = \boldsymbol{X} \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T.$$`
@@ -622,6 +616,8 @@ When does a data point have high leverage? When is a data point influential? How
   - `\(\mathbb{Var}[e_i] = (1-h_{ii}) \sigma^2\)`.
   
   - High leverage points are often determined by paying attention to any observation for which `\(h_{ii} &gt; 2p/n\)`.
+  
+  - Points with `\(h_{ii}\)` close to 1 will thus tend to have more of an impact on model fit.
 
 
 ---
@@ -669,18 +665,14 @@ When does a data point have high leverage? When is a data point influential? How
 
 --
 
-- However, .hlight[Cook's distance] gives a formula for quantifying the influence of the `\(i\)`th observation, if it is removed from the sample. We have
+- However, .hlight[Cook's distance] gives a formula for quantifying the influence of the `\(i^\textrm{th}\)` observation, if it is removed from the sample. We have
 .block[
 .small[
 `$$D_i = \sum^n_{j=1} \dfrac{\left(\hat{y}_j - \hat{y}_{j(i)} \right)^2}{s_e^2(p+1)}$$`
 ]
 ]
 
-  where `\(\hat{y}_{j(i)}\)` is the predicted value after excluding the `\(i\)`th observation.
-
---
-
-- It turns out that `\(D_i\)` can also be expressed using the leverage score `\(h_{ii}\)`.
+  where `\(\hat{y}_{j(i)}\)` is the predicted value after excluding the `\(i^\textrm{th}\)` observation.
 
 
 ---
@@ -769,11 +761,11 @@ legitimate observations and dropping them is essentially cheating by changing th
 
 --
 
-- Like any normal distribution, we expect "some" large standardized values, e.g., 5% of standardized residuals should be outside (-2,2), but NOT a lot of them!
+- Values with large standardized residuals are not necessarily influential on the regression line. A point can be an outlier without impacting the line. We need to examine their Cook's distance to determine influence.
 
 --
 
-- Values with large standardized residuals are not necessarily influential on the regression line. A point can be an outlier without impacting the line. We need to examine their Cook's distance to determine influence.
+- It turns out that the Cook's distance `\(D_i\)` can also be expressed using the leverage score `\(h_{ii}\)` and square of the internally Studentized residuals.
 
 --
 
@@ -787,7 +779,7 @@ Can we try to identify (if any) outliers, high leverage points and influential p
 
 
 ```r
-plot(regwage,which=4)
+plot(regwagecsquares,which=4)
 ```
 
 &lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
@@ -802,7 +794,7 @@ Are there any high leverage points?
 
 
 ```r
-plot(regwage,which=5)
+plot(regwagecsquares,which=5)
 ```
 
 &lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
@@ -852,7 +844,7 @@ legitimate observations and dropping them is essentially cheating by changing th
 
 --
 
-- This value will be small when our predictions `\(\hat{y}_i\)` are close to the true `\(y_i\)`'s. 
+- This value will be small when our predictions `\(\hat{y}_i\)` are close to the true `\(y_i\)`'s. Some analysts and data scientists will often report the root mean squared error (RMSE) instead, which is simply the square root of MSE.
 
 --
 
@@ -915,11 +907,224 @@ legitimate observations and dropping them is essentially cheating by changing th
 
 --
 
-- We may be able to identify this problem when comparing the out-of-sample MSEs of different models (including the parsimonous models).
+- We may be able to identify this problem when comparing the out-of-sample MSEs of different models (including the parsimonious models).
 
 --
 
-- Note that in small datasets, the random split of the data can have considerable impact on the results; out-of-sample MSEs can differ greatly depending on which random sample we take.
+- Note that in small datasets, the random split of the data can have considerable impact on the results; out-of-sample MSEs can differ greatly depending on which random sample we take. 
+
+
+---
+## Training and test data
+
+Let's explore this concept using the last fitted regression. We will use three different random splits. For the first split, we have
+
+```r
+#set the seed to ensure we can replicate the same result
+set.seed(123)
+train_index &lt;- sample(nrow(wages),round(0.7*nrow(wages)),replace=F)
+train &lt;- wages[train_index,]
+test &lt;- wages[-train_index,]
+regwagecsquares_train &lt;- lm(bsal~sex+seniorc+agec+agec2+educc+experc+experc2,data=train)
+y_test_pred &lt;- predict(regwagecsquares_train,test)
+temp &lt;- cbind(test$bsal,y_test_pred);
+colnames(temp) &lt;- c("Truth","Predicted"); temp[1:5,]
+```
+
+```
+##    Truth Predicted
+## 1   5040  5705.432
+## 2   6300  6254.975
+## 3   6000  6376.807
+## 10  6900  6548.043
+## 11  6900  6103.975
+```
+
+```r
+testMSE &lt;- mean((test$bsal - y_test_pred)^2); testMSE
+```
+
+```
+## [1] 273782.4
+```
+
+```r
+sqrt(testMSE)
+```
+
+```
+## [1] 523.2422
+```
+
+
+---
+## Training and test data
+
+For the second split, we have
+
+```r
+#now change the seed
+set.seed(1234)
+train_index &lt;- sample(nrow(wages),round(0.7*nrow(wages)),replace=F)
+train &lt;- wages[train_index,]
+test &lt;- wages[-train_index,]
+regwagecsquares_train &lt;- lm(bsal~sex+seniorc+agec+agec2+educc+experc+experc2,data=train)
+y_test_pred &lt;- predict(regwagecsquares_train,test)
+temp &lt;- cbind(test$bsal,y_test_pred);
+colnames(temp) &lt;- c("Truth","Predicted"); temp[1:5,]
+```
+
+```
+##    Truth Predicted
+## 1   5040  5705.884
+## 7   8100  6390.656
+## 11  6900  6136.419
+## 12  5400  5795.275
+## 13  6000  6385.950
+```
+
+```r
+testMSE &lt;- mean((test$bsal - y_test_pred)^2); testMSE
+```
+
+```
+## [1] 328104.3
+```
+
+```r
+sqrt(testMSE)
+```
+
+```
+## [1] 572.8039
+```
+
+
+---
+## Training and test data
+
+For the final split, we have
+
+```r
+#now change the seed
+set.seed(12345)
+train_index &lt;- sample(nrow(wages),round(0.7*nrow(wages)),replace=F)
+train &lt;- wages[train_index,]
+test &lt;- wages[-train_index,]
+regwagecsquares_train &lt;- lm(bsal~sex+seniorc+agec+agec2+educc+experc+experc2,data=train)
+y_test_pred &lt;- predict(regwagecsquares_train,test)
+temp &lt;- cbind(test$bsal,y_test_pred);
+colnames(temp) &lt;- c("Truth","Predicted"); temp[1:5,]
+```
+
+```
+##    Truth Predicted
+## 4   6000  5354.919
+## 6   6840  5754.380
+## 8   6000  5672.324
+## 18  5280  4682.765
+## 21  5400  5008.557
+```
+
+```r
+testMSE &lt;- mean((test$bsal - y_test_pred)^2); testMSE
+```
+
+```
+## [1] 199045.4
+```
+
+```r
+sqrt(testMSE)
+```
+
+```
+## [1] 446.145
+```
+
+
+---
+## K-fold cross-validation
+
+- This train/test method of model validation is often referred to as .hlight[cross-validation]. In general, one can use other metrics instead of just the MSE.
+
+- .hlight[K-fold cross-validation] is a type of cross-validation that aims to address the issue of sensitivity of results to particular random data splits.
+
+--
+
+- Specifically, under `\(K\)`-fold cross-validation, split the data into `\(K\)` mutually-exclusive groups, called folds. 
+
+--
+
+- For the `\(k^{\textrm{th}}\)` fold, with `\(k=1,\ldots,K\)`, fit the model on all the remaining data excluding that `\(k^{\textrm{th}}\)` fold (that is, all the other folds combined) and use the `\(k^{\textrm{th}}\)` fold as the test or validation set.
+
+--
+
+- Repeat this `\(k\)` times, so that each fold has a turn as the validation set. Obtain the `\(\textrm{MSE}_\textrm{test}^{(k)}\)` for each `\(k\)`, and summarize the error using
+.block[
+.small[
+`$$\textrm{Avg.MSE} = \dfrac{1}{K} \sum_{k=1}^{K} \textrm{MSE}_\textrm{test}^{(k)}.$$`
+]
+]
+
+
+---
+## Leave-one-out cross-validation
+
+- A special case of .hlight[K-fold cross-validation] is the .hlight[Leave-one-out cross-validation], in which `\(K=n\)` (very computationally intensive except in special cases).
+
+--
+
+- Test error estimates using `\(k=5\)` or `\(k=10\)` have been shown to have good statistical properties, motivating these common choices.
+
+--
+
+- In the case of least squares, we can get an estimate of the average MSE from leave-one-out cross-validation using a simple formula (sadly, this does not hold in other models) based on the fit of only one model!
+
+--
+
+- The estimate is 
+.block[
+.small[
+`$$\textrm{Avg.MSE} = \dfrac{1}{n} \sum_{i=1}^{n} \left(\dfrac{y_i - \hat{y}_i}{1-h_{ii}} \right)^2.$$`
+]
+]
+
+  where `\(h_{ii}\)` is the leverage score of observation `\(i\)`. 
+  
+--
+
+  &lt;div class="question"&gt;
+How would high leverage points affect Avg.MSE in this case?
+&lt;/div&gt;
+
+
+---
+## Final notes
+
+- .block[
+  Generally it is a good idea to start with exploratory data analysis (which we did a bit of in the last class) rather than jumping right into modeling.
+  ]
+  
+--
+
+- After fitting your model, model assessment and validation is A MUST! 
+
+--
+
+- In this class and outside of it, you should always assess and validate your models!
+
+--
+
+- We will look at other metrics for validating models later in the class when we get to other models. 
+
+--
+
+- For example, the MSE may not be the best metric to look at when dealing with binary outcomes. Or can it still be useful? We will see!
+
+--
+
+- In the next class, we will start to explore methods for model selection and including interaction effects in MLRs.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

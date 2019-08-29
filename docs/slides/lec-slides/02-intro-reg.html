@@ -24,6 +24,11 @@ class: center, middle, inverse, title-slide
 
 
 
+## Housekeeping
+
+- Review the key to the conceptual questions.
+
+- Homework 1 is now online. Due date is 10:05am Thursday, Sept 5.
 
 ## Outline
 
@@ -228,7 +233,7 @@ Is a t.test sufficient here? Any concerns?
 
 How about fitting a simple linear regression to the two variables.
 .small[
-$$ \textrm{bsal}_i = \beta_0 + \beta_1 \textrm{sex}_i + \epsilon_i; \ \ \epsilon_i \sim N(0, \sigma^2).$$
+$$ \textrm{bsal}_i = \beta_0 + \beta_1 \textrm{sex}_i + \epsilon_i; \ \ \epsilon_i \overset{iid}{\sim} N(0, \sigma^2).$$
 ]
 
 ```r
@@ -269,7 +274,7 @@ What can we infer from these results?
 T-test shows men started at higher salaries than women `\((t=5.83, p &lt; .0001)\)`; same conclusion from the regression.
 ]
 
-- But, it **doesn't** control for other characteristics.
+- But one could argue this is so because both methods **do not** control for other characteristics. Indeed, we have ignored the other variables.
 
 - There are other variables that are correlated with .hlight[bsal]. Here's the correlation matrix of all numerical variables using the .hlight[corr] function in R.
 &lt;table class="table" style="font-size: 20px; margin-left: auto; margin-right: auto;"&gt;
@@ -346,7 +351,7 @@ T-test shows men started at higher salaries than women `\((t=5.83, p &lt; .0001)
 ---
 ## EDA
 
-- In fact, let's take a look at scatter plots of all variables
+- So, let's take a look at scatter plots of all variables
 
 - First, recall the description of all the variables.
 
@@ -379,6 +384,7 @@ pairs(wages[,!is.element(colnames(wages),c("sal77","sex","fsex"))])
 The plot looks a bit busy! Let's take a closer look one variable at a time. First, .hlight[bsal] vs. .hlight[senior].
 
 ```r
+#Load the lattice package
 xyplot(bsal~senior,groups=wages$sex,data=wages,xlab="Seniority",ylab="Base Salary",
        panel=function(x,y,...) {panel.xyplot(x,y,...)
          panel.abline(lm(y~x)) },
@@ -450,6 +456,12 @@ xyplot(bsal~exper,groups=wages$sex,data=wages,xlab="Experience",ylab="Base Salar
 
 - This brings us to multiple linear regression (which I'll henceforth refer to as MLR).
 
+--
+
+- .block[
+Something to keep in mind, the overall conclusion may not change after using a better model for this data. In general, this should never stop you from exploring and reporting the results from better models; you should always be rigorous when doing analyses and be honest when reporting the results!
+]
+
 
 ---
 class: center, middle
@@ -463,15 +475,16 @@ class: center, middle
 - Mathematically, MLR assumes the following distribution for a response variable `\(y_i\)` given multiple covariates/predictors `\(\boldsymbol{x}_i = (x_{i1}, x_{i2}, \ldots, x_{ip})\)`.
 .block[
 .small[
-`$$y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip} + \epsilon_i; \ \ \epsilon_i \sim N(0, \sigma^2).$$`
+`$$y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip} + \epsilon_i; \ \ \epsilon_i \overset{iid}{\sim} N(0, \sigma^2).$$`
 ]
 ]
 
 --
 
-- Another way to write this is:
+- We can also write the model as:
 .block[
 .small[
+`$$y_i \overset{iid}{\sim} N(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip}, \sigma^2).$$`
 `$$f(y_i | \boldsymbol{x}_i) = N(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip}, \sigma^2).$$`
 ]
 ]

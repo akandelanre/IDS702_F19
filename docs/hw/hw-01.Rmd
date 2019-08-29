@@ -14,7 +14,7 @@ output:
 
 ## Instructions
 
-This assignment involves linear regression with one predictor. The data can be found under the assignments tab (check the corresponding assignment item) on Sakai. Please type your solutions using R Markdown, LaTeX or any other word processor.
+This assignment involves linear regression with one predictor. The data can be found on Sakai: go to Resources $\rightarrow$ Homework Datasets $\rightarrow$ Methods and Data Analysis 1. Please type your solutions using R Markdown, LaTeX or any other word processor but be sure to knit or convert the final output file to ".pdf". Submissions should be made on gradescope: go to Assignments $\rightarrow$ Methods and Data Analysis 1.
 
 ## Questions
 

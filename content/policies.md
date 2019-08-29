@@ -35,7 +35,7 @@ Methods and data analysis assignments are posted on the course website. Students
 
 
 #### Lab Assignments
-The objective of the lab assignments is to give you more hands-on experience with data analysis using R. The labs times also gives you an additional platform to ask for help for your team and individual projects. Lab attendance is not mandatory on days when team presentations will not hold, however, each lab assignment should be submitted in timely fashion on the due date.
+The objective of the lab assignments is to give you more hands-on experience with data analysis using R. The labs times also gives you an additional platform to ask for help for your team and individual projects. Lab attendance is not mandatory on days when team presentations will not hold, however, each lab assignment should be submitted in timely fashion on the due date. You are REQUIRED to use R Markdown to type up your lab reports.
 
 #### Team Projects
 For the team projects, students work in teams to analyze data selected by the instructor. Students write a report with their data analysis findings. Students will have the opportunity to present their results in class. Detailed instructions will be made available later.

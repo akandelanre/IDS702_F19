@@ -144,7 +144,7 @@ ol>li:before {
 	counter-increment: li;
 	position: absolute;
 	color: #075767;
-	left: -0.5px;
+	left: -12px;
 	font-weight: normal;
 }
 

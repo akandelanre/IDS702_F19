@@ -271,7 +271,7 @@ Lab Assignments | 10%
 
 --
 
-- Assignments should be turned in using a typesetting system such as LaTeX or R Markdown.
+- The assignments must be typed up using R Markdown, LaTeX or another word processor, and submitted on [Gradescope](https://www.gradescope.com/courses/57701/assignments) under Assignments.
 
 
 
@@ -288,6 +288,10 @@ Lab Assignments | 10%
 --
 
 - Attendance is not mandatory, however, each lab assignment should be submitted in timely fashion on the due date.
+
+--
+
+- You are REQUIRED to use R Markdown to type up your lab reports.
 
 
 
@@ -391,7 +395,7 @@ Lab Assignments | 10%
 
 
 ---
-## Other information
+## Final Notes
 
 - Make use of the teaching team's office hours, we're here to help!
 
@@ -417,11 +421,7 @@ Lab Assignments | 10%
 
 - Split into groups of fours: just find the three closest students to you.
 
-- Open the in-class assessment for today on the website (check under HW).
+- Open the assessment key. On the website, just go back to the class schedule, refresh the page, and click the same HW link. 
 
-- Discuss the questions and document your responses in 15 minutes.
-
-- Now open the assessment key. On the website, just go back to the class schedule, refresh the page, and click the same HW link. 
-
-- Discuss the responses in 10 minutes. Which questions did you get wrong and why?
+- Discuss the responses for in 10 minutes. Which questions did you get wrong and why?
 
