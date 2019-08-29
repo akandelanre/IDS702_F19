@@ -27,7 +27,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ## Introduction
 
-The purpose of this lab is to give you more practice working with linear regression with multiple predictors. You will also write your own code for doing k-fold cross validation. The lab is based on the following Kaggle beer cosumption dataset: [https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/](https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/)
+The purpose of this lab is to give you more practice working with linear regression with multiple predictors. You will also write your own code for doing k-fold cross validation. The lab is based on the Kaggle beer cosumption dataset found [here](https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/). Kaggle is a great online community of data scientists. To learn more about Kaggle, [follow this link](https://www.kaggle.com/getting-started/44916).
 
 In this lab you will demonstrate the impacts of variables on beer consumption in a given region and the consumption forecast for certain scenarios. The data (sample) were collected in São Paulo, Brazil, in a university area, where there are some parties with groups of students from 18 to 28 years of age (average).
    
