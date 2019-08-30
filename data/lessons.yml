@@ -23,7 +23,6 @@ lessons:
     
   - date: "Thur, Sept 5"
     title: "Interaction terms, transformations, multicollinearity and heteroscedasticity (HW1 DUE!)"
-    hw: "New-hw-02.html"
     
   - date: "Fri, Sept 6"
     title: "Lab 1: multiple linear regression"
@@ -33,9 +32,10 @@ lessons:
   
   - date: "Tue, Sept 10"
     title: "Model building and selection"
+    hw: "New-hw-02.html"
     
   - date: "Thur, Sept 12"
-    title: "Case studies 1 (HW2 DUE!)"
+    title: "Case studies 1"
     
   - title: "Final project outline"
     project: "final-project.html"
@@ -45,11 +45,11 @@ lessons:
   - title: "WEEK 4"
   
   - date: "Tue, Sept 17"
-    title: "Introduction to logistic regression"
-    hw: "New-hw-03.html"
+    title: "Introduction to logistic regression (HW2 DUE!)"
     
   - date: "Thur, Sept 19"
     title: "Logistic regression: inference vs prediction"
+    hw: "New-hw-03.html"
     
   - date: "Fri, Sept 20"
     title: "Lab 2: "
@@ -57,11 +57,11 @@ lessons:
   - title: "WEEK 5"
   
   - date: "Tue, Sept 24"
-    title: "Logistic regression: model assessment and validation (HW3 DUE!)"
+    title: "Logistic regression: model assessment and validation"
     project: "team-project-01.html"
     
   - date: "Thur, Sept 26"
-    title: "Multinomial logistic regression"
+    title: "Multinomial logistic regression (HW3 DUE!)"
     
   - title: "WEEK 6"
   
@@ -127,7 +127,6 @@ lessons:
   
   - date: "Tue, Nov 5"
     title: "Association vs. causation; confounding (HW4 DUE!)"
-    hw: "New-hw-05.html"
     
   - date: "Thur, Nov 7"
     title: "The potential outcomes framework: introduction, assumptions and estimands"
@@ -136,9 +135,10 @@ lessons:
   
   - date: "Tue, Nov 12"
     title: "Completely randomized experiments: model-based approach"
+    hw: "New-hw-05.html"
     
   - date: "Thur, Nov 14"
-    title: "Observational studies: matching, weighting, regression, and propensity scores methods (HW5 DUE!)"
+    title: "Observational studies: matching, weighting, regression, and propensity scores methods"
     
   - date: "Fri, Nov 15"
     title: "Lab 6: comparing different causal inference methods"
@@ -148,7 +148,7 @@ lessons:
   - title: "WEEK 13"
   
   - date: "Tue, Nov 19"
-    title: "Time series models I"
+    title: "Time series models I (HW5 DUE!)"
     
   - date: "Thur, Nov 21"
     title: "Time series models II"
