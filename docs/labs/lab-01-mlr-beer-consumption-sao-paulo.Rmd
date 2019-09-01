@@ -95,6 +95,7 @@ You MUST submit both your .Rmd and .pdf files to the course site on Gradescope h
 <!-- Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well. -->
 
 
+
 # The Data
 
 Download the data (named `consumo_cerveja.csv`) from Sakai and save it locally to the same directory as your R markdown file. To find the data file on Sakai, go to Resources $\rightarrow$ Datasets $\rightarrow$ Lab Datasets $\rightarrow$ Lab 1. Once you have downloaded the data file into the SAME folder as your R markdown file, load and clean the data by using the following R code.
@@ -127,6 +128,7 @@ temp_max_c | Maximum temperature in $^0C$.
 precip_mm  | Precipitation in $mm$.
 weekend | Indicator variable for weekend: 1 = weekend, 0 = weekday.
 beer_cons_liters | Beer consumption in liters.
+
 
 
 # Exercises
