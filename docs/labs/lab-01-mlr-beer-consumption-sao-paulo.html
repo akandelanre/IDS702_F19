@@ -477,24 +477,22 @@ background-color: #bf4f22;
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#housekeeping">Housekeeping</a><ul>
 <li><a href="#rrstudio">R/RStudio</a></li>
-<li><a href="#r-markdown">R markdown</a></li>
+<li><a href="#r-markdown">R Markdown</a></li>
+<li><a href="#gradescope">Gradescope</a></li>
 </ul></li>
-<li><a href="#the-data">The data</a></li>
-<li><a href="#exercises">Exercises</a><ul>
-<li><a href="#part-1-simple-linear-regression">Part 1: Simple linear regression</a></li>
-<li><a href="#part-2-multiple-linear-regression">Part 2: Multiple linear regression</a></li>
-<li><a href="#part-5-the-search-for-the-best-model">Part 5: The search for the best model</a><ul>
+<li><a href="#the-data">The Data</a></li>
+<li><a href="#exercises">Exercises</a></li>
+<li><a href="#grading">Grading</a></li>
 <li><a href="#acknowledgement">Acknowledgement</a></li>
-</ul></li>
-</ul></li>
 </ul>
 </div>
 
 <p><strong>Due:</strong> 6:00pm, Sept 6, 2019</p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>The purpose of this lab is to give you additional practice working with multiple linear regression. You will also write your own code for doing k-fold cross validation. The lab is based on the Kaggle beer cosumption dataset found here: <a href="https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/" class="uri">https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/</a>. Kaggle is a great online community of data scientists. To learn more about Kaggle, follow this link: <a href="https://www.kaggle.com/getting-started/44916" class="uri">https://www.kaggle.com/getting-started/44916</a>.</p>
-<p>In this lab you will demonstrate the impacts of variables on beer consumption in a given region and the consumption forecast for certain scenarios. The data (sample) were collected in São Paulo, Brazil, in a university area, where there are some parties with groups of students from 18 to 28 years of age (average).</p>
+<p>The purpose of this lab is to give you additional practice working with multiple linear regression. You will also write your own code for doing <span class="math inline">\(k\)</span>-fold cross validation. The lab is based on the Kaggle beer consumption dataset found here: <a href="https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/" class="uri">https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/</a>. Read more about the problem and dataset under the description section of the link.</p>
+<p>Kaggle is a great online community of data scientists. To learn more about Kaggle, follow this link: <a href="https://www.kaggle.com/getting-started/44916" class="uri">https://www.kaggle.com/getting-started/44916</a>.</p>
+<p>In this lab you will demonstrate the impacts of variables on beer consumption in a given region and the consumption forecast for certain scenarios. The data (sample) were collected in Sao Paulo, Brazil, in a university area, where there are some parties with groups of students from 18 to 28 years of age (average).</p>
 <!-- # Packages -->
 <!-- In this lab we will work with the `tidyverse` and `broom` packages. We can install and load them with the following: -->
 <!-- ```{marginfigure} -->
@@ -513,8 +511,12 @@ background-color: #bf4f22;
 <p>You all should have R and RStudio installed on your computers by now. If you do not, first install the latest version of R here: <a href="https://cran.rstudio.com" class="uri">https://cran.rstudio.com</a> (remember to select the right installer for your operating system). Next, install the latest version of RStudio here: <a href="https://www.rstudio.com/products/rstudio/download/" class="uri">https://www.rstudio.com/products/rstudio/download/</a>. Scroll down to the “Installers for Supported Platforms” section and find the right installer for your operating system.</p>
 </div>
 <div id="r-markdown" class="section level2">
-<h2>R markdown</h2>
-<p>You are required to use R Markdown to type up this lab report. For a very (very!) basic R Markdown template, use this link: <a href="https://akandelanre.github.io/IDS702_F19/labs/resources/LabReport.Rmd" class="uri">https://akandelanre.github.io/IDS702_F19/labs/resources/LabReport.Rmd</a></p>
+<h2>R Markdown</h2>
+<p>You are required to use R Markdown to type up this lab report. If you do not already know how to use R markdown, here is a very (very!) basic R Markdown template: <a href="https://akandelanre.github.io/IDS702_F19/labs/resources/LabReport.Rmd" class="uri">https://akandelanre.github.io/IDS702_F19/labs/resources/LabReport.Rmd</a>. Refer to the resources tab of the course website (here: <a href="https://akandelanre.github.io/IDS702_F19/resources/" class="uri">https://akandelanre.github.io/IDS702_F19/resources/</a>) for links to help you learn how to use R markdown.</p>
+</div>
+<div id="gradescope" class="section level2">
+<h2>Gradescope</h2>
+<p>You MUST submit both your .Rmd and .pdf files to the course site on Gradescope here: <a href="https://www.gradescope.com/courses/57701/assignments" class="uri">https://www.gradescope.com/courses/57701/assignments</a>. Make sure to knit to pdf and not html; ask the TA about knitting to pdf if you cannot figure it out. Be sure to submit under the right assignment entry.</p>
 <!-- ## Create a GitHub account -->
 <!-- Everyone should have a GitHub account by now. You won't need to use version control for this lab but you will need it for the team projects so you might as well create an account now. It is quite easy to use git/GitHub within RStudio If you have a GitHub account, skip the rest of this section.  -->
 <!-- If you do not yet have a GitHub account, create one at https://github.com/. Try to incorporate your actual name and pick a name you will be comfortable revealing to your future boss! -->
@@ -533,13 +535,8 @@ background-color: #bf4f22;
 </div>
 </div>
 <div id="the-data" class="section level1">
-<h1>The data</h1>
-<p>In this lab you will first download the data, then save it to the same directory as your R markdown file.</p>
-<ul>
-<li>Click <a href="http://www2.stat.duke.edu/courses/Spring18/Sta199/labs/data/evals-mod.csv">here</a> to download the data. The file is called <code>evals-mod.csv</code>.</li>
-<li>Navigate to the data folder in your project and upload the <code>evals-mod.csv</code> file.</li>
-</ul>
-<p>Load and clean the data by using the following R code.</p>
+<h1>The Data</h1>
+<p>Download the data (named <code>consumo_cerveja.csv</code>) from Sakai and save it locally to the same directory as your R markdown file. To find the data file on Sakai, go to Resources <span class="math inline">\(\rightarrow\)</span> Datasets <span class="math inline">\(\rightarrow\)</span> Lab Datasets <span class="math inline">\(\rightarrow\)</span> Lab 1. Once you have downloaded the data file into the SAME folder as your R markdown file, load and clean the data by using the following R code.</p>
 <p><label for="tufte-mn-1" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-1" class="margin-toggle"><span class="marginnote"><span style="display: block;">It is always a good idea to take a look at the first few rows of the raw file to see what the data looks like before loading the data. In this raw ‘consumo_cerveja’ file, you will notice that commas are actually used both as decimals and to separate the columns. Thus, you need to let R know by specifying the <em>sep</em> and <em>dec</em> options as in the code.</span></span></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">beer &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;consumo_cerveja.csv&quot;</span>,<span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>,<span class="dt">dec=</span><span class="st">&quot;,&quot;</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># rename the variables</span></a>
@@ -551,58 +548,69 @@ background-color: #bf4f22;
 <a class="sourceLine" id="cb1-8" data-line-number="8">beer<span class="op">$</span>weekend &lt;-<span class="st"> </span><span class="kw">factor</span>(beer<span class="op">$</span>Final.de.Semana)</a>
 <a class="sourceLine" id="cb1-9" data-line-number="9">beer<span class="op">$</span>beer_cons_liters &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(beer<span class="op">$</span>Consumo.de.cerveja..litros.)</a>
 <a class="sourceLine" id="cb1-10" data-line-number="10">beer &lt;-<span class="st"> </span>beer[ , <span class="dv">8</span><span class="op">:</span><span class="kw">ncol</span>(beer)]</a></code></pre></div>
-<p>After renaming the variables using the code above,</p>
+<p>After renaming the variables using the code above, your data will be saved in the object <code>beer</code>, and the relevant variables plus their meanings are given in the table below:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">date</td>
+<td align="left">Date the data for each observation was recorded.</td>
+</tr>
+<tr class="even">
+<td align="left">temp_median_c</td>
+<td align="left">Median temperature in <span class="math inline">\(^0C\)</span>.</td>
+</tr>
+<tr class="odd">
+<td align="left">temp_min_c</td>
+<td align="left">Minimum temperature in <span class="math inline">\(^0C\)</span>.</td>
+</tr>
+<tr class="even">
+<td align="left">temp_max_c</td>
+<td align="left">Maximum temperature in <span class="math inline">\(^0C\)</span>.</td>
+</tr>
+<tr class="odd">
+<td align="left">precip_mm</td>
+<td align="left">Precipitation in <span class="math inline">\(mm\)</span>.</td>
+</tr>
+<tr class="even">
+<td align="left">weekend</td>
+<td align="left">Indicator variable for weekend: 1 = weekend, 0 = weekday.</td>
+</tr>
+<tr class="odd">
+<td align="left">beer_cons_liters</td>
+<td align="left">Beer consumption in liters.</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
 <p>Treat the variable <code>beer_cons_liters</code> as your response variable and the other variables as potential predictors.</p>
 <ol style="list-style-type: decimal">
-<li><p>Make a histogram of <code>beer_cons_liters</code>. Describe the distribution. Does it look normal or skewed? Will the normality assumption be a plausible one here?</p></li>
-<li><p>Make exploratory plots of <code>beer_cons_liters</code> versus each potential predictor. Are all the relationships linear? If any one of them is nonlinear, describe the distribution.</p></li>
-<li><p>Fit a linear model using <code>weekend</code>, <code>precip_mm</code>, and <code>temp_median_c</code> as your predictors. Interpret your results. Which of the variables would is the best covariate for predicting beer consumption?</p></li>
-<li><p>Compute the in-sample RMSE for model in question 3.</p></li>
-<li><p>Write a code for doing k-fold cross validation. Let <span class="math inline">\(k=10\)</span> and use average RMSE as the metric for quantifying predictive error. What is the average RMSE for the model in question 3 above?</p></li>
+<li><p>Make a histogram of <code>beer_cons_liters</code>. Describe the distribution. Is the normality assumption a plausible one here? If you think the histogram does not look normal enough, make a histogram of <code>log(beer_cons_liters)</code>. Does that look more “normal” than <code>beer_cons_liters</code>? If no, use <code>beer_cons_liters</code> as your response variable for the remaining questions. If yes, use <code>log(beer_cons_liters)</code> as your response variable instead for the remaining questions.</p></li>
+<li><p>Make exploratory plots of <code>beer_cons_liters</code> (or <code>log(beer_cons_liters)</code>) versus each potential predictor. Are all the relationships linear? If any one of them is nonlinear, describe the distribution.</p></li>
+<li><p>Does it make sense to include all three of <code>temp_median_c</code>, <code>temp_min_c</code> and <code>temp_max_c</code> as predictors in a MLR model for predicting <code>beer_cons_liters</code> (or <code>log(beer_cons_liters)</code>)? Justify your response in one or two sentences.</p></li>
+<li><p>Fit a linear model for <code>beer_cons_liters</code> (or <code>log(beer_cons_liters)</code>) using <code>weekend</code>, <code>precip_mm</code>, and <code>temp_median_c</code> as your predictors. Interpret all the parameters of the fitted regression model in context of the data. What percent of the variability in <code>beer_cons_liters</code> (or <code>log(beer_cons_liters)</code>) is explained by your model?</p></li>
+<li><p>Which of the variables appears to be the best covariate for explaining or predicting beer consumption? Why?</p></li>
+<li><p>Are there any potential limitations of the model you have fit? If yes, what are two potential limitations?</p></li>
+<li><p>Compute the in-sample root mean squared error (RMSE) for the regression model in question 4. Refer back to the class notes for details on how to compute in-sample (or within-sample) RMSE.</p></li>
+<li><p>Write a code for doing <span class="math inline">\(k\)</span>-fold cross validation. Refer back to the class notes for details on <span class="math inline">\(k\)</span>-fold cross validation. Let <span class="math inline">\(k=10\)</span> and use average RMSE as the metric for quantifying predictive error. What is the average RMSE for the model in question 4 above?</p></li>
 <li><p>Fit another model that includes interactions between <code>weekend</code> and the other two predictors. Are the interaction terms significant?</p></li>
-<li><p>Use your code for the k-fold cross validation to compute the average RMSE for this new model in question 6. Is the new RMSE model lower or higher? What can you infer from that?</p></li>
-</ol>
-<div id="part-1-simple-linear-regression" class="section level2">
-<h2>Part 1: Simple linear regression</h2>
-<ol start="2" style="list-style-type: decimal">
-<li>Fit a linear model (one you have fit before): <code>m_bty</code>, predicting average professor evaluation <code>score</code> based on average beauty rating (<code>bty_avg</code>) only. Write the linear model, and note the <span class="math inline">\(R^2\)</span> and the adjusted <span class="math inline">\(R^2\)</span>.</li>
+<li><p>Use your code for the k-fold cross validation to compute the average RMSE for the new model in question 9. Is the new RMSE model lower or higher? What can you infer from that?</p></li>
 </ol>
 </div>
-<div id="part-2-multiple-linear-regression" class="section level2">
-<h2>Part 2: Multiple linear regression</h2>
-<ol start="2" style="list-style-type: decimal">
-<li><p>Fit a linear model (one you have fit before): <code>m_bty_gen</code>, predicting average professor evaluation <code>score</code> based on average beauty rating (<code>bty_avg</code>) and <code>gender</code>. Write the linear model, and note the <span class="math inline">\(R^2\)</span> and the adjusted <span class="math inline">\(R^2\)</span>.</p></li>
-<li><p>Interpret the slope and intercept of <code>m_bty_gen</code> in context of the data.</p></li>
-<li><p>What percent of the variability in <code>score</code> is explained by the model <code>m_bty_gen</code>.</p></li>
-<li><p>What is the equation of the line corresponding to <em>just</em> male professors?</p></li>
-<li><p>For two professors who received the same beauty rating, which gender tends to have the higher course evaluation score?</p></li>
-<li><p>How does the relationship between beauty and evaluation score vary between male and female professors?</p></li>
-<li><p>How do the adjusted <span class="math inline">\(R^2\)</span> values of <code>m_bty_gen</code> and <code>m_bty</code> compare? What does this tell us about how useful <code>gender</code> is in explaining the variability in evaluation scores when we already have information on the beaty score of the professor.</p></li>
-<li><p>Compare the slopes of <code>bty_avg</code> under the two models (<code>m_bty</code> and <code>m_bty_gen</code>). Has the addition of <code>gender</code> to the model changed the parameter estimate (slope) for <code>bty_avg</code>?</p></li>
-<li><p>Create a new model called <code>m_bty_rank</code> with <code>gender</code> removed and <code>rank</code> added in. Write the equation of the linear model and interpret the slopes and intercept in context of the data.</p></li>
-</ol>
+<div id="grading" class="section level1">
+<h1>Grading</h1>
+<p>10 points: 1 point for each question</p>
 </div>
-<div id="part-5-the-search-for-the-best-model" class="section level2">
-<h2>Part 5: The search for the best model</h2>
-<p>Going forward, only consider the following variables as potential predictors: <code>rank</code>, <code>ethnicity</code>, <code>gender</code>, <code>language</code>, <code>age</code>, <code>cls_perc_eval</code>, <code>cls_did_eval</code>, <code>cls_students</code>, <code>cls_level</code>, <code>cls_profs</code>, <code>cls_credits</code>, <code>bty_avg</code>.</p>
-<ol start="11" style="list-style-type: decimal">
-<li><p>Which variable, on its own, would you expect to be the worst predictor of evaluation scores? Why? <em>Hint:</em> Think about which variable would you expect to not have any association with the professor’s score.</p></li>
-<li><p>Check your suspicions from the previous exercise. Include the model output for that variable in your response.</p></li>
-<li><p>Suppose you wanted to fit a full model with the variables listed above. If you are already going to include <code>cls_perc_eval</code> and <code>cls_students</code>, which variable should you not include as an additional predictor? Why?</p></li>
-<li><p>Fit a full model with all predictors listed above (except for the one you decided to exclude) in the previous question.</p></li>
-<li><p>Using backward-selection with adjusted R-squared as the selection criterion, determine the <em>best</em> model. You do not need to show all steps in your answer, just the output for the final model. Also, write out the linear model for predicting score based on the final model you settle on.</p></li>
-<li><p>Interpret the slopes of one numerical and one categorical predictor based on your final model.</p></li>
-<li><p>Based on your final model, describe the characteristics of a professor and course at University of Texas at Austin that would be associated with a high evaluation score.</p></li>
-<li><p>Would you be comfortable generalizing your conclusions to apply to professors generally (at any university)? Why or why not?</p></li>
-</ol>
-<div id="acknowledgement" class="section level3">
-<h3>Acknowledgement</h3>
-<p>This lab includes ideas proposed by <a href="https://stat.duke.edu/people/sam-voisin">Sam Voisin</a>.</p>
-</div>
-</div>
+<div id="acknowledgement" class="section level1">
+<h1>Acknowledgement</h1>
+<p>This lab is based on ideas proposed by <a href="https://stat.duke.edu/people/sam-voisin">Sam Voisin</a>.</p>
 </div>
 
 

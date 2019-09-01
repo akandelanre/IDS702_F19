@@ -29,9 +29,11 @@ knitr::opts_chunk$set(eval = FALSE)
 
 # Introduction
 
-The purpose of this lab is to give you additional practice working with multiple linear regression. You will also write your own code for doing k-fold cross validation. The lab is based on the Kaggle beer cosumption dataset found here:  https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/. Kaggle is a great online community of data scientists. To learn more about Kaggle, follow this link: https://www.kaggle.com/getting-started/44916.
+The purpose of this lab is to give you additional practice working with multiple linear regression. You will also write your own code for doing $k$-fold cross validation. The lab is based on the Kaggle beer consumption dataset found here:  https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/. Read more about the problem and dataset under the description section of the link.
 
-In this lab you will demonstrate the impacts of variables on beer consumption in a given region and the consumption forecast for certain scenarios. The data (sample) were collected in São Paulo, Brazil, in a university area, where there are some parties with groups of students from 18 to 28 years of age (average).
+Kaggle is a great online community of data scientists. To learn more about Kaggle, follow this link: https://www.kaggle.com/getting-started/44916.
+
+In this lab you will demonstrate the impacts of variables on beer consumption in a given region and the consumption forecast for certain scenarios. The data (sample) were collected in Sao Paulo, Brazil, in a university area, where there are some parties with groups of students from 18 to 28 years of age (average).
    
 <!-- # Packages -->
 
@@ -55,9 +57,13 @@ In this lab you will demonstrate the impacts of variables on beer consumption in
 
 You all should have R and RStudio installed on your computers by now. If you do not, first install the latest version of R here: https://cran.rstudio.com (remember to select the right installer for your operating system). Next, install the latest version of RStudio here: https://www.rstudio.com/products/rstudio/download/. Scroll down to the "Installers for Supported Platforms" section and find the right installer for your operating system.
 
-## R markdown
+## R Markdown
 
-You are required to use R Markdown to type up this lab report. For a very (very!) basic R Markdown template, use this link: https://akandelanre.github.io/IDS702_F19/labs/resources/LabReport.Rmd
+You are required to use R Markdown to type up this lab report. If you do not already know how to use R markdown, here is a very (very!) basic R Markdown template: https://akandelanre.github.io/IDS702_F19/labs/resources/LabReport.Rmd. Refer to the resources tab of the course website (here: https://akandelanre.github.io/IDS702_F19/resources/) for links to help you learn how to use R markdown. 
+
+## Gradescope
+
+You MUST submit both your .Rmd and .pdf files to the course site on Gradescope here: https://www.gradescope.com/courses/57701/assignments. Make sure to knit to pdf and not html; ask the TA about knitting to pdf if you cannot figure it out. Be sure to submit under the right assignment entry.
 
 <!-- ## Create a GitHub account -->
 
@@ -89,14 +95,9 @@ You are required to use R Markdown to type up this lab report. For a very (very!
 <!-- Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well. -->
 
 
-# The data
+# The Data
 
-In this lab you will first download the data, then save it to the same directory as your R markdown file.
-
-- Click [here](http://www2.stat.duke.edu/courses/Spring18/Sta199/labs/data/evals-mod.csv) to download the data. The file is called `evals-mod.csv`.
-- Navigate to the data folder in your project and upload the `evals-mod.csv` file.
-
-Load and clean the data by using the following R code.
+Download the data (named `consumo_cerveja.csv`) from Sakai and save it locally to the same directory as your R markdown file. To find the data file on Sakai, go to Resources $\rightarrow$ Datasets $\rightarrow$ Lab Datasets $\rightarrow$ Lab 1. Once you have downloaded the data file into the SAME folder as your R markdown file, load and clean the data by using the following R code.
 
 ```{marginfigure}
 It is always a good idea to take a look at the first few rows of the raw file to see what the data looks like before loading the data. In this raw 'consumo_cerveja' file, you will notice that commas are actually used both as decimals and to separate the columns. Thus, you need to let R know by specifying the *sep* and *dec* options as in the code.
@@ -115,101 +116,52 @@ beer$beer_cons_liters <- as.numeric(beer$Consumo.de.cerveja..litros.)
 beer <- beer[ , 8:ncol(beer)]
 ```
 
-After renaming the variables using the code above, 
+After renaming the variables using the code above, your data will be saved in the object `beer`, and the relevant variables plus their meanings are given in the table below:
+
+Variable    | Description
+:------------- | :------------ 
+date | Date the data for each observation was recorded.
+temp_median_c | Median temperature in $^0C$.
+temp_min_c | Minimum temperature in $^0C$.
+temp_max_c | Maximum temperature in $^0C$.
+precip_mm  | Precipitation in $mm$.
+weekend | Indicator variable for weekend: 1 = weekend, 0 = weekday.
+beer_cons_liters | Beer consumption in liters.
+
 
 # Exercises
 
 Treat the variable `beer_cons_liters` as your response variable and the other variables as potential predictors.
 
-1. Make a histogram of `beer_cons_liters`. Describe the distribution. Does it look normal or skewed? Will the normality assumption be a plausible one here?
+1. Make a histogram of `beer_cons_liters`. Describe the distribution. Is the normality assumption a plausible one here? If you think the histogram does not look normal enough, make a histogram of `log(beer_cons_liters)`. Does that look more "normal" than `beer_cons_liters`? If no, use `beer_cons_liters` as your response variable for the remaining questions. If yes, use `log(beer_cons_liters)` as your response variable instead for the remaining questions.
 
-2. Make exploratory plots of `beer_cons_liters` versus each potential predictor. Are all the relationships linear? If any one of them is nonlinear, describe the distribution.
+2. Make exploratory plots of `beer_cons_liters` (or `log(beer_cons_liters)`) versus each potential predictor. Are all the relationships linear? If any one of them is nonlinear, describe the distribution.
 
-3. Fit a linear model using `weekend`, `precip_mm`, and `temp_median_c` as your predictors. Interpret your results. Which of the variables would is the best covariate for predicting beer consumption?
+3. Does it make sense to include all three of `temp_median_c`, `temp_min_c` and `temp_max_c` as predictors in a MLR model for predicting `beer_cons_liters` (or `log(beer_cons_liters)`)? Justify your response in one or two sentences.
 
-4. Compute the in-sample RMSE for model in question 3.
+4. Fit a linear model for `beer_cons_liters` (or `log(beer_cons_liters)`) using `weekend`, `precip_mm`, and `temp_median_c` as your predictors. Interpret all the parameters of the fitted regression model in context of the data. What percent of the variability in `beer_cons_liters` (or `log(beer_cons_liters)`) is explained by your model?
 
-5. Write a code for doing k-fold cross validation. Let $k=10$ and use average RMSE as the metric for quantifying predictive error. What is the average RMSE for the model in question 3 above?
+5. Which of the variables appears to be the best covariate for explaining or predicting beer consumption? Why?
 
-6. Fit another model that includes interactions between `weekend` and the other two predictors. Are the interaction terms significant?
+6. Are there any potential limitations of the model you have fit? If yes, what are two potential limitations?
 
-7. Use your code for the k-fold cross validation to compute the average RMSE for this new model in question 6. Is the new RMSE model lower or higher? What can you infer from that?
+7. Compute the in-sample root mean squared error (RMSE) for the regression model in question 4. Refer back to the class notes for details on how to compute in-sample (or within-sample) RMSE.
+
+8. Write a code for doing $k$-fold cross validation. Refer back to the class notes for details on $k$-fold cross validation. Let $k=10$ and use average RMSE as the metric for quantifying predictive error. What is the average RMSE for the model in question 4 above?
+
+9. Fit another model that includes interactions between `weekend` and the other two predictors. Are the interaction terms significant?
+
+10. Use your code for the k-fold cross validation to compute the average RMSE for the new model in question 9. Is the new RMSE model lower or higher? What can you infer from that?
 
 
 
+# Grading
 
-## Part 1: Simple linear regression
+10 points: 1 point for each question
 
-2. Fit a linear model (one you have fit before): `m_bty`, predicting average
-   professor evaluation `score` based on average beauty rating (`bty_avg`) only. Write the 
-   linear model, and note the $R^2$ and the adjusted $R^2$.
 
-## Part 2: Multiple linear regression
 
-2. Fit a linear model (one you have fit before): `m_bty_gen`, predicting average
-   professor evaluation `score` based on average beauty rating (`bty_avg`) and `gender`. 
-   Write the linear model, and note the $R^2$ and the adjusted $R^2$.
-   
-3. Interpret the slope and intercept of `m_bty_gen` in context of the data.
+# Acknowledgement
 
-4. What percent of the variability in `score` is explained by the model `m_bty_gen`.
-
-5.  What is the equation of the line corresponding to *just* male professors?
-    
-6.  For two professors who received the same beauty rating, which gender tends 
-    to have the higher course evaluation score?
-    
-7. How does the relationship between beauty and evaluation score
-    vary between male and female professors?
-    
-8. How do the adjusted $R^2$ values of `m_bty_gen` and `m_bty` compare? What does this tell us 
-   about how useful `gender` is in explaining the variability in evaluation scores when we 
-   already have information on the beaty score of the professor.
-
-9. Compare the slopes of `bty_avg` under the two models (`m_bty` and `m_bty_gen`). Has the 
-   addition of `gender` to the model changed the parameter estimate (slope) for `bty_avg`?
-    
-10. Create a new model called `m_bty_rank` with `gender` removed and `rank` 
-    added in. Write the equation of the linear model and interpret the slopes and intercept 
-    in context of the data. 
-
-## Part 5: The search for the best model
-
-Going forward, only consider the following variables as potential predictors: `rank`, 
-`ethnicity`, `gender`, `language`, `age`, `cls_perc_eval`, `cls_did_eval`, `cls_students`, 
-`cls_level`, `cls_profs`, `cls_credits`, `bty_avg`.
-
-11. Which variable, on its own, would you expect to be the worst predictor of 
-    evaluation scores? Why? *Hint:* Think about which variable would you 
-    expect to not have any association with the professor's score.
-
-12. Check your suspicions from the previous exercise. Include the model output
-    for that variable in your response.
-    
-13. Suppose you wanted to fit a full model with the variables listed above. If 
-    you are already going to include `cls_perc_eval` and `cls_students`, which variable 
-    should you not include as an additional predictor? Why?
-
-14. Fit a full model with all predictors listed above (except for the one you decided to 
-    exclude) in the previous question.
-
-15. Using backward-selection with adjusted R-squared as the selection 
-    criterion, determine the *best* model. You do not need to show all 
-    steps in your answer, just the output for the final model. Also, 
-    write out the linear model for predicting score based on the final 
-    model you settle on.
-
-16. Interpret the slopes of one numerical and one categorical predictor based on your final model.
-
-16. Based on your final model, describe the characteristics of a professor and 
-    course at University of Texas at Austin that would be associated with a high
-    evaluation score.
-
-17. Would you be comfortable generalizing your conclusions to apply to professors
-    generally (at any university)? Why or why not?
-    
-    
-### Acknowledgement
-
-This lab includes ideas proposed by [Sam Voisin](https://stat.duke.edu/people/sam-voisin).
+This lab is based on ideas proposed by [Sam Voisin](https://stat.duke.edu/people/sam-voisin).
     

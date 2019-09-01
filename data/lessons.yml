@@ -26,7 +26,7 @@ lessons:
     
   - date: "Fri, Sept 6"
     title: "Lab 1: multiple linear regression"
-    #lab: "lab-01-mlr-beer-consumption-sao-paulo.html"
+    lab: "lab-01-mlr-beer-consumption-sao-paulo.html"
     
   - title: "WEEK 3"
   

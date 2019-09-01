@@ -12,7 +12,10 @@ output:
 ```{r setup, include=FALSE}
 # DO NOT ALTER CODE IN THIS CHUNK
 # The very first time you use this R markdown file, you should install each of the packages below.
-# Remember that you only need to install R packages once in R
+# The same goes for other packages you might decide to use
+# Remember that you only need to install each R package once in R (ever -- unless you change computers).
+# All you need to do whenever you need to use the package again (after restarting the R session),
+# is to use the library function to call the package.
 # For example, type install.packages("knitr") in the console to install the knitr package. 
 knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
@@ -30,7 +33,7 @@ library(ggplot2)
 
 ```
 
-#### Question 1: 
+### Question 1: 
 
 [Enter your response for Question 1 here.]
 
@@ -39,16 +42,19 @@ library(ggplot2)
 
 ```
 
-#### Question 2:
+### Question 2:
 
 [Enter your response for Question 2 here.]
+
+Here is an example of what an equation looks like using R markdown:
+$$y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip} + \epsilon_i; \ \ \epsilon_i \overset{iid}{\sim} N(0, \sigma^2).$$
 
 ```{r}
 # Enter your code for question 2 here
 ```
 
 
-#### Question 3:
+### Question 3:
 
 [Enter your response for Question 3 here.]
 
@@ -57,7 +63,7 @@ library(ggplot2)
 ```
 
 
-#### Question 4:
+### Question 4:
 
 [Enter your response for Question 4 here.]
 
@@ -66,7 +72,7 @@ library(ggplot2)
 ```
 
 
-#### Question 5:
+### Question 5:
 
 [Enter your response for Question 5 here.]
 
@@ -75,7 +81,7 @@ library(ggplot2)
 ```
 
 
-#### Question 6:
+### Question 6:
 
 [Enter your response for Question 6 here.]
 
