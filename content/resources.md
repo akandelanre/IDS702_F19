@@ -21,7 +21,7 @@ R Markdown can be used to create high quality reports and presentations with emb
 4. [R Markdown Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
 5. [Data Visualization with ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf)
 6. [Other Useful Cheat Sheets](https://www.rstudio.com/resources/cheatsheets/#import)
-7. [A very (very!) basic R Markdown template](http://www2.stat.duke.edu/~oma9/STA111_SummerI_2018/Labs/Lab.Rmd)
+7. [A very (very!) basic R Markdown template](https://akandelanre.github.io/IDS702_F19/labs/resources/LabReport.Rmd)
 
 ### LaTeX
 

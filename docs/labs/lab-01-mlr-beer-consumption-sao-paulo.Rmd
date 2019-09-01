@@ -25,9 +25,11 @@ knitr::opts_chunk$set(eval = FALSE)
 
 **Due:** 6:00pm, Sept 6, 2019
 
-## Introduction
 
-The purpose of this lab is to give you more practice working with linear regression with multiple predictors. You will also write your own code for doing k-fold cross validation. The lab is based on the Kaggle beer cosumption dataset found [here](https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/). Kaggle is a great online community of data scientists. To learn more about Kaggle, [follow this link](https://www.kaggle.com/getting-started/44916).
+
+# Introduction
+
+The purpose of this lab is to give you additional practice working with multiple linear regression. You will also write your own code for doing k-fold cross validation. The lab is based on the Kaggle beer cosumption dataset found here:  https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/. Kaggle is a great online community of data scientists. To learn more about Kaggle, follow this link: https://www.kaggle.com/getting-started/44916.
 
 In this lab you will demonstrate the impacts of variables on beer consumption in a given region and the consumption forecast for certain scenarios. The data (sample) were collected in São Paulo, Brazil, in a university area, where there are some parties with groups of students from 18 to 28 years of age (average).
    
@@ -46,40 +48,50 @@ In this lab you will demonstrate the impacts of variables on beer consumption in
 <!-- ``` -->
 
 
+
 # Housekeeping
 
-## Git configuration / password caching
+## R/RStudio
 
-Configure your Git user name and email. If you cannot remember the instructions, refer to an earlier lab. Also remember that you can cache your password for a limited amount of time.
+You all should have R and RStudio installed on your computers by now. If you do not, first install the latest version of R here: https://cran.rstudio.com (remember to select the right installer for your operating system). Next, install the latest version of RStudio here: https://www.rstudio.com/products/rstudio/download/. Scroll down to the "Installers for Supported Platforms" section and find the right installer for your operating system.
 
-## Project name: 
+## R markdown
 
-Update the name of your project to match the lab's title.
+You are required to use R Markdown to type up this lab report. For a very (very!) basic R Markdown template, use this link: https://akandelanre.github.io/IDS702_F19/labs/resources/LabReport.Rmd
 
-# Warm up
+<!-- ## Create a GitHub account -->
 
-**Pick one team member to complete the steps in this section while the others contribute to the discussion but do not actually touch the files on their computer.**
+<!-- Everyone should have a GitHub account by now. You won't need to use version control for this lab but you will need it for the team projects so you might as well create an account now. It is quite easy to use git/GitHub within RStudio If you have a GitHub account, skip the rest of this section.  -->
 
-Before we introduce the data, let's warm up with some simple exercises.
+<!-- If you do not yet have a GitHub account, create one at https://github.com/. Try to incorporate your actual name and pick a name you will be comfortable revealing to your future boss! -->
 
-## YAML: 
 
-Open the R Markdown (Rmd) file in your project, change the author name to your **team** name, and knit the document.
 
-## Commiting and pushing changes:
+<!-- # Warm up -->
 
-- Go to the **Git** pane in your RStudio. 
-- View the **Diff** and confirm that you are happy with the changes.
-- Add a commit message like "Update team name" in the **Commit message** box and hit **Commit**.
-- Click on **Push**. This will prompt a dialogue box where you first need to enter your user name, and then your password.
+<!-- **Pick one team member to complete the steps in this section while the others contribute to the discussion but do not actually touch the files on their computer.** -->
 
-## Pulling changes:
+<!-- Before we introduce the data, let's warm up with some simple exercises. -->
 
-Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well.
+<!-- ## YAML:  -->
+
+<!-- Open the R Markdown (Rmd) file in your project, change the author name to your **team** name, and knit the document. -->
+
+<!-- ## Commiting and pushing changes: -->
+
+<!-- - Go to the **Git** pane in your RStudio.  -->
+<!-- - View the **Diff** and confirm that you are happy with the changes. -->
+<!-- - Add a commit message like "Update team name" in the **Commit message** box and hit **Commit**. -->
+<!-- - Click on **Push**. This will prompt a dialogue box where you first need to enter your user name, and then your password. -->
+
+<!-- ## Pulling changes: -->
+
+<!-- Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well. -->
+
 
 # The data
 
-In this lab you will first download the data, then upload it to the `data/` folder in your RStudio Cloud project.
+In this lab you will first download the data, then save it to the same directory as your R markdown file.
 
 - Click [here](http://www2.stat.duke.edu/courses/Spring18/Sta199/labs/data/evals-mod.csv) to download the data. The file is called `evals-mod.csv`.
 - Navigate to the data folder in your project and upload the `evals-mod.csv` file.
@@ -103,6 +115,7 @@ beer$beer_cons_liters <- as.numeric(beer$Consumo.de.cerveja..litros.)
 beer <- beer[ , 8:ncol(beer)]
 ```
 
+After renaming the variables using the code above, 
 
 # Exercises
 

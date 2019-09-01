@@ -476,13 +476,8 @@ background-color: #bf4f22;
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#housekeeping">Housekeeping</a><ul>
-<li><a href="#git-configuration-password-caching">Git configuration / password caching</a></li>
-<li><a href="#project-name">Project name:</a></li>
-</ul></li>
-<li><a href="#warm-up">Warm up</a><ul>
-<li><a href="#yaml">YAML:</a></li>
-<li><a href="#commiting-and-pushing-changes">Commiting and pushing changes:</a></li>
-<li><a href="#pulling-changes">Pulling changes:</a></li>
+<li><a href="#rrstudio">R/RStudio</a></li>
+<li><a href="#r-markdown">R markdown</a></li>
 </ul></li>
 <li><a href="#the-data">The data</a></li>
 <li><a href="#exercises">Exercises</a><ul>
@@ -496,9 +491,9 @@ background-color: #bf4f22;
 </div>
 
 <p><strong>Due:</strong> 6:00pm, Sept 6, 2019</p>
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
-<p>The purpose of this lab is to give you more practice working with linear regression with multiple predictors. You will also write your own code for doing k-fold cross validation. The lab is based on the Kaggle beer cosumption dataset found <a href="https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/">here</a>. Kaggle is a great online community of data scientists. To learn more about Kaggle, <a href="https://www.kaggle.com/getting-started/44916">follow this link</a>.</p>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The purpose of this lab is to give you additional practice working with multiple linear regression. You will also write your own code for doing k-fold cross validation. The lab is based on the Kaggle beer cosumption dataset found here: <a href="https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/" class="uri">https://www.kaggle.com/dongeorge/beer-consumption-sao-paulo/</a>. Kaggle is a great online community of data scientists. To learn more about Kaggle, follow this link: <a href="https://www.kaggle.com/getting-started/44916" class="uri">https://www.kaggle.com/getting-started/44916</a>.</p>
 <p>In this lab you will demonstrate the impacts of variables on beer consumption in a given region and the consumption forecast for certain scenarios. The data (sample) were collected in São Paulo, Brazil, in a university area, where there are some parties with groups of students from 18 to 28 years of age (average).</p>
 <!-- # Packages -->
 <!-- In this lab we will work with the `tidyverse` and `broom` packages. We can install and load them with the following: -->
@@ -513,40 +508,33 @@ background-color: #bf4f22;
 </div>
 <div id="housekeeping" class="section level1">
 <h1>Housekeeping</h1>
-<div id="git-configuration-password-caching" class="section level2">
-<h2>Git configuration / password caching</h2>
-<p>Configure your Git user name and email. If you cannot remember the instructions, refer to an earlier lab. Also remember that you can cache your password for a limited amount of time.</p>
+<div id="rrstudio" class="section level2">
+<h2>R/RStudio</h2>
+<p>You all should have R and RStudio installed on your computers by now. If you do not, first install the latest version of R here: <a href="https://cran.rstudio.com" class="uri">https://cran.rstudio.com</a> (remember to select the right installer for your operating system). Next, install the latest version of RStudio here: <a href="https://www.rstudio.com/products/rstudio/download/" class="uri">https://www.rstudio.com/products/rstudio/download/</a>. Scroll down to the “Installers for Supported Platforms” section and find the right installer for your operating system.</p>
 </div>
-<div id="project-name" class="section level2">
-<h2>Project name:</h2>
-<p>Update the name of your project to match the lab’s title.</p>
-</div>
-</div>
-<div id="warm-up" class="section level1">
-<h1>Warm up</h1>
-<p><strong>Pick one team member to complete the steps in this section while the others contribute to the discussion but do not actually touch the files on their computer.</strong></p>
-<p>Before we introduce the data, let’s warm up with some simple exercises.</p>
-<div id="yaml" class="section level2">
-<h2>YAML:</h2>
-<p>Open the R Markdown (Rmd) file in your project, change the author name to your <strong>team</strong> name, and knit the document.</p>
-</div>
-<div id="commiting-and-pushing-changes" class="section level2">
-<h2>Commiting and pushing changes:</h2>
-<ul>
-<li>Go to the <strong>Git</strong> pane in your RStudio.</li>
-<li>View the <strong>Diff</strong> and confirm that you are happy with the changes.</li>
-<li>Add a commit message like “Update team name” in the <strong>Commit message</strong> box and hit <strong>Commit</strong>.</li>
-<li>Click on <strong>Push</strong>. This will prompt a dialogue box where you first need to enter your user name, and then your password.</li>
-</ul>
-</div>
-<div id="pulling-changes" class="section level2">
-<h2>Pulling changes:</h2>
-<p>Now, the remaining team members who have not been concurrently making these changes on their projects should click on the <strong>Pull</strong> button in their Git pane and observe that the changes are now reflected on their projects as well.</p>
+<div id="r-markdown" class="section level2">
+<h2>R markdown</h2>
+<p>You are required to use R Markdown to type up this lab report. For a very (very!) basic R Markdown template, use this link: <a href="https://akandelanre.github.io/IDS702_F19/labs/resources/LabReport.Rmd" class="uri">https://akandelanre.github.io/IDS702_F19/labs/resources/LabReport.Rmd</a></p>
+<!-- ## Create a GitHub account -->
+<!-- Everyone should have a GitHub account by now. You won't need to use version control for this lab but you will need it for the team projects so you might as well create an account now. It is quite easy to use git/GitHub within RStudio If you have a GitHub account, skip the rest of this section.  -->
+<!-- If you do not yet have a GitHub account, create one at https://github.com/. Try to incorporate your actual name and pick a name you will be comfortable revealing to your future boss! -->
+<!-- # Warm up -->
+<!-- **Pick one team member to complete the steps in this section while the others contribute to the discussion but do not actually touch the files on their computer.** -->
+<!-- Before we introduce the data, let's warm up with some simple exercises. -->
+<!-- ## YAML:  -->
+<!-- Open the R Markdown (Rmd) file in your project, change the author name to your **team** name, and knit the document. -->
+<!-- ## Commiting and pushing changes: -->
+<!-- - Go to the **Git** pane in your RStudio.  -->
+<!-- - View the **Diff** and confirm that you are happy with the changes. -->
+<!-- - Add a commit message like "Update team name" in the **Commit message** box and hit **Commit**. -->
+<!-- - Click on **Push**. This will prompt a dialogue box where you first need to enter your user name, and then your password. -->
+<!-- ## Pulling changes: -->
+<!-- Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well. -->
 </div>
 </div>
 <div id="the-data" class="section level1">
 <h1>The data</h1>
-<p>In this lab you will first download the data, then upload it to the <code>data/</code> folder in your RStudio Cloud project.</p>
+<p>In this lab you will first download the data, then save it to the same directory as your R markdown file.</p>
 <ul>
 <li>Click <a href="http://www2.stat.duke.edu/courses/Spring18/Sta199/labs/data/evals-mod.csv">here</a> to download the data. The file is called <code>evals-mod.csv</code>.</li>
 <li>Navigate to the data folder in your project and upload the <code>evals-mod.csv</code> file.</li>
@@ -563,6 +551,7 @@ background-color: #bf4f22;
 <a class="sourceLine" id="cb1-8" data-line-number="8">beer<span class="op">$</span>weekend &lt;-<span class="st"> </span><span class="kw">factor</span>(beer<span class="op">$</span>Final.de.Semana)</a>
 <a class="sourceLine" id="cb1-9" data-line-number="9">beer<span class="op">$</span>beer_cons_liters &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(beer<span class="op">$</span>Consumo.de.cerveja..litros.)</a>
 <a class="sourceLine" id="cb1-10" data-line-number="10">beer &lt;-<span class="st"> </span>beer[ , <span class="dv">8</span><span class="op">:</span><span class="kw">ncol</span>(beer)]</a></code></pre></div>
+<p>After renaming the variables using the code above,</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
