@@ -123,7 +123,23 @@ class: center, middle
 ---
 ## Special predictors: indicator/dummy variables
 
-- From the Harris Trust and Savings Bank, we have also seen how to include binary variables in a MLR model with the `sex` variable.
+- From the Harris Trust and Savings Bank, we have also seen how to include binary variables in a MLR model with the variable `sex`.
+
+--
+
+- In the example, we could actually have used the variable `fsex` (where 1=female and 0=male) instead of `sex` to give us the same exact results.
+
+--
+
+- That means that we also could have made a variable equal to one for all males and zero for all females, instead.
+
+--
+
+- The value of that coefficient would be $767$ instead of $-767$ like we had. All other statistics stay the same (SE, t-stat, p-value). 
+
+--
+
+- That is, using the male predictor would not change the estimates for any other coefficient.
 
 --
 
@@ -131,9 +147,21 @@ class: center, middle
 In that example, is it possible to include both the male and female indicator variables in the same model? Why or why not?
 </div>
 
---
+
+
+
+---
+## Special predictors: indicator/dummy variables
 
 - Turns out that we cannot include indicator variables for the two values of the same binary variable when we also include the intercept.
+
+--
+
+- It is not possible to estimate all three of these parameters in the same model uniquely.
+
+--
+
+- .block[Note: there is no need to mean center dummy variables, since they have a natural interpretation at zero.]
 
 
 
