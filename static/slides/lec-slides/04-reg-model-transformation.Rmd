@@ -1,0 +1,153 @@
+---
+title: "MLR: interaction terms, transformations, multicollinearity and heteroscedasticity "
+author: "Dr. Olanrewaju Michael Akande"
+date: "Sept 5, 2019"
+output:
+  xaringan::moon_reader:
+    css: "slides.css"
+    logo: img/class_logo.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+#library(tidyverse)
+#library(magick)
+library(knitr)
+library(kableExtra)
+library(lattice)
+#library(dplyr)
+```
+
+```{r setup, include=FALSE}
+# R options
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  #show.signif.stars = FALSE,     # for regression output
+  warm = 1
+  )
+# Set dpi and height for images
+knitr::opts_chunk$set(fig.height = 2.65,dpi =300,fig.align='center',fig.show='hold',size='footnotesize',small.mar=TRUE) 
+# For nonsese...
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+# For magick
+dev.off <- function(){
+  invisible(grDevices::dev.off())
+}
+
+knit_hooks$set(small.mar = function(before, options, envir) {
+    if (before) par(mar =  c(4, 4, 1.5, 1.5)) 
+})
+```
+
+
+## Outline
+
+- Recap of last lecture
+
+- Special predictors: quadratic terms
+
+- Special predictors: indicator (dummy) variables
+
+- Special predictors: interaction terms
+
+- Transformations
+
+- Multicollinearity
+
+- Heteroscedasticity
+
+- Final notes
+
+
+---
+## Introduction
+
+- In the last class, we started our introduction to multiple linear regression. 
+
+--
+
+- We saw how to write down and fit MLR models. However, we ignored a very important part of fitting any model: model assessment and validation.
+
+--
+
+- We need to assess whether or not the assumptions of the model actually hold for the data at hand. That's exactly what we will dive in today.
+
+--
+
+- We will also cover model validation via in-sample and out-of-sample predictions.
+
+--
+
+- In the next class, we will move on to transformations (which we will touch on a bit today), multicollinearity and heteroscedasticity.
+
+
+---
+class: center, middle
+
+# Assumptions for MLR
+
+
+
+
+---
+## Leave-one-out cross-validation
+
+- A special case of .hlight[K-fold cross-validation] is the .hlight[Leave-one-out cross-validation], in which $K=n$ (very computationally intensive except in special cases).
+
+--
+
+- Test error estimates using $k=5$ or $k=10$ have been shown to have good statistical properties, motivating these common choices.
+
+--
+
+- In the case of least squares, we can get an estimate of the average MSE from leave-one-out cross-validation using a simple formula (sadly, this does not hold in other models) based on the fit of only one model!
+
+--
+
+- The estimate is 
+.block[
+.small[
+$$\textrm{Avg.MSE} = \dfrac{1}{n} \sum_{i=1}^{n} \left(\dfrac{y_i - \hat{y}_i}{1-h_{ii}} \right)^2.$$
+]
+]
+
+  where $h_{ii}$ is the leverage score of observation $i$. 
+  
+--
+
+  <div class="question">
+How would high leverage points affect Avg.MSE in this case?
+</div>
+
+
+---
+## Final notes
+
+- .block[
+  Generally it is a good idea to start with exploratory data analysis (which we did a bit of in the last class) rather than jumping right into modeling.
+  ]
+  
+--
+
+- After fitting your model, model assessment and validation is A MUST! 
+
+--
+
+- In this class and outside of it, you should always assess and validate your models!
+
+--
+
+- We will look at other metrics for validating models later in the class when we get to other models. 
+
+--
+
+- For example, the MSE may not be the best metric to look at when dealing with binary outcomes. Or can it still be useful? We will see!
+
+--
+
+- In the next class, we will start to explore methods for model selection and including interaction effects in MLRs.
+

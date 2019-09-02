@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>MLR: interaction terms, transformations, multicollinearity and heteroscedasticity</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. Olanrewaju Michael Akande" />
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# MLR: interaction terms, transformations, multicollinearity and heteroscedasticity
+### Dr. Olanrewaju Michael Akande
+### Sept 5, 2019
+
+---
+
+
+
+
+
+
+
+## Outline
+
+- Recap of last lecture
+
+- Special predictors: quadratic terms
+
+- Special predictors: indicator (dummy) variables
+
+- Special predictors: interaction terms
+
+- Transformations
+
+- Multicollinearity
+
+- Heteroscedasticity
+
+- Final notes
+
+
+---
+## Introduction
+
+- In the last class, we started our introduction to multiple linear regression. 
+
+--
+
+- We saw how to write down and fit MLR models. However, we ignored a very important part of fitting any model: model assessment and validation.
+
+--
+
+- We need to assess whether or not the assumptions of the model actually hold for the data at hand. That's exactly what we will dive in today.
+
+--
+
+- We will also cover model validation via in-sample and out-of-sample predictions.
+
+--
+
+- In the next class, we will move on to transformations (which we will touch on a bit today), multicollinearity and heteroscedasticity.
+
+
+---
+class: center, middle
+
+# Assumptions for MLR
+
+
+
+
+---
+## Leave-one-out cross-validation
+
+- A special case of .hlight[K-fold cross-validation] is the .hlight[Leave-one-out cross-validation], in which `\(K=n\)` (very computationally intensive except in special cases).
+
+--
+
+- Test error estimates using `\(k=5\)` or `\(k=10\)` have been shown to have good statistical properties, motivating these common choices.
+
+--
+
+- In the case of least squares, we can get an estimate of the average MSE from leave-one-out cross-validation using a simple formula (sadly, this does not hold in other models) based on the fit of only one model!
+
+--
+
+- The estimate is 
+.block[
+.small[
+`$$\textrm{Avg.MSE} = \dfrac{1}{n} \sum_{i=1}^{n} \left(\dfrac{y_i - \hat{y}_i}{1-h_{ii}} \right)^2.$$`
+]
+]
+
+  where `\(h_{ii}\)` is the leverage score of observation `\(i\)`. 
+  
+--
+
+  &lt;div class="question"&gt;
+How would high leverage points affect Avg.MSE in this case?
+&lt;/div&gt;
+
+
+---
+## Final notes
+
+- .block[
+  Generally it is a good idea to start with exploratory data analysis (which we did a bit of in the last class) rather than jumping right into modeling.
+  ]
+  
+--
+
+- After fitting your model, model assessment and validation is A MUST! 
+
+--
+
+- In this class and outside of it, you should always assess and validate your models!
+
+--
+
+- We will look at other metrics for validating models later in the class when we get to other models. 
+
+--
+
+- For example, the MSE may not be the best metric to look at when dealing with binary outcomes. Or can it still be useful? We will see!
+
+--
+
+- In the next class, we will start to explore methods for model selection and including interaction effects in MLRs.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

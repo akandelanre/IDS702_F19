@@ -23,6 +23,7 @@ lessons:
     
   - date: "Thur, Sept 5"
     title: "Interaction terms, transformations, multicollinearity and heteroscedasticity (HW1 DUE!)"
+    #slides: "lec-slides/04-reg-model-transformation.html"
     
   - date: "Fri, Sept 6"
     title: "Lab 1: multiple linear regression"

@@ -83,7 +83,7 @@ You MUST submit both your .Rmd and .pdf files to the course site on Gradescope h
 
 <!-- Open the R Markdown (Rmd) file in your project, change the author name to your **team** name, and knit the document. -->
 
-<!-- ## Commiting and pushing changes: -->
+<!-- ## Committing and pushing changes: -->
 
 <!-- - Go to the **Git** pane in your RStudio.  -->
 <!-- - View the **Diff** and confirm that you are happy with the changes. -->
@@ -135,7 +135,9 @@ beer_cons_liters | Beer consumption in liters.
 
 Treat the variable `beer_cons_liters` as your response variable and the other variables as potential predictors.
 
-1. Make a histogram of `beer_cons_liters`. Describe the distribution. Is the normality assumption a plausible one here? If you think the histogram does not look normal enough, make a histogram of `log(beer_cons_liters)`. Does that look more "normal" than `beer_cons_liters`? If no, use `beer_cons_liters` as your response variable for the remaining questions. If yes, use `log(beer_cons_liters)` as your response variable instead for the remaining questions.
+1. Make a histogram of `beer_cons_liters`. Describe the distribution. Is the normality assumption a plausible one here? If you think the histogram does not look normal enough, make a histogram of `log(beer_cons_liters)`. Does that look more "normal" than `beer_cons_liters`? 
+
+    *If no, use `beer_cons_liters` as your response variable for the remaining questions. If yes, use `log(beer_cons_liters)` as your response variable instead for the remaining questions.*
 
 2. Make exploratory plots of `beer_cons_liters` (or `log(beer_cons_liters)`) versus each potential predictor. Are all the relationships linear? If any one of them is nonlinear, describe the distribution.
 
@@ -151,9 +153,34 @@ Treat the variable `beer_cons_liters` as your response variable and the other va
 
 8. Write a code for doing $k$-fold cross validation. Refer back to the class notes for details on $k$-fold cross validation. Let $k=10$ and use average RMSE as the metric for quantifying predictive error. What is the average RMSE for the model in question 4 above?
 
-9. Fit another model that includes interactions between `weekend` and the other two predictors. Are the interaction terms significant?
+    *Hint: if you are not sure how to begin writing your code for doing the cross validation, you should consider writing a "for loop". A "for loop" is actually not the most efficient way to get this done but it will work just fine here. If you don't know how to write a "for loop", use the skeleton code below as a guide for writing your own "for loop" for this question.*
+    ```{r eval = FALSE}
+# Suppose your data is stored in the object "Data"
+# First set a seed to ensure your results are reproducible
+set.seed(0101) # use whatever number you want
+# Now randomly re-shuffle the data
+Data <- Data[sample(nrow(Data)),]
+# Define the number of folds you want
+K = 10
+# Define a matrix to save your results into
+RSME <- matrix(0,nrow=K,ncol=1)
+# Split the row indexes into k equal parts
+kth_fold <- cut(seq(1,nrow(Data)),breaks=K,labels=FALSE)
+# Now write the for loop for the k-fold cross validation
+for(k in 1:K){
+# Split your data into the training and test datasets
+test_index <- which(kth_fold==k)
+train <- wages[-test_index,]
+test <- wages[test_index,]
+# Now that you've split the data, 
+RSME[k,] <- ... # write your code for computing RMSE for each k here
+# You should consider using your code for question 7 above
+}
+```
 
-10. Use your code for the k-fold cross validation to compute the average RMSE for the new model in question 9. Is the new RMSE model lower or higher? What can you infer from that?
+9. Extend the model in question 4 to include interaction terms between `weekend` and the other two predictors. Are the interaction terms significant?
+
+10. Use your code for the $k$-fold cross validation from question 8 to compute the average RMSE for the new model in question 9. Is the new RMSE model lower or higher? What can you infer from that?
 
 
 
