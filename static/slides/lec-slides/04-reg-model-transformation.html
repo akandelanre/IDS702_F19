@@ -46,90 +46,82 @@ class: center, middle, inverse, title-slide
 ---
 ## Introduction
 
-- In the last class, we started our introduction to multiple linear regression. 
+- In the last class, we covered model assessment and validation. We also talked about the concept of cross validation.
 
 --
 
-- We saw how to write down and fit MLR models. However, we ignored a very important part of fitting any model: model assessment and validation.
+- Today, we will talk about modeling and interpreting special predictors in regression models.
 
 --
 
-- We need to assess whether or not the assumptions of the model actually hold for the data at hand. That's exactly what we will dive in today.
+- Specifically, we will talk about quadratic terms, indicator (dummy) variables and interaction terms. We have already talked about the first two, so we will simply formalize the concepts.
 
 --
 
-- We will also cover model validation via in-sample and out-of-sample predictions.
+- This is lead us to start to talk about model selection.
 
 --
 
-- In the next class, we will move on to transformations (which we will touch on a bit today), multicollinearity and heteroscedasticity.
+- In the next class, we will start to talk about building, selecting and comparing MLR models. 
 
 
 ---
 class: center, middle
 
-# Assumptions for MLR
-
+# Special predictors
 
 
 
 ---
-## Leave-one-out cross-validation
+## Special predictors: quadratic terms
 
-- A special case of .hlight[K-fold cross-validation] is the .hlight[Leave-one-out cross-validation], in which `\(K=n\)` (very computationally intensive except in special cases).
-
---
-
-- Test error estimates using `\(k=5\)` or `\(k=10\)` have been shown to have good statistical properties, motivating these common choices.
+- From the Harris Trust and Savings Bank example, we have already seen that the relationships between a response variable and some of the predictors can be potentially nonlinear. 
 
 --
 
-- In the case of least squares, we can get an estimate of the average MSE from leave-one-out cross-validation using a simple formula (sadly, this does not hold in other models) based on the fit of only one model!
+- Sometimes our outcome of interest can appear to have quadratic or even higher order polynomial trends with some predictors.
 
 --
 
-- The estimate is 
-.block[
-.small[
-`$$\textrm{Avg.MSE} = \dfrac{1}{n} \sum_{i=1}^{n} \left(\dfrac{y_i - \hat{y}_i}{1-h_{ii}} \right)^2.$$`
+- In that particular example, we included squared terms for both age and experience.
+
+--
+
+- Whenever this is the case, we should look to include squared terms or higher order powers for predictors to capture trends.
+
+--
+
+- .block[General practice: include all lower order terms when including higher order ones (even if the lower order terms are not significant). This aids interpretation.
 ]
-]
 
-  where `\(h_{ii}\)` is the leverage score of observation `\(i\)`. 
-  
 --
 
-  &lt;div class="question"&gt;
-How would high leverage points affect Avg.MSE in this case?
+- As we have seen before, the best way to present result when including quadratic/polynomial trends is to plot the predicted average of `\(Y\)` for different values of `\(X\)`.
+
+
+
+---
+## Special predictors: indicator/dummy variables
+
+- From the Harris Trust and Savings Bank, we have also seen how to include binary variables in a MLR model with the `sex` variable.
+
+--
+
+- &lt;div class="question"&gt;
+In that example, is it possible to include both the male and female indicator variables in the same model? Why or why not?
 &lt;/div&gt;
+
+--
+
+- Turns out that we cannot include indicator variables for the two values of the same binary variable when we also include the intercept.
+
+
 
 
 ---
 ## Final notes
 
-- .block[
-  Generally it is a good idea to start with exploratory data analysis (which we did a bit of in the last class) rather than jumping right into modeling.
-  ]
-  
---
-
-- After fitting your model, model assessment and validation is A MUST! 
-
---
-
-- In this class and outside of it, you should always assess and validate your models!
-
---
-
-- We will look at other metrics for validating models later in the class when we get to other models. 
-
---
-
-- For example, the MSE may not be the best metric to look at when dealing with binary outcomes. Or can it still be useful? We will see!
-
---
-
-- In the next class, we will start to explore methods for model selection and including interaction effects in MLRs.
+-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
