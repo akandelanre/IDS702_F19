@@ -1,7 +1,7 @@
 ---
 title: "MLR: model assessment, diagnostics and validation II"
 author: "Dr. Olanrewaju Michael Akande"
-date: "Sept 3, 2019"
+date: "Sept 5, 2019"
 output:
   xaringan::moon_reader:
     css: "slides.css"

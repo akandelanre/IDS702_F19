@@ -1,7 +1,7 @@
 ---
 title: "MLR: interaction terms, transformations, multicollinearity and heteroscedasticity"
 author: "Dr. Olanrewaju Michael Akande"
-date: "Sept 5, 2019"
+date: "Sept 10, 2019"
 output:
   xaringan::moon_reader:
     css: "slides.css"
