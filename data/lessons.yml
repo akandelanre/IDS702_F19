@@ -18,12 +18,12 @@ lessons:
   - title: "WEEK 2"
   
   - date: "Tue, Sept 3"
-    title: "Model assessment, diagnostics and validation."
-    slides: "lec-slides/03-reg-model-assess.html"
+    title: "Model assessment, diagnostics and validation I"
+    slides: "lec-slides/03-reg-model-assess-I.html"
     
   - date: "Thur, Sept 5"
-    title: "Interaction terms, transformations, multicollinearity and heteroscedasticity (HW1 DUE!)"
-    #slides: "lec-slides/04-reg-model-transformation.html"
+    title: "Model assessment, diagnostics and validation II"
+    slides: "lec-slides/04-reg-model-assess-II.html"
     
   - date: "Fri, Sept 6"
     title: "Lab 1: multiple linear regression"
@@ -32,11 +32,12 @@ lessons:
   - title: "WEEK 3"
   
   - date: "Tue, Sept 10"
-    title: "Model building and selection"
-    hw: "New-hw-02.html"
+    title: "Interaction terms, transformations, multicollinearity and heteroscedasticity"
+    #slides: "lec-slides/05-reg-model-transformation.html"
+    #hw: "New-hw-02.html"
     
   - date: "Thur, Sept 12"
-    title: "Case studies 1"
+    title: "Model building and selection"
     
   - title: "Final project outline"
     project: "final-project.html"

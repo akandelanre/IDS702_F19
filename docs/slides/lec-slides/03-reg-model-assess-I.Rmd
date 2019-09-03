@@ -50,10 +50,6 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 
 - Checking model assumptions
 
-- Leverage, influence, and standardized residuals
-
-- Prediction and validation
-
 - Questions
 
 
@@ -72,11 +68,11 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 
 --
 
-- We will also cover model validation via in-sample and out-of-sample predictions.
+- In the next class, we will cover model validation via in-sample and out-of-sample predictions.
 
 --
 
-- In the next class, we will move on to transformations (which we will touch on a bit today), multicollinearity and heteroscedasticity.
+- Later on, we will also touch on transformations, multicollinearity and heteroscedasticity.
 
 
 ---
@@ -435,4 +431,29 @@ lines(y=preds_male[,"upr"],x=newexper,col="darkblue",lty=2)
 lines(y=preds_female[,"lwr"],x=newexper,col="orange",lty=2)
 lines(y=preds_female[,"upr"],x=newexper,col="orange",lty=2)
 ```
+
+
+---
+## Final notes
+
+- .block[
+  Generally it is a good idea to start with exploratory data analysis (which we did a bit of in the last class) rather than jumping right into modeling.
+  ]
+  
+--
+
+- After fitting your model, model assessment is A MUST! 
+
+--
+
+- In this class and outside of it, you should always assess your models!
+
+--
+
+- In the next class, we will continue with model assessment by exploring leverage, influence, and standardized residuals.
+
+--
+
+- We will also dive into model validation.
+
 

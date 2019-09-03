@@ -1,0 +1,651 @@
+---
+title: "MLR: model assessment, diagnostics and validation II"
+author: "Dr. Olanrewaju Michael Akande"
+date: "Sept 3, 2019"
+output:
+  xaringan::moon_reader:
+    css: "slides.css"
+    logo: img/class_logo.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+#library(tidyverse)
+#library(magick)
+library(knitr)
+library(kableExtra)
+library(lattice)
+#library(dplyr)
+```
+
+```{r setup, include=FALSE}
+# R options
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  #show.signif.stars = FALSE,     # for regression output
+  warm = 1
+  )
+# Set dpi and height for images
+knitr::opts_chunk$set(fig.height = 2.65,dpi =300,fig.align='center',fig.show='hold',size='footnotesize',small.mar=TRUE) 
+# For nonsese...
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+# For magick
+dev.off <- function(){
+  invisible(grDevices::dev.off())
+}
+
+knit_hooks$set(small.mar = function(before, options, envir) {
+    if (before) par(mar =  c(4, 4, 1.5, 1.5)) 
+})
+
+wages <- read.csv("data/wagediscrim.txt", header= T)
+wages$sex <- factor(wages$sex,levels=c("Male","Female"))
+wages$fsex <- factor(wages$fsex)
+regwage <- lm(bsal~ sex + senior + age + educ + exper, data= wages)
+wages$agec <- c(scale(wages$age,scale=F))
+wages$seniorc <- c(scale(wages$senior,scale=F))
+wages$experc <- c(scale(wages$exper,scale=F))
+wages$educc <- c(scale(wages$educ,scale=F))
+regwagec <- lm(bsal~ sex + seniorc + agec + educc + experc, data= wages)
+wages$agec2 <- wages$agec^2
+wages$experc2 <- wages$experc^2
+regwagecsquares <- lm(bsal~sex+seniorc+agec+agec2+educc+experc+experc2,data=wages)
+```
+
+## Housekeeping
+
+- Homework 1 is due at 6:00pm today! 
+
+- Submit on Gradescope on or before 6:00pm.
+
+- Don't forget to attend the lab tomorrow.
+
+
+## Outline
+
+- Recap of last lecture
+
+- Leverage, influence, and standardized residuals
+
+- Prediction and validation
+
+- Questions
+
+
+---
+## Leverage, influence, and standardized residuals
+
+- The summer review material briefly covered outlier, high leverage and influential points.
+
+--
+
+- Individual observations can have large impact on the estimates of coefficients and SEs.
+
+--
+
+- Sometimes these points are obvious from scatter plots, and sometimes they are not, especially in multivariate data.
+
+--
+
+- Concepts and metrics of leverage, influence, and standardized residuals can help identify impactful and unusual points.
+
+--
+
+- An .hlight[outlier] is a data point whose value does not follow the general trend of the rest of the data.
+
+--
+
+- <div class="question">
+When does a data point have high leverage? When is a data point influential? How can we identify them?
+</div>
+
+
+---
+## Leverage
+
+- Points with extreme predictor values are called .hlight[high leverage] points. 
+
+--
+
+- That is, the predictor values for these points are far outside the range of values for most of the other points.
+
+--
+
+- Thus, leverage has nothing to do with values of the response variable $\boldsymbol{y}$.
+
+--
+
+- Leverage points POTENTIALLY have large impact on the estimates of coefficients and SEs.
+
+--
+
+- For those very comfortable with linear algebra, the leverage score $h_{ii}$ for record $i$ is defined as the $i^\textrm{th}$ diagonal element of the projection or hat matrix.
+.block[
+.small[
+$$\boldsymbol{H} = \boldsymbol{X} \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T.$$
+]
+]
+
+
+
+---
+## In class exercise (5 mins)
+
+- Just to see what the hat matrix (and leverage scores) looks like, you will compute it for a very simple example.
+
+- Open R/RStudio on your computer. Suppose the design matrix is
+.block[
+.small[
+$$
+\boldsymbol{X} =
+\begin{bmatrix}
+1 & 1.0 \\
+1 & 2.0 \\
+1 & 2.5 \\
+1 & 3.5 \\
+1 & 50.0 \\
+\end{bmatrix}
+$$ 
+]
+]
+
+  that is, we have one predictor and an intercept.
+
+- Compute the corresponding hat matrix for this design matrix
+.block[
+.small[
+$$\boldsymbol{H} = \boldsymbol{X} \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T.$$
+]
+]
+
+- Compare that leverage score to the original rows of $\boldsymbol{X}$.
+
+- <div class="question">
+Which diagonal element is the largest? What do you think about that observation?
+</div>
+
+
+---
+## Leverage
+
+- Recall that
+.block[
+.small[
+$$\hat{\boldsymbol{y}} = \left[\boldsymbol{X} \left(\boldsymbol{X}^T \boldsymbol{X}\right)^{-1} \boldsymbol{X}^T \right] \boldsymbol{y} = \boldsymbol{H}\boldsymbol{y}.$$
+]
+]
+
+--
+
+- Therefore, the leverage score $h_{ii}$ for observation $i$ measures how far away the independent variable values of that $i^\textrm{th}$ observation are from those of the other observations.
+
+--
+
+- Some properties of $h_{ii}$:
+
+  - $0 \leq h_{ii} \leq 1$.
+  
+  - $\mathbb{Var}[e_i] = (1-h_{ii}) \sigma^2$.
+  
+  - High leverage points are often determined by paying attention to any observation for which $h_{ii} > 2p/n$.
+  
+  - Points with $h_{ii}$ close to 1 will thus tend to have more of an impact on model fit.
+  
+
+---
+## Back to our example
+
+Can we try to identify any high leverage points?
+
+```{r fig.height=3.3}
+n <- nrow(model.matrix(regwagecsquares)); p <- ncol(model.matrix(regwagecsquares))
+lev_scores <- influence(regwagecsquares)$hat; #2*p/n
+plot(lev_scores,col=ifelse(lev_scores > (2*p/n), 'red', 'blue'),type="h",
+     ylab="Leverage score",xlab="Obs. number",main="Leverage Scores")
+text(x=c(1:n)[lev_scores > (2*p/n)]+c(rep(2,4),-2,2),y=lev_scores[lev_scores > (2*p/n)],
+     labels=c(1:n)[lev_scores > (2*p/n)])
+```
+
+
+---
+## High leverage: what to do?
+
+- Points with high leverage deserve special attention:
+  
+--
+
+  - Make sure that they do not result from data entry errors.
+  
+--
+
+  - Make sure that they are in scope for the types of individuals for which you want to make predictions.
+  
+--
+
+  - Make sure that you look at the impact of those points on estimates, especially when you have interactions in the model.
+
+--
+
+- Just because a point is a high leverage point does not mean it will have a large effect on regression. When this happens, we say that the observation is .hlight[influential].
+
+--
+
+- Whether or not a high leverage point actually affects the regression line depends on the value of the response variable...
+
+
+---
+## Cook's distance
+
+- What if a point has a large impact on the estimates of the regression coefficients?
+
+--
+
+  - Dropping that point should change the coefficients significantly.
+
+--
+
+  - Consequently, a significant change in the coefficients should also change that point's predicted $y_i$ value by a lot.
+  
+--
+
+- For every point, we could delete it, re-run the regression, and see which points lead to big changes in the predicted $y_i$'s; very time consuming!
+
+--
+
+- However, .hlight[Cook's distance] gives a formula for quantifying the influence of the $i^\textrm{th}$ observation, if it is removed from the sample. We have
+.block[
+.small[
+$$D_i = \sum^n_{j=1} \dfrac{\left(\hat{y}_j - \hat{y}_{j(i)} \right)^2}{s_e^2(p+1)}$$
+]
+]
+
+  where $\hat{y}_{j(i)}$ is the predicted value after excluding the $i^\textrm{th}$ observation.
+
+
+---
+## Big Cook's distances: what to do?
+
+- Examine Cook's distances to look for large values.
+
+--
+
+  - Make sure there are no data entry errors in those points.
+
+--
+
+  - For each point with high Cook's distance, fit the model with and without that point, and compare the results.
+  
+--
+
+- The consensus seems to be that $D_i >1$ indicates an observation is an influential value, but we generally pay attention to observations with $D_i >0.5$.
+
+--
+
+- If the results (predictions or scientific interpretations) do not change much, just report the final model based on all data points and you don't really need to report anything about the Cook's distances.
+
+--
+
+- If results change a lot, you have several options...
+
+
+---
+## Back to our example
+
+Can we try to identify any influential points?
+
+```{r fig.height=3.5}
+plot(regwagecsquares,which=4)
+```
+
+
+---
+## Let's compare to the leverage score
+
+Which of the highlighted points actually have high leverage?
+
+```{r fig.height=3.3}
+n <- nrow(model.matrix(regwagecsquares)); p <- ncol(model.matrix(regwagecsquares))
+lev_scores <- influence(regwagecsquares)$hat; #2*p/n
+plot(lev_scores,col=ifelse(lev_scores > (2*p/n), 'red', 'blue'),type="h",
+     ylab="Leverage score",xlab="Obs. number",main="Leverage Scores")
+text(x=c(1:n)[lev_scores > (2*p/n)]+c(rep(2,4),-2,2),y=lev_scores[lev_scores > (2*p/n)],
+     labels=c(1:n)[lev_scores > (2*p/n)])
+```
+
+
+---
+## Cook's distance: What to do if large changes in results?
+
+- It is generally OK to drop observations based on PREDICTOR values if
+
+--
+
+  1. It is scientifically meaningful to do so; and
+  
+--
+  
+  2. You intended to fit a model over the smaller $X$ range to begin with (and just forgot). When this is the case, you should mention this in your analysis write-up and be careful when making predictions to avoid extrapolation.
+
+--
+
+- It is generally NOT OK to drop an observation based on its RESPONSE value (assuming no data errors in that value). These are
+legitimate observations and dropping them is essentially cheating by changing the data to fit the model.
+
+--
+
+- You should try transformations or collect more data.
+
+
+---
+## Standardized residuals (also called internally studentized residuals)
+
+- How do we best identify outliers, i.e., points that don’t fit the pattern implied by the line? We look for points with relatively large residuals.
+
+--
+
+- It would be nice to have a common scale to interpret what a “big” residual is, across all problems.
+
+--
+
+- As with most metrics in statistics, we look at each residual divided by its standard error (hence the term standardized residual).
+
+--
+
+- The SE of any residual (that is, $e_i$ and not $\epsilon_i$) depends on the values of the predictors.
+
+--
+
+- As such, it turns out that the residuals for high leverage predictors have smaller variance than residuals for low leverage predictors.
+
+--
+
+- Intuition: the regression line tries to fit high leverage points as closely as possible, which results in smaller residuals for those points.
+
+
+---
+## Standardized residuals (also called internally studentized residuals)
+
+- Standardized residuals have a Normal(0,1) distribution.
+
+--
+
+- Values with large standardized residuals are outliers, in that they don’t fit the pattern implied by the line.
+
+--
+
+- Values with large standardized residuals are not necessarily influential on the regression line. A point can be an outlier without impacting the line. We need to examine their Cook's distance to determine influence.
+
+--
+
+- It turns out that the Cook's distance $D_i$ can also be expressed using the leverage score $h_{ii}$ and square of the internally Studentized residuals.
+
+--
+
+- In fact, really one should do residual plots with standardized residuals instead of regular ones, since they can reflect constant variance assumption when it is true.
+
+
+---
+## Standardized residuals: What to do if large outliers?
+
+```{r fig.height=3.6}
+plot(regwagecsquares,which=5)
+```
+
+--
+<div class="question">
+Are there any outliers or influential points?
+</div>
+
+
+---
+## Standardized residuals: What to do if large outliers?
+
+- As before, it is generally OK to drop observations based on PREDICTOR values if
+
+--
+
+  1. It is scientifically meaningful to do so; and
+  
+--
+  
+  2. You intended to fit a model over the smaller $X$ range to begin with (and just forgot). When this is the case, you should mention this in your analysis write-up and be careful when making predictions to avoid extrapolation.
+
+--
+
+- It is generally NOT OK to drop an observation based on its RESPONSE value (assuming no data errors in that value). These are
+legitimate observations and dropping them is essentially cheating by changing the data to fit the model.
+
+--
+
+- You should try transformations or collect more data.
+
+--
+
+- Or just do nothing! It can be okay to have some outliers. Examine their influence on your results and report them.
+
+
+---
+## Mean squared error
+
+- One particularly useful metric for measuring model fit (especially when the goal is prediction) is the mean squared error (MSE):
+.block[
+.small[
+$$\textrm{MSE} = \dfrac{1}{n} \sum_{i=1}^{n} \left(y_i - \hat{y}_i \right)^2.$$
+]
+]
+
+--
+
+- This value will be small when our predictions $\hat{y}_i$ are close to the true $y_i$'s. Some analysts and data scientists will often report the root mean squared error (RMSE) instead, which is simply the square root of MSE.
+
+--
+
+- While it may be useful to calculate .hlight[within-sample MSE] using the same dataset (usually referred to as .hlight[training data]) that was used to fit the model, it is often more useful to calculate .hlight[out-of-sample MSE] using a different dataset (usually referred to as  .hlight[test data]).
+
+--
+
+- In other words, while it may be great to know that our model fits the data used in fitting it well, it would be even better to see that our model also fits new or future data well.
+
+--
+
+- This is essentially asking the question: what does our model tell us about what might happen in the future?
+
+
+---
+## Mean squared error
+
+- If we have a large amount of data, we can split our sample into training and test datasets.
+
+--
+
+- The test dataset should contain new observations $(y_{1i},\boldsymbol{x}_{1i})$ that are not represented in the training dataset $(y_{0i},\boldsymbol{x}_{0i})$.
+
+--
+
+- Then the .hlight[test MSE] or .hlight[out-of-sample MSE] is given by
+.block[
+.small[
+$$\textrm{MSE}_\textrm{test} = \dfrac{1}{n_\textrm{test}} \sum_{i=1}^{n_\textrm{test}} \left(y_{1i} - \hat{y}_{1i} \right)^2.$$
+]
+]
+
+  where $\hat{y}_{1i}$ is the predicted response for a new observation in the test dataset using the model developed in the training dataset, and $n_\textrm{test}$ is the number of new observations in the test dataset. 
+
+--
+
+- The smaller the MSE (whether in-sample or out-of-sample), the better. 
+
+--
+
+- However, because "small" can be relative depending on the scale of $y$, we often use MSEs when comparing different models (again, particularly when the goal is prediction). We will see this in the next class.
+
+
+---
+## Training and test data
+
+- Test data are important because of the problem of .hlight[overfitting].
+
+--
+
+- Overfitting arises when the model is working too hard to find the perfect predictions in the training data and is not broadly generalizable because it has been picking up some patterns that are just reflecting random error.
+
+--
+
+- We generally expect the test MSE to be somewhat larger than the training MSE because our model has been developed to minimize the training MSE.
+
+--
+
+- Overfitting refers to a situation in which a different model (generally a simpler one) fit to the training data would result in a smaller test MSE (indicating better out-of-sample prediction).
+
+--
+
+- We may be able to identify this problem when comparing the out-of-sample MSEs of different models (including the parsimonious models).
+
+--
+
+- Note that in small datasets, the random split of the data can have considerable impact on the results; out-of-sample MSEs can differ greatly depending on which random sample we take. 
+
+
+---
+## Training and test data
+
+Let's explore this concept using the last fitted regression. We will use three different random splits. For the first split, we have
+```{r, include=TRUE, eval=TRUE}
+#set the seed to ensure we can replicate the same result
+set.seed(123)
+train_index <- sample(nrow(wages),round(0.7*nrow(wages)),replace=F)
+train <- wages[train_index,]
+test <- wages[-train_index,]
+regwagecsquares_train <- lm(bsal~sex+seniorc+agec+agec2+educc+experc+experc2,data=train)
+y_test_pred <- predict(regwagecsquares_train,test)
+temp <- cbind(test$bsal,y_test_pred);
+colnames(temp) <- c("Truth","Predicted"); temp[1:5,]
+testMSE <- mean((test$bsal - y_test_pred)^2); testMSE
+sqrt(testMSE)
+```
+
+
+---
+## Training and test data
+
+For the second split, we have
+```{r, include=TRUE, eval=TRUE}
+#now change the seed
+set.seed(1234)
+train_index <- sample(nrow(wages),round(0.7*nrow(wages)),replace=F)
+train <- wages[train_index,]
+test <- wages[-train_index,]
+regwagecsquares_train <- lm(bsal~sex+seniorc+agec+agec2+educc+experc+experc2,data=train)
+y_test_pred <- predict(regwagecsquares_train,test)
+temp <- cbind(test$bsal,y_test_pred);
+colnames(temp) <- c("Truth","Predicted"); temp[1:5,]
+testMSE <- mean((test$bsal - y_test_pred)^2); testMSE
+sqrt(testMSE)
+```
+
+
+---
+## Training and test data
+
+For the final split, we have
+```{r, include=TRUE, eval=TRUE}
+#now change the seed
+set.seed(12345)
+train_index <- sample(nrow(wages),round(0.7*nrow(wages)),replace=F)
+train <- wages[train_index,]
+test <- wages[-train_index,]
+regwagecsquares_train <- lm(bsal~sex+seniorc+agec+agec2+educc+experc+experc2,data=train)
+y_test_pred <- predict(regwagecsquares_train,test)
+temp <- cbind(test$bsal,y_test_pred);
+colnames(temp) <- c("Truth","Predicted"); temp[1:5,]
+testMSE <- mean((test$bsal - y_test_pred)^2); testMSE
+sqrt(testMSE)
+```
+
+
+---
+## K-fold cross-validation
+
+- This train/test method of model validation is often referred to as .hlight[cross-validation]. In general, one can use other metrics instead of just the MSE.
+
+- .hlight[K-fold cross-validation] is a type of cross-validation that aims to address the issue of sensitivity of results to particular random data splits.
+
+--
+
+- Specifically, under $K$-fold cross-validation, split the data into $K$ mutually-exclusive groups, called folds. 
+
+--
+
+- For the $k^{\textrm{th}}$ fold, with $k=1,\ldots,K$, fit the model on all the remaining data excluding that $k^{\textrm{th}}$ fold (that is, all the other folds combined) and use the $k^{\textrm{th}}$ fold as the test or validation set.
+
+--
+
+- Repeat this $k$ times, so that each fold has a turn as the validation set. Obtain the $\textrm{MSE}_\textrm{test}^{(k)}$ for each $k$, and summarize the error using
+.block[
+.small[
+$$\textrm{Avg.MSE} = \dfrac{1}{K} \sum_{k=1}^{K} \textrm{MSE}_\textrm{test}^{(k)}.$$
+]
+]
+
+
+---
+## Leave-one-out cross-validation
+
+- A special case of .hlight[K-fold cross-validation] is the .hlight[Leave-one-out cross-validation], in which $K=n$ (very computationally intensive except in special cases).
+
+--
+
+- Test error estimates using $k=5$ or $k=10$ have been shown to have good statistical properties, motivating these common choices.
+
+--
+
+- In the case of least squares, we can get an estimate of the average MSE from leave-one-out cross-validation using a simple formula (sadly, this does not hold in other models) based on the fit of only one model!
+
+--
+
+- The estimate is 
+.block[
+.small[
+$$\textrm{Avg.MSE} = \dfrac{1}{n} \sum_{i=1}^{n} \left(\dfrac{y_i - \hat{y}_i}{1-h_{ii}} \right)^2.$$
+]
+]
+
+  where $h_{ii}$ is the leverage score of observation $i$. 
+  
+--
+
+  <div class="question">
+How would high leverage points affect Avg.MSE in this case?
+</div>
+
+
+
+---
+## Final notes
+
+- Again, after fitting your model, model assessment and validation is A MUST! 
+
+--
+
+- In this class and outside of it, you should always assess and validate your models!
+
+--
+
+- You will write your own code for doing $k$-fold cross validation in tomorrow's lab.
+
+--
+
+- We will look at other metrics for validating models later in the class when we get to other models. 
+
+--
+
+- For example, the MSE may not be the best metric to look at when dealing with binary outcomes. Or can it still be useful? We will see!
+
+--
+
+- In the next class, we will start to explore methods for model selection and including interaction effects in MLRs.
+

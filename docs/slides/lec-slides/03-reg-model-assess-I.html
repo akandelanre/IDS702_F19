@@ -30,10 +30,6 @@ class: center, middle, inverse, title-slide
 
 - Checking model assumptions
 
-- Leverage, influence, and standardized residuals
-
-- Prediction and validation
-
 - Questions
 
 
@@ -52,11 +48,11 @@ class: center, middle, inverse, title-slide
 
 --
 
-- We will also cover model validation via in-sample and out-of-sample predictions.
+- In the next class, we will cover model validation via in-sample and out-of-sample predictions.
 
 --
 
-- In the next class, we will move on to transformations (which we will touch on a bit today), multicollinearity and heteroscedasticity.
+- Later on, we will also touch on transformations, multicollinearity and heteroscedasticity.
 
 
 ---
@@ -209,7 +205,7 @@ plot(y=regwage$residual, x = wages$senior, xlab = "Seniority", ylab = "Residual"
 abline(0,0)
 ```
 
-&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -227,7 +223,7 @@ plot(y=regwage$residual, x = wages$age, xlab = "Age", ylab = "Residual")
 abline(0,0)
 ```
 
-&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -245,7 +241,7 @@ plot(y=regwage$residual, x = wages$educ, xlab = "Education", ylab = "Residual")
 abline(0,0)
 ```
 
-&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -263,7 +259,7 @@ plot(y=regwage$residual, x = wages$exper, xlab = "Experience", ylab = "Residual"
 abline(0,0)
 ```
 
-&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -279,7 +275,7 @@ Do you see any clear violations of the linearity assumption?
 plot(regwage,which=1)
 ```
 
-&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -295,7 +291,7 @@ Do you see any clear violations of the independence and equal variance assumptio
 plot(regwage,which=2)
 ```
 
-&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -511,7 +507,7 @@ legend("bottomright",c("Male","Female"),col=c("darkblue","orange"),lty=c(2,2))
 #Remember that this is with average values of other predictors.
 ```
 
-&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -535,7 +531,31 @@ lines(y=preds_female[,"lwr"],x=newexper,col="orange",lty=2)
 lines(y=preds_female[,"upr"],x=newexper,col="orange",lty=2)
 ```
 
-&lt;img src="03-reg-model-assess_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Final notes
+
+- .block[
+  Generally it is a good idea to start with exploratory data analysis (which we did a bit of in the last class) rather than jumping right into modeling.
+  ]
+  
+--
+
+- After fitting your model, model assessment is A MUST! 
+
+--
+
+- In this class and outside of it, you should always assess your models!
+
+--
+
+- In the next class, we will continue with model assessment by exploring leverage, influence, and standardized residuals.
+
+--
+
+- We will also dive into model validation.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
