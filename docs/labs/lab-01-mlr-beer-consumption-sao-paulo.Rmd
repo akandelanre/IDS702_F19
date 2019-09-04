@@ -157,11 +157,11 @@ Treat the variable `beer_cons_liters` as your response variable and the other va
     ```{r eval = FALSE}
 # Suppose your data is stored in the object "Data"
 # First set a seed to ensure your results are reproducible
-set.seed(0101) # use whatever number you want
+set.seed(...) # use whatever number you want
 # Now randomly re-shuffle the data
 Data <- Data[sample(nrow(Data)),]
 # Define the number of folds you want
-K = 10
+K <- ...
 # Define a matrix to save your results into
 RSME <- matrix(0,nrow=K,ncol=1)
 # Split the row indexes into k equal parts
@@ -170,12 +170,13 @@ kth_fold <- cut(seq(1,nrow(Data)),breaks=K,labels=FALSE)
 for(k in 1:K){
 # Split your data into the training and test datasets
 test_index <- which(kth_fold==k)
-train <- wages[-test_index,]
-test <- wages[test_index,]
+train <- Data[-test_index,]
+test <- Data[test_index,]
 # Now that you've split the data, 
 RSME[k,] <- ... # write your code for computing RMSE for each k here
 # You should consider using your code for question 7 above
 }
+... #Calculate the average of all values in the RSME matrix here.
 ```
 
 9. Extend the model in question 4 to include interaction terms between `weekend` and the other two predictors. Are the interaction terms significant?

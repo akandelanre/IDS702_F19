@@ -604,11 +604,11 @@ background-color: #bf4f22;
 <p><em>Hint: if you are not sure how to begin writing your code for doing the cross validation, you should consider writing a “for loop”. A “for loop” is actually not the most efficient way to get this done but it will work just fine here. If you don’t know how to write a “for loop”, use the skeleton code below as a guide for writing your own “for loop” for this question.</em></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># Suppose your data is stored in the object &quot;Data&quot;</span></a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># First set a seed to ensure your results are reproducible</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">set.seed</span>(<span class="dv">0101</span>) <span class="co"># use whatever number you want</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">set.seed</span>(...) <span class="co"># use whatever number you want</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># Now randomly re-shuffle the data</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5">Data &lt;-<span class="st"> </span>Data[<span class="kw">sample</span>(<span class="kw">nrow</span>(Data)),]</a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># Define the number of folds you want</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">K =<span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">K &lt;-<span class="st"> </span>...</a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co"># Define a matrix to save your results into</span></a>
 <a class="sourceLine" id="cb2-9" data-line-number="9">RSME &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dt">nrow=</span>K,<span class="dt">ncol=</span><span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co"># Split the row indexes into k equal parts</span></a>
@@ -617,12 +617,13 @@ background-color: #bf4f22;
 <a class="sourceLine" id="cb2-13" data-line-number="13"><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>K){</a>
 <a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co"># Split your data into the training and test datasets</span></a>
 <a class="sourceLine" id="cb2-15" data-line-number="15">test_index &lt;-<span class="st"> </span><span class="kw">which</span>(kth_fold<span class="op">==</span>k)</a>
-<a class="sourceLine" id="cb2-16" data-line-number="16">train &lt;-<span class="st"> </span>wages[<span class="op">-</span>test_index,]</a>
-<a class="sourceLine" id="cb2-17" data-line-number="17">test &lt;-<span class="st"> </span>wages[test_index,]</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">train &lt;-<span class="st"> </span>Data[<span class="op">-</span>test_index,]</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">test &lt;-<span class="st"> </span>Data[test_index,]</a>
 <a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co"># Now that you've split the data, </span></a>
 <a class="sourceLine" id="cb2-19" data-line-number="19">RSME[k,] &lt;-<span class="st"> </span>... <span class="co"># write your code for computing RMSE for each k here</span></a>
 <a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co"># You should consider using your code for question 7 above</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21">}</a></code></pre></div></li>
+<a class="sourceLine" id="cb2-21" data-line-number="21">}</a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">... <span class="co">#Calculate the average of all values in the RSME matrix here.</span></a></code></pre></div></li>
 <li><p>Extend the model in question 4 to include interaction terms between <code>weekend</code> and the other two predictors. Are the interaction terms significant?</p></li>
 <li><p>Use your code for the <span class="math inline">\(k\)</span>-fold cross validation from question 8 to compute the average RMSE for the new model in question 9. Is the new RMSE model lower or higher? What can you infer from that?</p></li>
 </ol>
