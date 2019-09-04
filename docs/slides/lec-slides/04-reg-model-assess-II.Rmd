@@ -64,10 +64,12 @@ regwagecsquares <- lm(bsal~sex+seniorc+agec+agec2+educc+experc+experc2,data=wage
 
 - Don't forget to attend the lab tomorrow.
 
+- The lab report is due at 6:00pm tomorrow! 
+
 
 ## Outline
 
-- Recap of last lecture
+- Questions from last lecture
 
 - Leverage, influence, and standardized residuals
 
@@ -120,6 +122,10 @@ When does a data point have high leverage? When is a data point influential? How
 --
 
 - Leverage points POTENTIALLY have large impact on the estimates of coefficients and SEs.
+
+  <div class="question">
+How?
+</div>
 
 --
 
@@ -203,8 +209,8 @@ Can we try to identify any high leverage points?
 
 ```{r fig.height=3.3}
 n <- nrow(model.matrix(regwagecsquares)); p <- ncol(model.matrix(regwagecsquares))
-lev_scores <- influence(regwagecsquares)$hat; #2*p/n
-plot(lev_scores,col=ifelse(lev_scores > (2*p/n), 'red', 'blue'),type="h",
+lev_scores <- hatvalues(regwagecsquares) #can also use influence(regwagecsquares)$hat 
+plot(lev_scores,col=ifelse(lev_scores > (2*p/n), 'red2', 'navy'),type="h",
      ylab="Leverage score",xlab="Obs. number",main="Leverage Scores")
 text(x=c(1:n)[lev_scores > (2*p/n)]+c(rep(2,4),-2,2),y=lev_scores[lev_scores > (2*p/n)],
      labels=c(1:n)[lev_scores > (2*p/n)])
@@ -307,10 +313,8 @@ plot(regwagecsquares,which=4)
 
 Which of the highlighted points actually have high leverage?
 
-```{r fig.height=3.3}
-n <- nrow(model.matrix(regwagecsquares)); p <- ncol(model.matrix(regwagecsquares))
-lev_scores <- influence(regwagecsquares)$hat; #2*p/n
-plot(lev_scores,col=ifelse(lev_scores > (2*p/n), 'red', 'blue'),type="h",
+```{r fig.height=3.5}
+plot(lev_scores,col=ifelse(lev_scores > (2*p/n), 'red2', 'navy'),type="h",
      ylab="Leverage score",xlab="Obs. number",main="Leverage Scores")
 text(x=c(1:n)[lev_scores > (2*p/n)]+c(rep(2,4),-2,2),y=lev_scores[lev_scores > (2*p/n)],
      labels=c(1:n)[lev_scores > (2*p/n)])

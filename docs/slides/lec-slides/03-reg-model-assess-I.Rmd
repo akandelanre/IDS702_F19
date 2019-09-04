@@ -20,6 +20,7 @@ library(knitr)
 library(kableExtra)
 library(lattice)
 #library(dplyr)
+library(ggplot2)
 ```
 
 ```{r setup, include=FALSE}
@@ -46,7 +47,7 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 
 ## Outline
 
-- Recap of last lecture
+- Questions from last lecture
 
 - Checking model assumptions
 
@@ -380,13 +381,40 @@ summary(regwagecsquares)
 
 
 ---
+## How well does the model fit the data. 
+
+The first model: .hlight[NO quadratic term]
+```{r fig.height=5.5,fig.width=8,echo=F}
+preds <- predict(regwage);
+plot(y=wages$bsal,x=wages$exper,col='red4',
+     xlab="Experience", ylab="Starting Wages",pch=17,ylim=c(4000,7800),
+     main="Observed vs Predicted")
+points(y=preds,x=wages$exper,col='seashell3',pch=11)
+legend("topright",c("Observed","Predicted"),col=c("red4","seashell3"),pch=c(17,11))
+```
+
+
+---
+## How well does the model fit the data.
+
+Now the latest model: .hlight[add quadratic term]
+```{r fig.height=5.5,fig.width=8,echo=F}
+preds <- predict(regwagecsquares);
+plot(y=wages$bsal,x=wages$exper,col='red4',
+     xlab="Experience", ylab="Starting Wages",pch=17,ylim=c(4000,7800),
+     main="Observed vs Predicted")
+points(y=preds,x=wages$exper,col='seashell3',pch=11)
+legend("topright",c("Observed","Predicted"),col=c("red4","seashell3"),pch=c(17,11))
+```
+
+---
 ## Interpreting the new model
 
 Clearly, .hlight[experc2] is an important predictor given all other predictors. However, it can be tough to interpret its effect using the coefficient. Instead, let's visualize the effect of changing experience.
 
 ```{r}
 #First, make the 20 values of experience that you want to examine
-newexper <- seq(from=10,to=300,by=5)
+newexper <- seq(from=0,to=400,by=5)
 newexperc <- newexper - mean(wages$exper)
 newexperc2 <- newexperc^2
 newdata <- data.frame(matrix(0, nrow=length(newexper), ncol=7))

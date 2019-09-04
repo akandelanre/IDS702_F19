@@ -26,7 +26,7 @@ class: center, middle, inverse, title-slide
 
 ## Outline
 
-- Recap of last lecture
+- Questions from last lecture
 
 - Checking model assumptions
 
@@ -457,6 +457,19 @@ summary(regwagecsquares)
 
 
 ---
+## How well does the model fit the data. 
+
+The first model: .hlight[NO quadratic term]
+&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+## How well does the model fit the data.
+
+Now the latest model: .hlight[add quadratic term]
+&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+---
 ## Interpreting the new model
 
 Clearly, .hlight[experc2] is an important predictor given all other predictors. However, it can be tough to interpret its effect using the coefficient. Instead, let's visualize the effect of changing experience.
@@ -464,7 +477,7 @@ Clearly, .hlight[experc2] is an important predictor given all other predictors. 
 
 ```r
 #First, make the 20 values of experience that you want to examine
-newexper &lt;- seq(from=10,to=300,by=5)
+newexper &lt;- seq(from=0,to=400,by=5)
 newexperc &lt;- newexper - mean(wages$exper)
 newexperc2 &lt;- newexperc^2
 newdata &lt;- data.frame(matrix(0, nrow=length(newexper), ncol=7))
@@ -477,9 +490,9 @@ preds_male &lt;- predict(regwagecsquares,newdata,interval="confidence"); preds_m
 
 ```
 ##        fit      lwr      upr
-## 1 5541.473 5114.091 5968.854
-## 2 5581.974 5176.078 5987.871
-## 3 5621.327 5235.858 6006.796
+## 1 5457.022 4983.617 5930.426
+## 2 5499.822 5049.929 5949.715
+## 3 5541.473 5114.091 5968.854
 ```
 
 ```r
@@ -489,9 +502,9 @@ preds_female &lt;- predict(regwagecsquares,newdata,interval="confidence"); preds
 
 ```
 ##        fit      lwr      upr
-## 1 4773.033 4403.057 5143.009
-## 2 4813.535 4466.389 5160.680
-## 3 4852.887 4527.494 5178.281
+## 1 4688.582 4269.895 5107.269
+## 2 4731.382 4337.545 5125.219
+## 3 4773.033 4403.057 5143.009
 ```
 
 
@@ -507,7 +520,7 @@ legend("bottomright",c("Male","Female"),col=c("darkblue","orange"),lty=c(2,2))
 #Remember that this is with average values of other predictors.
 ```
 
-&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 &lt;div class="question"&gt;
@@ -531,7 +544,7 @@ lines(y=preds_female[,"lwr"],x=newexper,col="orange",lty=2)
 lines(y=preds_female[,"upr"],x=newexper,col="orange",lty=2)
 ```
 
-&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="03-reg-model-assess-I_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
