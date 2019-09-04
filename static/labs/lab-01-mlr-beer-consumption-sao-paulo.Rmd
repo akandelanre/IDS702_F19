@@ -181,6 +181,11 @@ RSME[k,] <- ... # write your code for computing RMSE for each k here
 
 9. Extend the model in question 4 to include interaction terms between `weekend` and the other two predictors. Are the interaction terms significant?
 
+    *To include an interaction term between a continuous/numerical variable x1 and a factor variable x2 in your linear model, use*
+    ```{r eval = FALSE}
+"model name here" <- lm(y ~ x1 + x2 + x1:x2)
+```
+
 10. Use your code for the $k$-fold cross validation from question 8 to compute the average RMSE for the new model in question 9. Is the new RMSE model lower or higher? What can you infer from that?
 
 

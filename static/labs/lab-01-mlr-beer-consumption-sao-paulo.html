@@ -624,7 +624,9 @@ background-color: #bf4f22;
 <a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co"># You should consider using your code for question 7 above</span></a>
 <a class="sourceLine" id="cb2-21" data-line-number="21">}</a>
 <a class="sourceLine" id="cb2-22" data-line-number="22">... <span class="co">#Calculate the average of all values in the RSME matrix here.</span></a></code></pre></div></li>
-<li><p>Extend the model in question 4 to include interaction terms between <code>weekend</code> and the other two predictors. Are the interaction terms significant?</p></li>
+<li><p>Extend the model in question 4 to include interaction terms between <code>weekend</code> and the other two predictors. Are the interaction terms significant?</p>
+<p><em>To include an interaction term between a continuous/numerical variable x1 and a factor variable x2 in your linear model, use</em></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="st">&quot;model name here&quot;</span> &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x1<span class="op">:</span>x2)</a></code></pre></div></li>
 <li><p>Use your code for the <span class="math inline">\(k\)</span>-fold cross validation from question 8 to compute the average RMSE for the new model in question 9. Is the new RMSE model lower or higher? What can you infer from that?</p></li>
 </ol>
 </div>
