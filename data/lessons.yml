@@ -26,7 +26,7 @@ lessons:
     slides: "lec-slides/04-reg-model-assess-II.html"
     
   - date: "Fri, Sept 6"
-    title: "Lab 1: multiple linear regression"
+    title: "Lab 1: multiple linear regression (beer consumption in sao paulo)"
     lab: "lab-01-mlr-beer-consumption-sao-paulo.html"
     
   - title: "WEEK 3"
@@ -54,7 +54,8 @@ lessons:
     hw: "New-hw-03.html"
     
   - date: "Fri, Sept 20"
-    title: "Lab 2: "
+    title: "Lab 2: logistic regression (the contaminated wells analysis)"
+    lab: "lab-02-the-contaminated-wells-analysis.html"
     
   - title: "WEEK 5"
   

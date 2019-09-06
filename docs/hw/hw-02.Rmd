@@ -21,45 +21,59 @@ This assignment involves multiple linear regression. The data (for question 2) c
 Question 1 was taken and adapted from Chapter 7 of [Ramsey, F.L. and Schafer, D.W. (2013), "The Statistical Sleuth: A Course in Methods of Data Analysis (3rd ed)."](https://www.amazon.com/Statistical-Sleuth-Course-Methods-Analysis/dp/1133490670)
 
 1. <font color="blue">OLD FAITHFUL.</font>
-Reconsider the question on the Old Faithful eruptions on the last homework. Remember the data inlcuded a variable for the day of the eruptions (called "Date" in the dataset).  
+Reconsider the question on the Old Faithful eruptions from the last homework. Remember the data inlcuded a variable for the day of the eruptions (called "Date" in the dataset).  
     *Use the same "OldFaithful.csv" file you used for the first homework.*
-      + Fit a regression of Interval on Duration and Day (treated as a factor variable).
+      + Fit a regression of interval on duration and day (treated as a categorical/factor variable). Is there a significant difference in mean intervals for any of the days (compared to the first day)? Interpret the effects of controlling for the days (do so only for the days with significant effects, if any).  
         *To specify a variable x1 as a factor variable in R when fitting your model, use the command "lm(y~as.factor(x1))".*
-
-Old Faithful Geyser in Yellowstone National Park, Wyoming, derives its name and its considerable fame from the regularity (and beauty) of its eruptions. As they do with most [geysers](https://en.wikipedia.org/wiki/Geyser) in the park, rangers post the predicted times of eruptions on signs nearby, and people gather beforehand to witness the show. R.A. Hutchinson, a park geologist, collected measurements of the eruption durations (in minutes) and the subsequent intervals before the next eruption (also in minutes) over an 8-day period.  
-    *The data for this question can be found in the file "OldFaithful.csv" on Sakai.*  
-      + Write down a regression model for predicting the interval between eruptions from the duration of the previous one. Make sure to use the right mathematical notation.
-      + Fit the model to the data and interpret your results. In your answer, make sure you include the output from the regression model including the estimated intercept, slope, residual standard error, and $R^2$.
-      + Also, include the 95% confidence interval for the slope, and explain what the interval reveals about the relationship between duration and waiting time. 
-      + Describe in a few sentences whether or not you think the regression assumptions are plausible based on residual plots (you don’t need to include the plots). 
-      + Construct 95% prediction intervals for the waiting time until the next eruption if the duration of the previous one was 2 minutes, 2.5 minutes, 3 minutes, 3.5 minutes and 4 minutes. Present your answer as a single plot.
+      + Perform an $F$-test to compare this model to your model for this data from the last homework. In context of the question, what can you conclude from the results of the $F$-test?
+      + Compute the in-sample RMSE for this model and do the same for your model from the last homework. Which model appears to have higher (within-sample) predictive accuracy based on the RMSE values?
       
+
+
+2. <font color="blue">MATERNAL SMOKING AND BIRTH WEIGHTS</font>.
+These days, it is widely understood that mothers who smoke during pregnancy risk exposing their babies to many health problems.  This was not common knowledge fifty years ago.  One of the first studies that addressed the issue of pregnancy and smoking was the Child Health and Development Studies, a comprehensive study of all babies born between 1960 and 1967 at the Kaiser Foundation Hospital in Oakland, CA.  The original reference for the study is Yerushalmy (1964, *American Journal of Obstetrics and Gynecology*, pp. 505-518).  The data and a summary of the study are in Nolan and Speed (2000, *Stat Labs*, Chapter 10) and can be found at the [book's website](https://www.stat.berkeley.edu/users/statlabs/).  
+    *The data for this question can be found in the file "babiesdata.csv" on Sakai.*
+    
+    There were about 15,000 families in the study.  We will analyze a subset of the data, in particular 1236 male single births where the baby lived at least 28 days.  The researchers interviewed mothers early in their pregnancy to collect information on socioeconomic and demographic characteristics, including an  indicator of whether the mother smoked during pregnancy.  This is an observational study, because mothers decided whether or not to smoke during pregnancy; there was no random assignment to smoke or not to smoke.  The variables in the dataset are described in the code book at the end of this document.  
+    In 1989, the Surgeon General asserted that mothers who smoke have increased rates of premature delivery (before 270 days) and low birth weights. We will analyze the data to see if there is an association between smoking and birth weight. To simplify analyses, we'll compare babies whose mothers smoke to babies whose mothers have never smoked.  The data file you have access to has only these people, although there were other types of smokers in the original dataset.  
+    Our questions of interest include the following.
+      + Do mothers who smoke tend to give birth to babies with lower weights than mothers who do not smoke? What is a likely range for the difference in birth weights for smokers and non-smokers?
+      + Is there any evidence that the association between smoking and birth weight differs by mother's race? If so, characterize those differences.
+      + Are there other interesting associations with birth weight that are worth mentioning?
       
-2.
-
-
-
-2. <font color="blue">RESPIRATORY RATES FOR CHILDREN</font>.
-A high respiratory rate is a potential diagnostic indicator of respiratory infection in children. To judge whether a respiratory rate is truly "high," however, a physician must have a clear picture of the distribution of "normal" respiratory rates. To this end, Italian researchers measured the respiratory rates of 618 children between the ages of 15 days and 3 years.  
-    *The data for this question can be found in the file "Respiratory.csv" on Sakai.*  
-      + Analyze the data and include a useful plot that a physician could use to assess a normal range of respiratory rate for children of any age between 0 and 3.
-      + Include the output of the regression that predicts  respiratory rates from age.  Also, is there enough evidence that the model assumptions are reasonable for this data? You should consider transformations (think log transformations etc) for both variables if you think the original relationship is nonlinear.
-      + Demonstrate the usefulness of the model by providing 95% prediction intervals for the rate for three individual children: a 1 month old, an 18 months old, and a 29 months old.
+    Write a report describing your findings. Be sure to include the following in your report: the model you ultimately decided to use, a justification for that model (e.g., why you chose certain transformations and why you decided the final model is reasonable to use based on residual diagnostics), the relevant regression output (includes: a table with coefficients and SEs, and p-values or confidence intervals; and somewhere in the text or table the estimated regression standard deviation and R-squared), your interpretation of the results in the context of the questions of interest, and any potential limitations of the analysis.  
+    There are some complexities in this dataset to be aware of. Some variables have missing values. In particular, you will see from the .csv file that the height and weight of the father are missing quite frequently. This is typical in data on births: it is often difficult to get data about the fathers. I recommend that you not consider father's height and weight when modeling. Some of the other variables have a few missing cases here and there. For this analysis, you can drop them from the modeling. This is not the ideal way to handle missing data in an analysis--and we will learn better methods later in the course--but for now it will move the analysis forward. I strongly recommend that you make a data file that has complete observations on every single case for all the variables you are thinking about including in the model, and run the regression using that file. For example, I posted such a file in the Sakai site that excludes all of the variables on the fathers. You are welcome to use this file, or make your own if you want to use fathers' data.  
+    *The modified data can be found in the file "babiesdata.csv" on Sakai.*  
+    The data files also contain two outcome variables: gestational age and birth weight. Both of these could be affected by smoking, so both are outcomes rather than predictors. It does not make sense scientifically to include one as a predictor of the other; the two variables happen simultaneously and hence are a bivariate outcome. For this analysis, we exclude gestational age from the modeling. Of course, one could do a separate regression for gestational age to see if smoking has an effect on gestational ages. Even better, one could treat birth weight and gestational age as a bivariate outcome and fit a regression model that predicts the bivariate outcome. This is a model we won't have to time to learn about in our course, but come find the instructor if you want to learn more. The file also contains an indicator variable for Premature (gestational age < 270 days), which is just a recoding of gestational age; we won't use that.  
+      The main file also includes information on the number of cigarettes smoked and about timing for mothers who quit smoking. For this analysis you do not have to use those variables, as we just compare smokers and non-smokers.  
+      You can collapse race categories from 0 - 5 into one category for race = white.  
+      Regarding the fathers' data, you might pay attention to correlation among the mothers' and fathers' values. For example, the mothers' and fathers' races might tend to be similar (use a "table" command to see the contingency table of the two races), in which case you have to be concerned about effects of multicollinearity if you want to include both mother's and father's races in the model.  
+      **Code Book**
       
-3. <font color="blue">THE DRAMATIC U.S. PRESIDENTIAL ELECTION OF 2000.</font>
-The U.S. presidential election of November 7, 2000 was one of the closest in history. As returns were counted on election night it became clear that the outcome in the state of Florida would determine the next president. At one point in the evening, television networks projected that the state was carried by the Democratic nominee, Al Gore, but a retraction of the projection followed a few hours later. Then, early in the morning of November 8, the networks projected that the Republican nominee, George W. Bush, had carried Florida and won the presidency. Gore called Bush to concede. While on route to his concession speech, though, the Florida count changed rapidly in his favor. The networks once again reversed their projection, and Gore called Bush to retract his concession. When the roughly 6 million Florida votes had been counted, Bush was shown to be leading by only 1,738, and the narrow margin triggered an automatic recount. The recount, completed in the evening of November 9, showed Bush's lead to be less than 400.  
-    Meanwhile, angry Democratic voters in Palm Beach County complained that a confusing "butterfly" lay-out ballot caused them to accidentally vote for the Reform Party candidate Pat Buchanan instead of Gore. The ballot, as illustrated below, listed presidential candidates on both a left-hand and a right-hand page.
-<div style= "float:left;position: relative; margin-left: 0px">
-```{r setup, echo=FALSE, fig.align="left"}
-knitr::include_graphics("img/hw-01-ballot.png")
-```
-</div>
-Voters were to register their vote by punching the circle corresponding to their choice, from the column of circles between the pages. It was suspected that since Bush's name was listed first on the left-hand page, Bush voters likely selected the first circle. Since Gore's name was listed second on the left-hand side, many voters---who already knew who they wished to vote for---did not bother examining the right-hand side and consequently selected the second circle in the column; the one actually corresponding to Buchanan. Two pieces of evidence supported this claim: Buchanan had an unusually high percentage of the vote in that county, and an unusually large number of ballots (19,000) were discarded because voters had marked two circles (possibly by inadvertently voting for Buchanan and then trying to correct the mistake by then voting for Gore).  
-    *The data for this question can be found in the file "Elections.csv" on Sakai.*
-      + Make a scatterplot of the variables *Buchanan2000* and *Bush2000*. What evidence is there in the scatterplot that Buchanan received more votes than expected in Palm Beach County? 
-      + Analyze the data without Palm Beach County results to obtain an equation for predicting Buchanan votes from Bush votes. You should consider transformations (think log transformations etc) for both variables if you think the original relationship is nonlinear.
-      + Include the output from the final regression model that you used, as well as evidence that the model fits the assumptions reasonably well.
-      + Obtain a 95% prediction interval for the number of Buchanan votes in Palm Beach from this result, assuming the relationship is the same in this county as in the others. If it is assumed that Buchanan's actual count contains a number of votes intended for Gore, what can be said about the likely size of this number from the prediction interval?
+    Variable       |        Description
+    :------------- | :-------------------
+    Id             |        id number
+    birth          |       birth date where 1096 = January1, 1961 
+    gestation      |       length of gestation in days
+    bwt            |       birth weight in ounces (999 = unknown)
+    parity         |      total number of previous pregnancies, including fetal deaths and still births. (99=unknown)
+    mrace          |      mother's race or ethnicity <br /> 0-5=white <br /> 6=mexican <br /> 7=black <br /> 8=asian <br /> 9=mix <br /> 99=unknown
+    mage           |      mother's age in years at termination of pregnancy
+    med            |      mother's education <br /> 0 =  less than 8th grade <br /> 1 =  8th to 12th grade. did not graduate high school <br /> 2 = high school graduate, no other schooling <br /> 3 = high school graduate + trade school <br /> 4 = high school graduate + some college <br /> 5 = college graduate <br /> 6,7 = trade school but unclear if graduated from high school <br /> 9 = unknown
+    mht             |         mother's height in inches 
+    mpregwt         |      mother's pre-pregnancy weight in pounds 
+    drace           |         father's race or ethnicity <br /> 0-5 = white <br /> 6 = mexican <br /> 7 = black <br /> 8 = asian <br /> 9 = mix
+    dage            |          father's age in years at termination of pregnancy
+    ded             |          father's education  <br /> 0 =  less than 8th grade <br /> 1 =  8th to 12th grade. did not graduate high school <br /> 2 = high school graduate, no other schooling <br /> 3 = high school graduate + trade school <br /> 4 = high school graduate + some college <br /> 5 = college graduate <br /> 6,7 = trade school but unclear if graduated from high school <br /> 9 = unknown
+    dht              |        father's height
+    dwt              |       father's pre-pregnancy weight in pounds
+    marital          |    marital status of mother <br /> 1 = married <br /> 2 = legally separated <br /> 3 = divorced <br /> 4 = widowed <br /> 5 = never married
+    income           |    family yearly income in 2500 increments. 0 = under 2500, 1 = 2500-4999, ..., 9 = 15000+.   98=unknown, 99=not asked
+    smoke            |    does mother smoke? <br /> 0 = never <br /> 1 = smokes now <br /> 2 = until preg <br /> 3 = once did, not now
+    time             |       If mother quit, how long ago did she quit? <br /> 0 = never smoked, <br /> 1 = still smokes, <br /> 2 = quit during pregnancy, <br /> 3 = up to 1 yr ago, <br /> 4 = up to 2 yr ago, <br /> 5 = up to 3 yr ago, <br /> 6 = up to 4 yr ago, <br /> 7 = 5 to 9yr ago, <br /> 8 = 10+yr ago, <br /> 9 = quit and don't know, <br /> 98 = unknown
+    number           |      number of cigs smoked a day for past and current smokers <br /> 0 = never smoked <br /> 1 = 1-4 <br /> 2 = 5-9 <br /> 3 = 10-14 <br /> 4 = 15-19 <br /> 5 = 20-29 <br /> 6 = 30-39 <br /> 7 = 40-60 <br /> 8 = 60+, <br /> 9 = smoke but don't know
+    Premature       |        1 = baby born before gestational age of 270, and 0 = otherwise. <br /> *Ignore this for modeling since it is just a dichotomized function of the gestational age*.
+
 
 ## Grading
 
