@@ -139,7 +139,7 @@ Treat the variable `beer_cons_liters` as your response variable and the other va
 
     *If no, use `beer_cons_liters` as your response variable for the remaining questions. If yes, use `log(beer_cons_liters)` as your response variable instead for the remaining questions.*
 
-2. Make exploratory plots of `beer_cons_liters` (or `log(beer_cons_liters)`) versus each potential predictor. Are all the relationships linear? If any one of them is nonlinear, describe the distribution.
+2. Make exploratory plots of `beer_cons_liters` (or `log(beer_cons_liters)`) versus each potential predictor. Are all the relationships linear? If any one of them is nonlinear, describe the relationship.
 
 3. Does it make sense to include all three of `temp_median_c`, `temp_min_c` and `temp_max_c` as predictors in a MLR model for predicting `beer_cons_liters` (or `log(beer_cons_liters)`)? Justify your response in one or two sentences.
 
