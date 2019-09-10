@@ -1712,45 +1712,56 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Methods and Data Analysis 2</h1>
-<h4 class="date">Due: 6:00pm, Tuesday, Sept 17</h4>
+<h4 class="date">Due: 11:59pm, Tuesday, Sept 17</h4>
 
 </div>
 
 
 <div id="instructions" class="section level2">
 <h2>Instructions</h2>
-<p>This assignment involves multiple linear regression. The data (for question 2) can be found on Sakai: go to Resources <span class="math inline">\(\rightarrow\)</span> Datasets <span class="math inline">\(\rightarrow\)</span> Homework Datasets <span class="math inline">\(\rightarrow\)</span> Methods and Data Analysis 2. Please type your solutions using R Markdown, LaTeX or any other word processor but be sure to knit or convert the final output file to “.pdf”. Submissions should be made on gradescope: go to Assignments <span class="math inline">\(\rightarrow\)</span> Methods and Data Analysis 2.</p>
+<p>This assignment involves multiple linear regression. The datasets (for question 2) can be found on Sakai: go to Resources <span class="math inline">\(\rightarrow\)</span> Datasets <span class="math inline">\(\rightarrow\)</span> Homework Datasets <span class="math inline">\(\rightarrow\)</span> Methods and Data Analysis 2. Please type your solutions using R Markdown, LaTeX or any other word processor but be sure to knit or convert the final output file to “.pdf”. Submissions should be made on gradescope: go to Assignments <span class="math inline">\(\rightarrow\)</span> Methods and Data Analysis 2.</p>
 </div>
 <div id="questions" class="section level2">
 <h2>Questions</h2>
 <p>Question 1 was taken and adapted from Chapter 7 of <a href="https://www.amazon.com/Statistical-Sleuth-Course-Methods-Analysis/dp/1133490670">Ramsey, F.L. and Schafer, D.W. (2013), “The Statistical Sleuth: A Course in Methods of Data Analysis (3rd ed).”</a></p>
 <ol style="list-style-type: decimal">
 <li><font color="blue">OLD FAITHFUL.</font> Reconsider the question on the Old Faithful eruptions from the last homework. Remember the data inlcuded a variable for the day of the eruptions (called “Date” in the dataset).<br />
-<em>Use the same “OldFaithful.csv” file you used for the first homework.</em>
+<em>For this question, use the same data in the “OldFaithful.csv” file you used for question one of the first homework.</em>
 <ul>
 <li>Fit a regression of interval on duration and day (treated as a categorical/factor variable). Is there a significant difference in mean intervals for any of the days (compared to the first day)? Interpret the effects of controlling for the days (do so only for the days with significant effects, if any).<br />
 <em>To specify a variable x1 as a factor variable in R when fitting your model, use the command “lm(y~as.factor(x1))”.</em></li>
 <li>Perform an <span class="math inline">\(F\)</span>-test to compare this model to your model for this data from the last homework. In context of the question, what can you conclude from the results of the <span class="math inline">\(F\)</span>-test?</li>
-<li>Compute the in-sample RMSE for this model and do the same for your model from the last homework. Which model appears to have higher (within-sample) predictive accuracy based on the RMSE values?</li>
+<li>Using <span class="math inline">\(k\)</span>-fold cross validation (with k=10), compare the average RMSE for this model and the average RMSE for your model from the last homework. Which model appears to have higher predictive accuracy based on the average RMSE values?<br />
+<em>You should be able to leverage your code from lab 1 for the cross validation.</em></li>
 </ul></li>
 <li><p><font color="blue">MATERNAL SMOKING AND BIRTH WEIGHTS</font>. These days, it is widely understood that mothers who smoke during pregnancy risk exposing their babies to many health problems. This was not common knowledge fifty years ago. One of the first studies that addressed the issue of pregnancy and smoking was the Child Health and Development Studies, a comprehensive study of all babies born between 1960 and 1967 at the Kaiser Foundation Hospital in Oakland, CA. The original reference for the study is Yerushalmy (1964, <em>American Journal of Obstetrics and Gynecology</em>, pp. 505-518). The data and a summary of the study are in Nolan and Speed (2000, <em>Stat Labs</em>, Chapter 10) and can be found at the <a href="https://www.stat.berkeley.edu/users/statlabs/">book’s website</a>.<br />
 <em>The data for this question can be found in the file “babiesdata.csv” on Sakai.</em></p>
-There were about 15,000 families in the study. We will analyze a subset of the data, in particular 1236 male single births where the baby lived at least 28 days. The researchers interviewed mothers early in their pregnancy to collect information on socioeconomic and demographic characteristics, including an indicator of whether the mother smoked during pregnancy. This is an observational study, because mothers decided whether or not to smoke during pregnancy; there was no random assignment to smoke or not to smoke. The variables in the dataset are described in the code book at the end of this document.<br />
+<p>There were about 15,000 families in the study. We will only analyze a subset of the data, in particular 1236 male single births where the baby lived at least 28 days. The researchers interviewed mothers early in their pregnancy to collect information on socioeconomic and demographic characteristics, including an indicator of whether the mother smoked during pregnancy. The variables in the dataset are described in the code book at the end of this document.<br />
+<em>Note that this is an observational study, because mothers decided whether or not to smoke during pregnancy; there was no random assignment to smoke or not to smoke. Thus, we cannot make causal inference statements from the results of a standard regression model.</em></p>
 In 1989, the Surgeon General asserted that mothers who smoke have increased rates of premature delivery (before 270 days) and low birth weights. We will analyze the data to see if there is an association between smoking and birth weight. To simplify analyses, we’ll compare babies whose mothers smoke to babies whose mothers have never smoked. The data file you have access to has only these people, although there were other types of smokers in the original dataset.<br />
 Our questions of interest include the following.
 <ul>
-<li>Do mothers who smoke tend to give birth to babies with lower weights than mothers who do not smoke? What is a likely range for the difference in birth weights for smokers and non-smokers?</li>
+<li>Do mothers who smoke tend to give birth to babies with lower weights than mothers who do not smoke?</li>
+<li>What is a likely range for the difference in birth weights for smokers and non-smokers?</li>
 <li>Is there any evidence that the association between smoking and birth weight differs by mother’s race? If so, characterize those differences.</li>
 <li>Are there other interesting associations with birth weight that are worth mentioning?</li>
 </ul>
-<p>Write a report describing your findings. Be sure to include the following in your report: the model you ultimately decided to use, a justification for that model (e.g., why you chose certain transformations and why you decided the final model is reasonable to use based on residual diagnostics), the relevant regression output (includes: a table with coefficients and SEs, and p-values or confidence intervals; and somewhere in the text or table the estimated regression standard deviation and R-squared), your interpretation of the results in the context of the questions of interest, and any potential limitations of the analysis.<br />
-There are some complexities in this dataset to be aware of. Some variables have missing values. In particular, you will see from the .csv file that the height and weight of the father are missing quite frequently. This is typical in data on births: it is often difficult to get data about the fathers. I recommend that you not consider father’s height and weight when modeling. Some of the other variables have a few missing cases here and there. For this analysis, you can drop them from the modeling. This is not the ideal way to handle missing data in an analysis–and we will learn better methods later in the course–but for now it will move the analysis forward. I strongly recommend that you make a data file that has complete observations on every single case for all the variables you are thinking about including in the model, and run the regression using that file. For example, I posted such a file in the Sakai site that excludes all of the variables on the fathers. You are welcome to use this file, or make your own if you want to use fathers’ data.<br />
-<em>The modified data can be found in the file “babiesdata.csv” on Sakai.</em><br />
-The data files also contain two outcome variables: gestational age and birth weight. Both of these could be affected by smoking, so both are outcomes rather than predictors. It does not make sense scientifically to include one as a predictor of the other; the two variables happen simultaneously and hence are a bivariate outcome. For this analysis, we exclude gestational age from the modeling. Of course, one could do a separate regression for gestational age to see if smoking has an effect on gestational ages. Even better, one could treat birth weight and gestational age as a bivariate outcome and fit a regression model that predicts the bivariate outcome. This is a model we won’t have to time to learn about in our course, but come find the instructor if you want to learn more. The file also contains an indicator variable for Premature (gestational age &lt; 270 days), which is just a recoding of gestational age; we won’t use that.<br />
-The main file also includes information on the number of cigarettes smoked and about timing for mothers who quit smoking. For this analysis you do not have to use those variables, as we just compare smokers and non-smokers.<br />
-You can collapse race categories from 0 - 5 into one category for race = white.<br />
-Regarding the fathers’ data, you might pay attention to correlation among the mothers’ and fathers’ values. For example, the mothers’ and fathers’ races might tend to be similar (use a “table” command to see the contingency table of the two races), in which case you have to be concerned about effects of multicollinearity if you want to include both mother’s and father’s races in the model.<br />
-<strong>Code Book</strong></p>
+Analyze the data and investigate these questions using a linear model. Also, do the following.
+<ul>
+<li>Write a report (maximum of 5 pages) describing your findings. Make sure to provide direct answers to each question using your model.</li>
+<li>Be sure to also include the following in your report:
+<ul>
+<li>the model you ultimately decided to use,</li>
+<li>a justification for that model (e.g., why you chose certain transformations and why you decided the final model is reasonable to use based on residual diagnostics),</li>
+<li>the relevant regression output (includes: a table with coefficients and SEs, and p-values or confidence intervals; and somewhere in the text or table the estimated regression standard deviation and R-squared),</li>
+<li>and any potential limitations of the analysis.</li>
+</ul></li>
+</ul>
+<p><br /> <font color="red"><em>There are some complexities in the original dataset to be aware of. Some variables have missing values. In particular, you will see from the babiesdata.csv file that the height and weight of the father are missing quite frequently. This is typical in data on births, as it is often difficult to get data about the fathers. I recommend that you not consider father’s height and weight when modeling. Some of the other variables have a few missing cases here and there. For this analysis, you can drop them from the modeling. This is not the ideal way to handle missing data in an analysis–and we will learn better methods later in the course–but for now it will move the analysis forward. I strongly recommend that you make a data file that has complete observations on every single case for all the variables you are thinking about including in the model, and run the regression using that file. For example, I posted such a file in the Sakai site that excludes all of the variables on the fathers. You are welcome to use this file, or make your own with complete cases if you really want to use fathers’ data. <strong>The modified data can be found in the file “smoking.csv” on Sakai.</strong> </em></font></p>
+<p><font color="red"><em>The data files also contain two outcome variables: gestational age and birth weight. Both of these could be affected by smoking, so both are outcomes rather than predictors. It does not make sense scientifically to include one as a predictor of the other; the two variables happen simultaneously and hence are a bivariate outcome. For this analysis, we exclude gestational age from the modeling. Of course, one could do a separate regression for gestational age to see if smoking has an effect on gestational ages. Even better, one could treat birth weight and gestational age as a bivariate outcome and fit a regression model that predicts the bivariate outcome. This is a model we won’t have to time to learn about in our course, but come find the instructor if you want to learn more. The file also contains an indicator variable for Premature (gestational age &lt; 270 days), which is just a recoding of gestational age; <strong>we won’t use that</strong>.</em></font></p>
+<p><font color="red"><em>The main file also includes information on the number of cigarettes smoked and about timing for mothers who quit smoking. For this analysis you do not have to use those variables, as we just compare smokers and non-smokers. Also, for this analysis, you can ignore the birth date variable, you can collapse education categories from 6-7 into one category for education = trade school, and you can also collapse race categories from 0 - 5 into one category for race = white.</em></font></p>
+<p><font color="red"><em>Finally, regarding the fathers’ data, you might pay attention to correlation among the mothers’ and fathers’ values. For example, the mothers’ and fathers’ races might tend to be similar (use a “table” command to see the contingency table of the two races), in which case you have to be concerned about effects of multicollinearity if you want to include both mother’s and father’s races in the model.</em></font></p>
+<p><strong>Code Book</strong></p>
 <table>
 <colgroup>
 <col width="41%"></col>
@@ -1853,7 +1864,7 @@ Regarding the fathers’ data, you might pay attention to correlation among the 
 </div>
 <div id="grading" class="section level2">
 <h2>Grading</h2>
-<p>30 points: 10 points for each question</p>
+<p>30 points: 10 points for question 1, 20 points for question 2.</p>
 </div>
 
 

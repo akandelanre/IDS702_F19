@@ -144,6 +144,8 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
 
 .small { font-size: 80% } 
 
+.mini { font-size: 60% } 
+
 .tiny { font-size: 25% }
 
 .large { font-size: 90% }  

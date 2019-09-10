@@ -32,9 +32,9 @@ lessons:
   - title: "WEEK 3"
   
   - date: "Tue, Sept 10"
-    title: "Interaction terms, transformations, multicollinearity and heteroscedasticity"
-    #slides: "lec-slides/05-reg-model-transformation.html"
-    #hw: "hw-02.html"
+    title: "Interactions, transformations, and multicollinearity"
+    slides: "lec-slides/05-reg-model-transformation.html"
+    hw: "hw-02.html"
     
   - date: "Thur, Sept 12"
     title: "Model building and selection"

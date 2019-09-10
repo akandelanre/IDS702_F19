@@ -1,5 +1,5 @@
 ---
-title: "MLR: interaction terms, transformations, multicollinearity and heteroscedasticity"
+title: "MLR: interaction, transformations, and multicollinearity"
 author: "Dr. Olanrewaju Michael Akande"
 date: "Sept 10, 2019"
 output:
@@ -46,22 +46,20 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 
 ## Housekeeping
 
-- Homework 2 is now online. Due date is 10:05am next Tuesday, September 17.
+- Due dates for assignments will now be specified on an assignment to assignment basis.
 
-- Submit on Gradescope on or before 10:05am!
+- Homework 2 is online; due date is 11:59pm next Tuesday, September 17.
+
+- Submit on Gradescope.
 
 
 ## Outline
 
 - Questions from last lecture
 
-- Special predictors: higher order terms, indicator (dummy) variables and interaction terms
+- Special predictors: higher order terms, indicator/dummy variables and interaction terms
 
-- Transformations
-
-- Multicollinearity
-
-- Heteroscedasticity
+- Transformations and multicollinearity
 
 - Final notes
 
@@ -69,15 +67,19 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 ---
 ## Introduction
 
-- In the last class, we covered model assessment and validation. We also talked about the concept of cross validation.
+- In the last class, we covered model assessment and validation.
 
 --
 
-- Today, we will talk about modeling and interpreting special predictors in regression models.
+- Today, we will move on to controlling for and interpreting special predictors in regression models.
 
 --
 
-- Specifically, we will talk about higher order terms, indicator (dummy) variables and interaction terms. We have already talked about the first two, so we will simply formalize the concepts.
+- Specifically, we will talk about higher order terms, indicator/dummy variables and interaction terms. 
+
+--
+
+- We have already had some introduction to the first two, so we will simply formalize the concepts.
 
 --
 
@@ -85,7 +87,7 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 
 --
 
-- In the next class, we will start to talk about building, selecting and comparing MLR models. 
+- In the next class, we will dive properly into model building, selection and comparison for MLR models.
 
 
 ---
@@ -106,11 +108,11 @@ class: center, middle
 
 --
 
-- In that particular example, we included squared terms for both age and experience.
+- Whenever this is the case, we should look to include squared terms or higher order powers for predictors to capture trends.
 
 --
 
-- Whenever this is the case, we should look to include squared terms or higher order powers for predictors to capture trends.
+- In that particular example, we included squared terms for both age and experience.
 
 --
 
@@ -119,14 +121,14 @@ class: center, middle
 
 --
 
-- As we have seen before, the best way to present result when including quadratic/polynomial trends is to plot the predicted average of $Y$ for different values of $X$.
+- As we have seen before, the best way to present results when including quadratic/polynomial trends is to plot the predicted average of $Y$ for different values of $X$.
 
 
 
 ---
 ## Special predictors: indicator/dummy variables
 
-- From the Harris Trust and Savings Bank, we have also seen how to include binary variables in a MLR model with the variable `sex`.
+- From the Harris Trust and Savings Bank example, we have also seen how to include binary variables in a MLR model with the variable `sex`.
 
 --
 
@@ -139,12 +141,6 @@ class: center, middle
 --
 
 - The value of that coefficient would be $767$ instead of $-767$ like we had. All other statistics stay the same (SE, t-stat, p-value). Other coefficients also remain the same.
-
---
-
-- <div class="question">
-In that example, is it possible to include both the male and female indicator variables in the same model? Why or why not?
-</div>
 
 --
 
@@ -206,7 +202,7 @@ $$y_i = \beta_0*(\textrm{M}_i + \textrm{F}_i) + \beta_1 \textrm{M}_i + \beta_2 \
 
 --
 
-- Most statistical softwares actually do this for you; that is, make the $k-1$ dummy variables and set the first level as the baseline automatically.
+- R will actually do this for you automatically; that is, make the $k-1$ dummy variables and set the first level as the baseline.
 
 --
 
@@ -214,18 +210,18 @@ $$y_i = \beta_0*(\textrm{M}_i + \textrm{F}_i) + \beta_1 \textrm{M}_i + \beta_2 \
 
 --
 
-- We will go through in-class examples later today.
+- We will go through an in-class example today.
 
 
 
 ---
 ## Special predictors: interaction terms
 
-- Sometimes relationship of some predictor with $Y$ depends on values of other predictors.
+- Sometimes relationship of some predictor with $Y$ depends on values of other predictors. This is called an .hlight[interaction effect].
 
 --
 
-- This is called an .hlight[interaction effect].
+- Sometimes, the question we wish to answer would require including interactions in the model, even though they might not be significant.
 
 --
 
@@ -241,11 +237,7 @@ $$y_i = \beta_0*(\textrm{M}_i + \textrm{F}_i) + \beta_1 \textrm{M}_i + \beta_2 \
 
 --
 
-- .block[General practice to include all main effects (each variable without interaction) when including interactions.]
-
---
-
-- Again, we will go through in-class examples later today.
+- .block[General practice is to include all main effects (each variable without interaction) when including interactions.]
 
 
 
@@ -256,20 +248,31 @@ $$y_i = \beta_0*(\textrm{M}_i + \textrm{F}_i) + \beta_1 \textrm{M}_i + \beta_2 \
 
 --
 
-- We can do so using an F test (also called nested F test in this case).
+- We can do so using an F test (a nested F test in this case).
 
 --
 
-- First suppose we fit a MLR model with all $p$ predictors. We can compute the sum of squares of the errors (SSE) or residual sum of squares (RSS) for the model, that is,
+- First, we fit a MLR model with all $p$ predictors. That is,
 .block[
 .small[
-$$\textrm{RSS} = \sum^n_{i=1} \left(y_i - \hat{y}_i \right)^2.$$
+$$\textrm{M}_1: \  y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip} + \epsilon_i; \ \ \epsilon_i \overset{iid}{\sim} N(0, \sigma^2).$$
 ]
 ]
 
 --
 
-- Now to test that a particular subset of $q$ of the coefficients are zero.
+- We can compute the sum of squares of the errors $(\textrm{SSE}_1)$ or residual sum of squares $(\textrm{RSS}_1)$ for the FULL model, that is,
+.block[
+.small[
+$$\textrm{RSS}_1 = \sum^n_{i=1} \left(y_i - \hat{y}_i \right)^2.$$
+]
+]
+
+
+---
+## Testing if groups of coefficients are equal to zero
+
+- Now suppose we want to test that a particular subset of $q$ of the coefficients are zero.
 .block[
 .small[
 $$H_0: \beta_{p-q+1} = \beta_{p-q+2} = \ldots = \beta_p = 0.$$
@@ -278,20 +281,36 @@ $$H_0: \beta_{p-q+1} = \beta_{p-q+2} = \ldots = \beta_p = 0.$$
 
 --
 
-- Let's call the residual sum of squares for that model $\textrm{RSS}_0$.
-
-
----
-## Testing if groups of coefficients are equal to zero
-
-- Then the appropriate F-statistic is
+- We fit a reduced model that uses all the variables except the last $q$, that is,
 .block[
 .small[
-$$F = \dfrac{(\textrm{RSS}_0 - \textrm{RSS})/q}{\textrm{RSS}/(n-p-1)}.$$
+$$\textrm{M}_{0}: \ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{i(p-q)} + \epsilon_i; \ \ \epsilon_i \overset{iid}{\sim} N(0, \sigma^2).$$
 ]
 ]
 
 --
+
+- Let's call the residual sum of squares for that model $\textrm{RSS}_0$.
+
+--
+
+--
+<div class="question">
+Which of the two RSS values would be larger? Why?
+</div>
+
+--
+
+- Then the appropriate F-statistic is
+.block[
+.small[
+$$F = \dfrac{(\textrm{RSS}_0 - \textrm{RSS}_1)/q}{\textrm{RSS}_1/(n-p-1)}.$$
+]
+]
+
+
+---
+## Testing if groups of coefficients are equal to zero
 
 - To calculate the p-value, look for the area under the $F$ curve with $q$ degrees of freedom in the numerator, and $(n-p-1)$ degrees of freedom in the denominator.
 
@@ -301,10 +320,9 @@ $$F = \dfrac{(\textrm{RSS}_0 - \textrm{RSS})/q}{\textrm{RSS}/(n-p-1)}.$$
 
 --
 
-```{r echo=FALSE, out.width="250px", out.height="200px"}
+```{r echo=FALSE, out.height="300px"}
 knitr::include_graphics("img/surprised-baby.jpeg")
 ```
-
 
 
 ---
@@ -334,7 +352,7 @@ $$\textrm{Avg. y} = \beta_0 + \beta_1 x + \beta_2 z,$$
   and estimate all coefficients. Since $z = x/10$, we have
 .block[
 .small[
-$$\textrm{Avg. y} = \beta_0 + \beta_1 x + \beta_2 \dfrac{x}{10} = \beta_0 + \left( \beta_1 +  \dfrac{\beta_2}{10} x \right)$$
+$$\textrm{Avg. y} = \beta_0 + \beta_1 x + \beta_2 \dfrac{x}{10} = \beta_0 + \left( \beta_1 +  \dfrac{\beta_2}{10} \right) x$$
 ]
 ]
 
@@ -352,7 +370,7 @@ $$\textrm{Avg. y} = \beta_0 + \beta_1 x + \beta_2 \dfrac{x}{10} = \beta_0 + \lef
 --
 
 - When might we get close:
-  + Very high correlations ($> 0.9$) among two (or more) predictors in modest sample sizes
+  + Very high correlations $(|\rho| > 0.9)$ among two (or more) predictors in modest sample sizes.
   + When one or more variables are nearly a linear combination of the others.
   + Including quadratic terms as predictors without first mean centering the values before squaring.
   + Including interactions involving continuous variables.
@@ -362,14 +380,601 @@ $$\textrm{Avg. y} = \beta_0 + \beta_1 x + \beta_2 \dfrac{x}{10} = \beta_0 + \lef
 ## The problem of multicollinearity
 
 - How to diagnose:
-  + Look at a correlation matrix of all the predictors (including dummy variables). Look for values near 1 or 1.
+  + Look at a correlation matrix of all the predictors (including dummy variables). Look for values near -1 or 1.
   + If you are suspicious that some predictor is a near linear combination of others, run a regression of that predictor on all other predictors (not including Y) to see if R squared is near 1.
+  + If the R squared is near 1, you should think about centering your variables or maybe even excluding that variable from your regression in some cases.
+  + Take a look at the .hlight[variance inflation factor]. 
+  + Variance inflation factor measures how much the multicollinearity between a variable and other variables in the model inflates the variance of the regression coefficient for that variable.
   
-      If the R squared is near 1, you should think about centering your variables or maybe even excluding that variable from your regression in some cases.
+  
+---
+## Variance inflation factor
+
+- .block[
+.small[
+$$\textrm{VIF}_j = \dfrac{1}{1-R^2_{X_j | X_{-j}}}$$
+]
+]
+
+  where $R^2_{X_j | X_{-j}}$ is the R-squared from the regression of predictor $X_j$ on all other predictors $(X_1, \ldots,X_{j-1},X_{j+1},\ldots, X_{p})$.
+  
+--
+
+- Since R-squared always lies between 0 and 1, 
+  + the denominator $1-R^2_{X_j | X_{-j}} \leq 1$ 
+  + which implies that $\textrm{VIF} \geq 1$
+
+--
+
+- Generally, VIF of 
+  + 1 = not correlated. Why?
+  + between 1 and 5 = moderately correlated.
+  + greater than 5 = highly correlated.
+  
+  
+---
+## We see multicollinearity... so what?
+
+- Multicollinearity is really only a problem if standard errors for the involved coefficients are too large to be useful for interpretation, and you actually care about interpreting those coefficients.
+
+--
+
+- In the Harris Bank example,
+  + The main coefficient of interest is the one for `sex`.
+  + The remaining variables are really just "control variables". That is, those variables may be correlated with both `bsal` and `sex`, and so we want to account for their effects in our model.
+  + Recall that the correlation between `age` and `exper` was actually 0.8.
+  + Even with this correlation, it is still okay to keep both in the model since we want to simply account for them but do not care about interpreting either.
+  
+- Another scenario is prediction: including highly correlated predictors can increase prediction uncertainty.
 
 
 ---
-## Final notes
+## What to do about multicollinearity?
 
-- 
+- What if you do want to interpret the coefficients involved in the multicollinearity, and the SEs are inflated substantially because of it?
+
+- Easiest remedy: remove one of the "offending" predictors.
+
+- Keep the one that is easiest to explain or that has the largest T-statistic.
+
+--
+
+- Better remedy: 
+  + Explore shrinkage methods, for example lasso and ridge regressions, to shrink the coefficients of some of the variables towards zero.
+  + Use a Bayesian regression model with an informative prior distribution on the parameters (take STA602!).
+  + Get more data! Multicollinearity tends to be unimportant in large sample sizes.
+
+
+
+---
+## Example: multiple regression of diamonds data
+
+- A diamond's value is often determined using four factors known as the 4Cs: color, clarity, cut (certification) and carat weight.
+  + Color: evaluation based on absence of color; how pure the diamond is. 
+  + Clarity: evaluation based on absence of blemishes.
+  + Certification: how well the diamond is cut; how well a diamond's facets interacts with light.
+  + Carat weight: measures how much the diamond weighs.
+  
+- We will use some data to draw inference about how these factors affect a diamond's price
+
+- The data is in the file `diamonds.csv` on Sakai.
+
+- You can read more about the 4Cs [here](https://4cs.gia.edu/en-us/4cs-diamond-quality/).
+
+
+---
+## Multiple regression of diamonds data
+```{r}
+diamonds <- read.csv("data/diamonds.csv", header= T,
+                     colClasses = c("numeric","factor","factor","factor","numeric"))
+dim(diamonds)
+head(diamonds)
+summary(diamonds)
+```
+
+
+---
+## Multiple regression of diamonds data
+
+Let's do exploratory data analysis. First, the distribution of `price`.
+```{r fig.height=3.4}
+hist(diamonds$Price,xlab="Price",main="Distribution of price",col=rainbow(10))
+```
+
+--
+<div class="question">
+Is this distribution normal?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+Next, explore the relationship between `price` and `carats`
+```{r fig.height=3.4}
+plot(diamonds$Price~diamonds$Carats,xlab="Carats",ylab="Price",col='cyan4')
+abline(lm(Price~Carats,data=diamonds),col='red3',lty=10,lwd=2)
+```
+
+--
+<div class="question">
+What do you think of this plot?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+Since the distribution of `carats` is not really normal, let's transform the variable. This is the natural log, you can try other bases on your own.
+```{r fig.height=3.4}
+hist(log(diamonds$Price),xlab="Log Price",main="Distribution of log price",col=rainbow(10))
+```
+
+--
+<div class="question">
+Is this distribution normal?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+Now the relationship between `log(price)` and `carats`
+```{r fig.height=3.4}
+plot(log(diamonds$Price)~diamonds$Carats,xlab="Carats",ylab="Log Price",col='cyan4')
+abline(lm(log(Price)~Carats,data=diamonds),col='red3',lty=10,lwd=2)
+```
+
+--
+<div class="question">
+Is this more "linear" than what we had before?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+Next, `price` and `color`.
+```{r fig.height=3.4}
+boxplot(Price~Color,data=diamonds,ylab="Price",xlab="Color",col=rainbow(15))
+```
+
+--
+<div class="question">
+What do you think of this plot?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+How about, `log(price)` and `color` instead
+```{r fig.height=3.4}
+boxplot(log(Price)~Color,data=diamonds,ylab="Log Price",xlab="Color",col=rainbow(15))
+```
+
+--
+<div class="question">
+How about this plot?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+Next, `price` and `clarity`.
+```{r fig.height=3.4}
+boxplot(Price~Clarity,data=diamonds,ylab="Price",xlab="Clarity",col=rainbow(15))
+```
+
+--
+<div class="question">
+What do you think of this plot?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+How about, `log(price)` and `clarity` instead
+```{r fig.height=3.4}
+boxplot(log(Price)~Clarity,data=diamonds,ylab="Log Price",xlab="Clarity",col=rainbow(15))
+```
+
+--
+<div class="question">
+How about this plot?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+Next, `price` and `Certification`.
+```{r fig.height=3.4}
+boxplot(Price~Certification,data=diamonds,ylab="Price",xlab="Certification",col=rainbow(15))
+```
+
+--
+<div class="question">
+What do you think of this plot?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+How about, `log(price)` and `Certification` instead
+```{r fig.height=3.4}
+boxplot(log(Price)~Certification,data=diamonds,ylab="Log Price",xlab="Certification",
+        col=rainbow(15))
+```
+
+--
+<div class="question">
+How about this plot?
+</div>
+
+
+
+---
+## Multiple regression of diamonds data
+
+Let's make some plots to explore interactions. First, `log(price)` and `Carats` by `Color`
+```{r fig.height=3.6}
+xyplot(log(Price)~Carats|Color,data=diamonds,group=Color,type=c("p","r"),col.line="red4")
+```
+
+--
+<div class="question">
+Is there an interaction effect?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+Next, `log(price)` and `Carats` by `Clarity`
+```{r fig.height=3.6}
+xyplot(log(Price)~Carats|Clarity,data=diamonds,group=Clarity,type=c("p","r"),col.line="red4")
+```
+
+--
+<div class="question">
+Is there an interaction effect?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+Next, `log(price)` and `Carats` by `Certification`
+```{r fig.height=3.6}
+xyplot(log(Price)~Carats|Certification,data=diamonds,group=Certification,type=c("p","r"),
+       col.line="red4")
+```
+
+--
+<div class="question">
+Is there an interaction effect?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+We also can examine interactions among categorical variables
+```{r fig.height=3.6}
+bwplot(log(Price)~Clarity|Color,data = diamonds)
+```
+
+--
+<div class="question">
+Is there an interaction effect?
+</div>
+
+
+
+---
+## Multiple regression of diamonds data
+
+We also can examine interactions among categorical variables
+```{r fig.height=3.6}
+bwplot(log(Price)~Certification|Color,data = diamonds)
+```
+
+--
+<div class="question">
+Is there an interaction effect?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+We also can examine interactions among categorical variables
+```{r fig.height=3.6}
+bwplot(log(Price)~Certification|Clarity,data = diamonds)
+```
+
+--
+<div class="question">
+Is there an interaction effect?
+</div>
+
+
+---
+## Multiple regression of diamonds data
+
+- We see some evidence of non-normality, non-linearity (with `Carats`) and non-constant variance overall. 
+
+- Taking the log transformation helped with those. 
+
+- We might need a quadratic term for `Carats`. Maybe?
+
+- We might also consider interactions between `Clarity` and `Color`.
+
+- Let's mean center the numerical predictors (just `Carat`)  to avoid multicollinearity.
+  ```{r}
+diamonds$CaratsCent <- diamonds$Carats - mean(diamonds$Carats)
+diamonds$CaratsCent2 <- diamonds$CaratsCent^2
+```
+
+- Based on our EDA, our candidate model is
+.block[
+.small[
+$$\boldsymbol{y} = \boldsymbol{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}; \ \ \boldsymbol{\epsilon} \sim N(0, \sigma^2 \boldsymbol{I}).$$
+]
+]
+
+  where $\boldsymbol{X}$ contains Carats, $\textrm{Carats}^2$, Color, Clarity, Certification, and Color:Clarity.
+  
+
+---
+## Diamonds data: basic MLR
+
+First, a MLR model with only main effects
+.large[
+```{r}
+Model1 <- lm(Price~CaratsCent+Color+Clarity+Certification,data=diamonds);summary(Model1)
+```
+]
+
+
+---
+## Multiple regression of diamonds data
+
+By the way, we can change the baseline levels for the categorical variables.
+.large[
+```{r}
+Model1 <- lm(Price~CaratsCent+relevel(Color,ref="E")+Clarity+Certification,data=diamonds);summary(Model1)
+```
+]
+
+
+---
+## Diamonds data: model assessment
+
+Now some model assessment
+```{r fig.height=3.3}
+plot(Model1$residual~diamonds$CaratsCent,ylab="Residual",col='navy')
+abline(0,0,col="red4")
+```
+
+--
+.block[
+Clearly, some problems!
+]
+
+
+---
+## Diamonds data: model assessment
+
+```{r fig.height=3.3}
+boxplot(Model1$residual~diamonds$Color,ylab="Residual",col='cyan')
+abline(0,0,col="red4")
+```
+
+--
+<div class="question">
+What do you think?
+</div>
+
+
+---
+## Diamonds data: model assessment
+
+```{r fig.height=3.3}
+boxplot(Model1$residual~diamonds$Clarity,ylab="Residual",col='cyan')
+abline(0,0,col="red4")
+```
+
+--
+<div class="question">
+What do you think?
+</div>
+
+
+---
+## Diamonds data: model assessment
+
+```{r fig.height=3.3}
+boxplot(Model1$residual~diamonds$Certification,ylab="Residual",col='cyan')
+abline(0,0,col="red4")
+```
+
+--
+<div class="question">
+What do you think?
+</div>
+
+
+---
+## Diamonds data: better MLR
+
+Let's fit our EDA suggested model instead but without the interactions.
+.small[
+```{r}
+Model2 <- lm(log(Price)~CaratsCent+CaratsCent2+Clarity+Color+Certification,data=diamonds);summary(Model2)
+```
+]
+
+
+---
+## Diamonds data: model assessment
+
+Now some model assessment on the new model.
+```{r fig.height=3.3}
+plot(Model2$residual~diamonds$CaratsCent,ylab="Residual",col='navy')
+abline(0,0,col="red4")
+```
+
+--
+<div class="question">
+What do you think?
+</div>
+
+
+---
+## Diamonds data: model assessment
+
+```{r fig.height=3.3}
+boxplot(Model2$residual~diamonds$Color,ylab="Residual",col='cyan')
+abline(0,0,col="red4")
+```
+
+--
+<div class="question">
+What do you think?
+</div>
+
+
+---
+## Diamonds data: model assessment
+
+```{r fig.height=3.3}
+boxplot(Model2$residual~diamonds$Clarity,ylab="Residual",col='cyan')
+abline(0,0,col="red4")
+```
+
+--
+<div class="question">
+What do you think?
+</div>
+
+---
+## Diamonds data: model assessment
+
+```{r fig.height=3.3}
+boxplot(Model2$residual~diamonds$Certification,ylab="Residual",col='cyan')
+abline(0,0,col="red4")
+```
+
+--
+<div class="question">
+What do you think?
+</div>
+
+
+---
+## Checking independence and equal variance
+
+```{r fig.height=3.3}
+plot(Model2,which=1)
+```
+
+--
+<div class="question">
+Do you see any clear violations of the independence and equal variance assumptions?
+</div>
+
+
+---
+## Checking independence and equal variance
+
+```{r fig.height=3.3}
+plot(Model2,which=3)
+```
+
+--
+<div class="question">
+Do you see any clear violations of the independence and equal variance assumptions?
+</div>
+
+
+
+---
+## Checking normality
+
+```{r fig.height=3.6}
+plot(Model2,which=2)
+```
+
+--
+<div class="question">
+Do you see any clear violations of the normality assumption?
+</div>
+
+
+---
+## Outliers and influential points
+
+```{r fig.height=3.6}
+plot(Model2,which=5)
+```
+
+--
+<div class="question">
+Are there any potential outliers or influential points?
+</div>
+
+
+
+
+
+---
+## Diamonds data: nested F test
+
+- Let's do a nested $F$-test to see if all the interaction terms between `Clarity` and `Color` are important.
+
+--
+
+- I won't print the results because there are too many interactions but you should run `summary(Model2_inter)` yourself to see.
+  ```{r}
+Model2_inter <- lm(log(Price)~CaratsCent+CaratsCent2+Clarity*Color+Certification,
+                   data=diamonds);
+anova(Model2,Model2_inter)
+```
+
+--
+  <div class="question">
+What do we conclude?
+</div>
+
+--
+
+- This confirms our EDA.
+
+
+---
+## Diamonds data: nested F test
+
+How about a nested $F$-test for interaction terms between `Color` and `Certification`?
+```{r}
+Model2_inter2 <- lm(log(Price)~CaratsCent+CaratsCent2+Color+Clarity*Certification,
+                   data=diamonds);
+anova(Model2,Model2_inter2)
+```
+
+--
+<div class="question">
+What do we conclude?
+</div>
+
+--
+
+This also confirms our EDA.
+
+
+
 
