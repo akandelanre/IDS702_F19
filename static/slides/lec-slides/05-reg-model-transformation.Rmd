@@ -20,6 +20,7 @@ library(knitr)
 library(kableExtra)
 library(lattice)
 #library(dplyr)
+library(rms)
 ```
 
 ```{r setup, include=FALSE}
@@ -418,6 +419,8 @@ $$\textrm{VIF}_j = \dfrac{1}{1-R^2_{X_j | X_{-j}}}$$
   + 1 = not correlated. Why?
   + between 1 and 5 = moderately correlated.
   + greater than 5 = highly correlated.
+  
+- Typically, we start to get worried when VIF > 10. 
   
   
 ---
@@ -975,9 +978,9 @@ What do we conclude?
 
 How about a nested $F$-test for interaction terms between `Color` and `Certification`?
 ```{r}
-Model2_inter2 <- lm(log(Price)~CaratsCent+CaratsCent2+Color+Clarity*Certification,
+Model2_inter3 <- lm(log(Price)~CaratsCent+CaratsCent2+Color+Clarity*Certification,
                    data=diamonds);
-anova(Model2,Model2_inter2)
+anova(Model2,Model2_inter3)
 ```
 
 --
@@ -988,6 +991,24 @@ What do we conclude?
 --
 
 This also confirms our EDA.
+
+
+---
+## Diamonds data: multicollinearity
+
+Should we be worried about multicollinearity for the model with main effects? Use the .hlight[vif] function in the .hlight[rms] package.
+```{r}
+Model2 <- lm(log(Price)~CaratsCent+CaratsCent2+Clarity+Color+Certification,data=diamonds)
+vif(Model2)
+```
+
+--
+<div class="question">
+Should we be worried?
+</div>
+
+
+
 
 
 

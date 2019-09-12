@@ -397,6 +397,8 @@ class: center, middle
   + between 1 and 5 = moderately correlated.
   + greater than 5 = highly correlated.
   
+- Typically, we start to get worried when VIF &gt; 10. 
+  
   
 ---
 ## We see multicollinearity... so what?
@@ -1186,9 +1188,9 @@ What do we conclude?
 How about a nested `\(F\)`-test for interaction terms between `Color` and `Certification`?
 
 ```r
-Model2_inter2 &lt;- lm(log(Price)~CaratsCent+CaratsCent2+Color+Clarity*Certification,
+Model2_inter3 &lt;- lm(log(Price)~CaratsCent+CaratsCent2+Color+Clarity*Certification,
                    data=diamonds);
-anova(Model2,Model2_inter2)
+anova(Model2,Model2_inter3)
 ```
 
 ```
@@ -1209,6 +1211,33 @@ What do we conclude?
 --
 
 This also confirms our EDA.
+
+
+---
+## Diamonds data: multicollinearity
+
+Should we be worried about multicollinearity for the model with main effects? Use the .hlight[vif] function in the .hlight[rms] package.
+
+```r
+Model2 &lt;- lm(log(Price)~CaratsCent+CaratsCent2+Clarity+Color+Certification,data=diamonds)
+vif(Model2)
+```
+
+```
+##       CaratsCent      CaratsCent2       ClarityVS1       ClarityVS2 
+##         1.822328         1.317592         3.039532         2.552504 
+##      ClarityVVS1      ClarityVVS2           ColorE           ColorF 
+##         2.272172         2.635256         3.252945         4.576620 
+##           ColorG           ColorH           ColorI CertificationHRD 
+##         4.097442         4.019112         3.125784         1.338819 
+## CertificationIGI 
+##         2.211713
+```
+
+--
+&lt;div class="question"&gt;
+Should we be worried?
+&lt;/div&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
