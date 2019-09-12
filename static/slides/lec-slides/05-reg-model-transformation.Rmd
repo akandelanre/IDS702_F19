@@ -45,7 +45,7 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 ```
 
 
-## Housekeeping
+## Announcements
 
 - Due dates for assignments will now be specified on an assignment to assignment basis.
 

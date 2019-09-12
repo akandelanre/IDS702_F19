@@ -42,7 +42,7 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 })
 ```
 
-## Housekeeping
+## Announcements
 
 - Review the key to the conceptual questions.
 

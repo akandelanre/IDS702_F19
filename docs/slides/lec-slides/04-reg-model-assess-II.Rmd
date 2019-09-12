@@ -56,7 +56,7 @@ wages$experc2 <- wages$experc^2
 regwagecsquares <- lm(bsal~sex+seniorc+agec+agec2+educc+experc+experc2,data=wages)
 ```
 
-## Housekeeping
+## Announcements
 
 - Homework 1 is due at 6:00pm today! 
 
