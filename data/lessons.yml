@@ -32,12 +32,13 @@ lessons:
   - title: "WEEK 3"
   
   - date: "Tue, Sept 10"
-    title: "Interactions, transformations, and multicollinearity"
+    title: "Special predictors and multicollinearity"
     slides: "lec-slides/05-reg-model-transformation.html"
     hw: "hw-02.html"
     
   - date: "Thur, Sept 12"
     title: "Model building and selection"
+    slides: "lec-slides/06-reg-model-building.html"
     
   - title: "Final project outline"
     project: "final-project.html"

@@ -1,5 +1,5 @@
 ---
-title: "MLR: interaction, transformations, and multicollinearity"
+title: "MLR: special predictors and multicollinearity"
 author: "Dr. Olanrewaju Michael Akande"
 date: "Sept 10, 2019"
 output:
@@ -57,11 +57,11 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 
 - Questions from last lecture
 
-- Special predictors: higher order terms, indicator/dummy variables and interaction terms
+- Special predictors: higher order terms, indicator/dummy variables, and interaction terms
 
-- Transformations and multicollinearity
+- Multicollinearity
 
-- Final notes
+- In-class example
 
 
 ---
@@ -325,6 +325,14 @@ knitr::include_graphics("img/surprised-baby.jpeg")
 ```
 
 
+
+---
+class: center, middle
+
+# Multicollinearity
+
+
+
 ---
 ## The problem of multicollinearity
 
@@ -440,9 +448,15 @@ $$\textrm{VIF}_j = \dfrac{1}{1-R^2_{X_j | X_{-j}}}$$
 --
 
 - Better remedy: 
-  + Explore shrinkage methods, for example lasso and ridge regressions, to shrink the coefficients of some of the variables towards zero.
+  + Mean center (or scale) your variables. It helps but may not always solve the problem. 
   + Use a Bayesian regression model with an informative prior distribution on the parameters (take STA602!).
   + Get more data! Multicollinearity tends to be unimportant in large sample sizes.
+
+
+---
+class: center, middle
+
+# Example
 
 
 

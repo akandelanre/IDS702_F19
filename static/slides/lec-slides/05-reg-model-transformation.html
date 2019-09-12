@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>MLR: interaction, transformations, and multicollinearity</title>
+    <title>MLR: special predictors and multicollinearity</title>
     <meta charset="utf-8" />
     <meta name="author" content="Dr. Olanrewaju Michael Akande" />
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
@@ -12,7 +12,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# MLR: interaction, transformations, and multicollinearity
+# MLR: special predictors and multicollinearity
 ### Dr. Olanrewaju Michael Akande
 ### Sept 10, 2019
 
@@ -37,11 +37,11 @@ class: center, middle, inverse, title-slide
 
 - Questions from last lecture
 
-- Special predictors: higher order terms, indicator/dummy variables and interaction terms
+- Special predictors: higher order terms, indicator/dummy variables, and interaction terms
 
-- Transformations and multicollinearity
+- Multicollinearity
 
-- Final notes
+- In-class example
 
 
 ---
@@ -303,6 +303,14 @@ Which of the two RSS values would be larger? Why?
 &lt;img src="img/surprised-baby.jpeg" height="300px" style="display: block; margin: auto;" /&gt;
 
 
+
+---
+class: center, middle
+
+# Multicollinearity
+
+
+
 ---
 ## The problem of multicollinearity
 
@@ -418,9 +426,15 @@ Which of the two RSS values would be larger? Why?
 --
 
 - Better remedy: 
-  + Explore shrinkage methods, for example lasso and ridge regressions, to shrink the coefficients of some of the variables towards zero.
+  + Mean center (or scale) your variables. It helps but may not always solve the problem. 
   + Use a Bayesian regression model with an informative prior distribution on the parameters (take STA602!).
   + Get more data! Multicollinearity tends to be unimportant in large sample sizes.
+
+
+---
+class: center, middle
+
+# Example
 
 
 
