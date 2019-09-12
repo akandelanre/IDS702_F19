@@ -431,6 +431,55 @@ class: center, middle
   + Mean center (or scale) your variables. It helps but may not always solve the problem. 
   + Use a Bayesian regression model with an informative prior distribution on the parameters (take STA602!).
   + Get more data! Multicollinearity tends to be unimportant in large sample sizes.
+  
+  
+
+---
+class: center, middle
+
+# Transformations
+
+
+---
+## Log transformation
+
+- You have already seen through the homework and lab that transforming variables can help with linearity and normality. 
+
+- The most common transformation is the natural logarithm. That is, `\(\textrm{log}_e(y)\)` or `\(\textrm{ln}(y)\)`.
+
+- This is often because it is the easiest to interpret.
+
+- Suppose 
+.block[
+.small[
+`$$\textrm{ln}(y_i) = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip} + \epsilon_i.$$`
+]
+]
+
+- Then it is easy to see that
+.block[
+.small[
+`$$y_i = e^{(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip} + \epsilon_i)} = e^\beta_0 \times e^{\beta_1 x_{i1}} \times e^{\beta_1 x_{i2}} \times \ldots \times e^{\beta_1 x_{ip}} \times e^\epsilon_i.$$`
+]
+]
+
+- That is, the predictors actually have a "multiplicative" effect on `\(y\)`.
+
+
+---
+## Log transformation
+
+- The estimated `\(\beta_j\)`'s can be interpreted in terms of approximate proportional differences.
+
+- For example, suppose `\(\beta_1 = 0.10\)`, then `\(e^\beta_1 = 1.105\)`. 
+
+- Thus, a difference of 1 unit in `\(x_1\)` corresponds to an expected positive difference of about 10% in `\(y\)`.
+
+- Similarly, `\(\beta_1 = -0.10\)` means a difference of 1 unit in `\(x_1\)` corresponds to an expected negative difference of about 10% in `\(y\)`.
+
+- When making predictions using the regression of the transformed variable, remember to transform back to the original scale to make your predictions more meaningful.
+
+
 
 
 ---
