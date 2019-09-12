@@ -21,7 +21,7 @@ This assignment involves multiple linear regression. The datasets (for question 
 Question 1 was taken and adapted from Chapter 7 of [Ramsey, F.L. and Schafer, D.W. (2013), "The Statistical Sleuth: A Course in Methods of Data Analysis (3rd ed)."](https://www.amazon.com/Statistical-Sleuth-Course-Methods-Analysis/dp/1133490670)
 
 1. <font color="blue">OLD FAITHFUL.</font>
-Reconsider the question on the Old Faithful eruptions from the last homework. Remember the data inlcuded a variable for the day of the eruptions (called "Date" in the dataset).  
+Reconsider the question on the Old Faithful eruptions from the last homework. Remember the data included a variable for the day of the eruptions (called "Date" in the dataset).  
     *For this question, use the same data in the "OldFaithful.csv" file you used for question one of the first homework.*
       + Fit a regression of interval on duration and day (treated as a categorical/factor variable). Is there a significant difference in mean intervals for any of the days (compared to the first day)? Interpret the effects of controlling for the days (do so only for the days with significant effects, if any).  
         *To specify a variable x1 as a factor variable in R when fitting your model, use the command "lm(y~as.factor(x1))".*
