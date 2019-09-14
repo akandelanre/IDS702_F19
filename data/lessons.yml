@@ -62,7 +62,7 @@ lessons:
   
   - date: "Tue, Sept 24"
     title: "Logistic regression: model assessment and validation"
-    project: "team-project-01.html"
+    #project: "team-project-01.html"
     
   - date: "Thur, Sept 26"
     title: "Multinomial logistic regression (HW3 DUE!)"
