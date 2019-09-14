@@ -40,8 +40,8 @@ lessons:
     title: "Model building and selection"
     slides: "lec-slides/06-reg-model-building.html"
     
-  - title: "Final project outline"
-    project: "final-project.html"
+  #- title: "Final project outline"
+  #  project: "final-project.html"
     
   - title: "PART  II: GENERALIZED LINEAR MODELS"
     
@@ -62,7 +62,7 @@ lessons:
   
   - date: "Tue, Sept 24"
     title: "Logistic regression: model assessment and validation"
-    #project: "team-project-01.html"
+    project: "team-project-01.html"
     
   - date: "Thur, Sept 26"
     title: "Multinomial logistic regression (HW3 DUE!)"
