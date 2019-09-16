@@ -1,6 +1,6 @@
 ---
-title: "Showcase your inner data scientist"
-date: "Proposal due: Mar 29, project due: May 5"
+title: "Final project outline"
+date: "Proposal due: Nov 4, project report due: Dec 10"
 output: 
   html_document: 
     css: hw.css

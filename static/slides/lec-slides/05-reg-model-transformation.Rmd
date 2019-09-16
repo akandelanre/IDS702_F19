@@ -294,8 +294,6 @@ $$\textrm{M}_{0}: \ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \
 - Let's call the residual sum of squares for that model $\textrm{RSS}_0$.
 
 --
-
---
 <div class="question">
 Which of the two RSS values would be larger? Why?
 </div>

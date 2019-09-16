@@ -12,41 +12,53 @@ html {
 }
 
 body {
-	font-family: 'Source Sans Pro', sans-serif;
-	font-weight: 300;
+	font-family: 'Century Gothic',Futura,'URW Gothic L',sans-serif;
+	font-weight: lighter;
 	background-color: #fefefe;
 	color: #222;
 	counter-reset: li;
+	font-size: 15px;
 }
 
 h1.title {
-	font-weight: 700;
-	font-family: 'Source Sans Pro', sans-serif;
-	color: #008CBA;
+	font-weight: 400;
+	font-variant: small-caps;
+	font-family: 'Century Gothic',Futura,'URW Gothic L',sans-serif;
+	color: #075767;
 }
 
 h1 {
 	font-style: normal;
-	font-family: 'Source Sans Pro', sans-serif;
-	color: #008CBA;
+	font-variant: small-caps;
+	font-family: 'Century Gothic',Futura,'URW Gothic L',sans-serif;
+	color: #075767;
 }
 
 h2 {
 	font-style: normal;
-	font-family: 'Source Sans Pro', sans-serif;
+	font-variant: small-caps;
+	font-family: 'Century Gothic',Futura,'URW Gothic L',sans-serif;
 	font-weight: 400;
-	color: #008CBA;
+	color: #075767;
 }
 
 h3.subtitle {
 	font-style: normal;
-	color: #008CBA;
+	font-variant: small-caps;
+	color: #075767;
+}
+
+h3 {
+	font-style: normal;
+	font-variant: small-caps;
+	color: #075767;
 }
 
 h4 {
 	font-style: normal;
-	font-weight: 400;
-	font-family: 'Source Sans Pro', sans-serif;
+	font-variant: small-caps;
+	font-weight: 200;
+	font-family: 'Century Gothic',Futura,'URW Gothic L',sans-serif;
 	margin-top: 1.5rem;
 	margin-bottom: 0;
 	line-height: 1;
@@ -54,13 +66,14 @@ h4 {
 
 h4.author,
 h4.date {
-	font-family: 'Source Sans Pro', sans-serif;
-	font-weight: 300;
+	font-family: 'Century Gothic',Futura,'URW Gothic L',sans-serif;
+	font-weight: 200;
+	font-variant: small-caps;
 }
 
 .numeral {
 	font-family: "Source Sans Pro";
-	font-weight: 300;
+	font-weight: 200;
 }
 
 em {
@@ -109,7 +122,7 @@ pre {
 
 ol {
 	/* Remove the default left padding */
-	padding-left: 0;
+	padding-left: 3;
 }
 
 ol>li {
@@ -126,15 +139,29 @@ ol>li {
 
 ol>li:before {
 	/* Use the counter as content */
-	content: "Question " counter(li)".";
+	content: "Question " counter(li)". " ;
 	/* Increment the counter by 1 */
 	counter-increment: li;
 	position: absolute;
-	color: #008CBA;
-	left: -0.5px;
-	font-weight: bold;
+	color: #075767;
+	left: -12px;
+	font-weight: normal;
 }
 
 ol ol {
 	counter-reset: subitem;
 }
+
+a, a:hover, a:focus {
+  color: #bf4f22;
+}
+
+.tocify {
+  font-variant: small-caps;
+}
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+  background-color: #bf4f22;
+}
+
+

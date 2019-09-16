@@ -40,15 +40,16 @@ lessons:
     title: "Model building and selection"
     slides: "lec-slides/06-reg-model-building.html"
     
-  #- title: "Final project outline"
-  #  project: "final-project.html"
-    
   - title: "PART  II: GENERALIZED LINEAR MODELS"
     
   - title: "WEEK 4"
   
+  - title: "Final project outline"
+    project: "final-project.html"
+  
   - date: "Tue, Sept 17"
     title: "Introduction to logistic regression (HW2 DUE!)"
+    #slides: "lec-slides/07-logistic-reg-intro.html"
     
   - date: "Thur, Sept 19"
     title: "Logistic regression: inference vs prediction"
@@ -173,6 +174,9 @@ lessons:
     
   - date: "Thur, Dec 5"
     title: "Final project presentations II"
+    
+  - date: "Tue, Dec 10"
+    title: "Final project report due"
 
     
     #slides: "lec-slides/02a-fund-data-viz.html"
