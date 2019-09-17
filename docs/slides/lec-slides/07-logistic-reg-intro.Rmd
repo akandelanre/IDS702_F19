@@ -62,8 +62,6 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 
 - Interpreting coefficients
 
-- Model assessment
-
 
 
 ---
@@ -78,17 +76,27 @@ class: center, middle
 
 - So far in this course, our response variables have been continuous.
 
+--
+
 - Sometimes, we would also like to build models for binary outcome variables. For example,
 
   + $Y = 1$: healthy, $Y = 0$: not healthy
   + $Y = 1$: employed, $Y = 0$: not employed
   + $Y = 1$: win, $Y = 0$: lose
 
+--
+
 - Often, we want to predict or explain the binary outcome variable from several predictors.
+
+--
 
 - Linear regression is NOT appropriate, because normality for the response variable (and errors) makes no sense in this case.
 
+--
+
 - This brings us to .hlight[logistic regression], the most popular model for binary outcomes.
+
+--
 
 - First let's review relative risk, odds and odds ratios.
 
@@ -110,6 +118,11 @@ $X=0$        | c           | d           |
 
 - .hlight[Relative risk (RR)]: $\dfrac{a/(a+b)}{c/(c+d)}$
 
+--
+<div class="question">
+In which fields do you think relative risk might be useful?
+</div>
+
 
 
 ---
@@ -128,6 +141,11 @@ $X=0$        | c           | d           |
 
 - .hlight[Odds ratio (OR)]: $\dfrac{a/b}{c/d}$
 
+--
+<div class="question">
+In which fields do you think odds or odds ratio might be useful?
+</div>
+
 
 
 ---
@@ -135,9 +153,15 @@ $X=0$        | c           | d           |
 
 - Physicians' Health Study (1989): randomized experiment with 22071 male physicians at least 40 years old.
 
+--
+
 - Half the subjects were assigned to take aspirin every other day.
 
+--
+
 - The other half were assigned to take a placebo pill.
+
+--
 
 - Here are the number of people in each cell of the contingency table
 
@@ -161,6 +185,8 @@ Placebo        | 189           | 10845           |
 - .block[Relative risk of a heart attack when taking aspirin versus when taking a placebo equals]
 $$\textrm{RR} = \dfrac{104/(104+10933)}{189/(189+10845)} = 0.55$$
 
+--
+
 - .block[Odds of having a heart attack when taking aspirin over odds of a heart attach when talking a placebo (odds ratio)]
 $$\textrm{OR} = \dfrac{104/10933}{189/10845} = 0.546$$
 
@@ -177,9 +203,13 @@ $X=0$        | c           | d           |
 - When the variables $X$ and $Y$ are independent 
 $$OR = 1; \ \ \ \ \ \ \ \ \ RR = 1$$
   
+--
+
 - When subjects with level $X=1$ are more likely to have $Y=1$ than subjects with level $X=0$, then 
 $$OR > 1; \ \ \ \ \ \ \ \ \ RR > 1$$
   
+--
+
 - When subjects with level $X=1$ are less likely to have $Y=1$ than subjects with level $X=0$, then 
 $$OR < 1; \ \ \ \ \ \ \ \ \ RR < 1$$
 
@@ -189,7 +219,11 @@ $$OR < 1; \ \ \ \ \ \ \ \ \ RR < 1$$
 
 - Small or large values of relative risk may or may not be significant depending on the base rate.
 
+--
+
 - Thus, it can be more helpful or meaningful to present both the absolute risk and RR.
+
+--
 
 - For example,
   + Percentage of smokers who get lung cancer: 8% (conservative estimate)
@@ -210,7 +244,11 @@ class: center, middle
 
 - RR and OR can be useful, but it would be great to be able to do either or both in a model setting; especially when we have multiple predictors.
 
+--
+
 - Let's start small: suppose we want to use linear regression to predict binary $y$ from some predictor $x$. 
+
+--
 
 - Recall that the simple linear regression model is
 .block[
@@ -220,6 +258,8 @@ $$y_i = \beta_0 + \beta_1 x_{i} + \epsilon_i; \ \ \epsilon_i \overset{iid}{\sim}
 ]
 
 - Also recall that this means the model implies that $y$ could be any continuous value, when in fact for a binary outcome, it has to be exactly zero or one.
+
+--
 
 - Therefore, linear regression is not a reasonable model here. 
 
@@ -241,10 +281,16 @@ $$\Pr[y_i = 1 | x_i] = \pi_i \ \ \textrm{and} \ \ \Pr[y_i = 0 | x_i] = 1-\pi_i $
 ]
 
   where $\pi_i$ is some function of $x_i$.
+
+--
   
 - Notice that this is simply a .hlight[Bernoulli distribution] or a .hlight[Bernoulli distribution] (with number of trials = 1) where the probability $\pi_i$ is allowed to be potentially different for each observation $i$.
 
+--
+
 - What then should the function that connects $\pi_i$ to $x_i$ look like? 
+
+--
 
 - Some "not so ideal" options could be:
   + .hlight[Linear]:
@@ -268,6 +314,8 @@ $$\textrm{log}(\pi_i) = \beta_0 + \beta_1 x_{i} \ \ \Rightarrow \ \ \pi_i = e^{\
 
 - From the log-linear function, we can already see a potential solution to the $\pi_i>1$ problem: we can divide $e^{\beta_0 + \beta_1 x_{i}}$ by a denominator that will always be greater than it.
 
+--
+
 - Thus, we can use the function
 .block[
 .small[
@@ -275,6 +323,8 @@ $$\pi_i = \dfrac{e^{\beta_0 + \beta_1 x_i}}{1 + e^{\beta_0 + \beta_1 x_i}}  \ \ 
 ]
 ]
   $\textrm{log} \left(\dfrac{\pi_i}{1-\pi_i}\right)$ is called the .hlight[logit function], also written as $\textrm{logit}(\pi_i)$. Notice that the logit function is essentially the .hlight[log-odds], i.e., log of the odds.
+
+--
 
 - We can then formally write the .hlight[logistic regression model] as
 .block[
@@ -311,7 +361,11 @@ $$
 ]
 ]
 
+--
+
 - By the way, another function that works well for linking $\pi_i$ to $x_i$ is the .hlight[probit function]; the quantile function (or inverse of the cumulative distribution function) associated with the standard normal distribution.
+
+--
 
 - We will formally explore the .hlight[probit regression model] later in the course.
 
@@ -329,6 +383,8 @@ $$\textrm{log}\left(\dfrac{\pi_i}{1-\pi_i}\right) = \beta_0 + \beta_1 x_i$$
 
   we can see that "*as we increase $x$ by 1 unit, we increase the log-odds of $y$ being 1 by $\beta_1$*".
 
+--
+
 - Equivalently, from
 .block[
 .small[
@@ -338,7 +394,11 @@ $$\dfrac{\pi_i}{1-\pi_i} = e^{\beta_0 + \beta_1 x_i} = e^{\beta_0}  e^{\beta_1 x
 
   we can see that "*as we increase $x$ by 1 unit, we increase the odds for $y$ by a multiplicative effect of $e^{\beta_1}$*".
 
+--
+
 - With mean-centered $x$, $\beta_0$ is the log-odds for $y$ at the mean of $x$, and $e^{\beta_0}$ is the odds for $y$ at the mean of $x$.
+
+--
 
 - Often much easier to interpret results by graphing the (predicted) probabilities for values of $x$.
 
@@ -347,33 +407,44 @@ $$\dfrac{\pi_i}{1-\pi_i} = e^{\beta_0 + \beta_1 x_i} = e^{\beta_0}  e^{\beta_1 x
 ---
 ## Interpreting coefficients: categorical predictors
 
-Since the odds is defined as
-.block[
-.small[
-$$\dfrac{\pi_i}{1-\pi_i} = e^{\beta_0 + \beta_1 x_i} = e^{\beta_0}  e^{\beta_1 x_i}$$
-]
-]
-
 When $x$ is binary,
 
 - .hlight[Odds] of $y=1$ for level $x=1$: $e^{\beta_0}  e^{\beta_1 (1)} = e^{\beta_0 + \beta_1}$
 
+--
+
 - .hlight[Odds] of $y=1$ for level $x=0$: $e^{\beta_0}  e^{\beta_1 (0)} = e^{\beta_0}$
+
+--
 
 - .hlight[Odds ratio (OR)]: $\dfrac{e^{\beta_0}  e^{\beta_1}}{e^{\beta_0}} = e^{\beta_1}$
 
+--
+
 - Thus, $e^{\beta_1}$ has a nice interpretation as the odds ratio when $x=1$ versus $x=0$, and $\beta_1$ is the corresponding log odds ratio.
 
+--
+
 When $x$ is categorical with $K > 2$ levels, the corresponding $e^{\beta_{1k}}$ is the odds ratio when $x=k$ versus whichever level is set as the baseline.
+
+--
+
+It is also easy to calculate relative risk from the results of the logistic model.
 
 ---
 ## Estimation of coefficients
 
 - Use maximum likelihood estimation.
 
+--
+
 - Basic idea is to find the values of $(\beta_0, \beta_1)$ that make the observed values of Y most likely to have arisen.
 
+--
+
 - Requires multivariate calculus and numerical methods (Newton Raphson algorithm) for estimation.
+
+--
 
 - R to the rescue yet again: R does if for us!!!
 
@@ -386,6 +457,8 @@ knitr::include_graphics("img/phew.gif")
 ## Intervals and significance tests
 
 - As with all coefficients, the standard errors represent chance deviations in the estimated values $(\hat{\beta}_0, \hat{\beta}_1)$ from the actual values $(\beta_0, \beta_1)$
+
+--
 
 - Confidence intervals is usually based on large-sample normal distribution approximations. For example,
   + $95%$ CI for $\hat{\beta}_1$:
@@ -401,7 +474,11 @@ $$e^{\left[\hat{\beta}_1 \pm 1.96 \times \textrm{SE}_{\hat{\beta}_1}\right]}$$
 ]
 ]
 
+--
+
 - Confidence intervals can also be computed using the profile-likelihood approach. 
+
+--
 
 - Although both methods can yield similar CIs with large sample sizes, the profile-likelihood limits can often have better small-sample properties than the asymptotic approximations. R can compute both.
 
@@ -412,11 +489,19 @@ $$e^{\left[\hat{\beta}_1 \pm 1.96 \times \textrm{SE}_{\hat{\beta}_1}\right]}$$
 
 - Let's start with a very small dataset to illustrate logistic regression with one predictor.
 
+--
+
 - On January 28, 1986, the space shuttle Challenger exploded in the early stages of its flight, killing all crew members.
+
+--
 
 - The cause of the explosion was a failure of O-rings, seals on the booster rockets that prevent hot gases from escaping the rockets. 
 
+--
+
 - When the O-rings failed, one booster rocket caught on fire. The fire eventually burned a hole in the main fuel tank rocket, allowing elements to mix together to produce the catastrophic explosion.
+
+--
 
 - The ambient temperature was 36 degrees on the morning of the launch. 
 
@@ -427,9 +512,15 @@ $$e^{\left[\hat{\beta}_1 \pm 1.96 \times \textrm{SE}_{\hat{\beta}_1}\right]}$$
 
 - Some of NASA’s scientists worried that the O-rings may not perform well in low temperatures; they had no experience with launches in such temperatures.
 
+--
+
 - To aid their decision making process, the NASA scientists examined data from previous shuttle flights. 
 
+--
+
 - They graphed the number of O-ring failures versus the ambient temperature for all flights where there was at least one O-ring failure.
+
+--
 
 - They obtained these data by examining the booster rockets that fall to the Earth after being jettisoned during a flight.
 
@@ -570,7 +661,11 @@ plot(y=newpreds,x=newdata$temp,xlab="Temperature",ylab="Pred. Probability of Fai
 
 - In many developing countries, people get their drinking water from wells.
 
+--
+
 - Sometimes these wells are contaminated with the chemical arsenic, which when consumed in high concentrations causes skin and bladder cancer, as well as cardiovascular disease.
+
+--
 
 - Fortunately, in many cases people living near contaminated wells have the opportunity to get water from nearby uncontaminated wells.
 
@@ -581,15 +676,27 @@ plot(y=newpreds,x=newdata$temp,xlab="Temperature",ylab="Pred. Probability of Fai
 
 - In one study, several researchers measured the concentrations of arsenic in wells in a particular region of Bangladesh.
 
+--
+
 - They labeled wells as safe or unsafe based on the measurements.
+
+--
 
 - The researchers encouraged people drinking from unsafe wells to switch to safe wells.
 
+--
+
 - Several years later, the researchers returned to the area with the goal of seeing who had switched from unsafe to safe wells.
+
+--
 
 - They recorded information on a sample of 3020 individuals who had wells at their homes that were unsafe.
 
+--
+
 - Let's address the question: what predicts why people switch wells?
+
+--
 
 - The data is in the file `arsenic.csv` on Sakai.
 
