@@ -3,6 +3,9 @@ title: "Policies"
 markup: "mmark"
 ---
 
+**When in doubt about anything at all, ask questions!!!**
+
+
 ### Prerequisites
 Students are expected to know all topics covered in the MIDS summer course review and boot camp. These include basic probability (including conditional probability, expectations and common probability distributions), and statistical inference (including hypothesis testing, confidence intervals, linear regression with one predictor, and exploratory data analysis). Students are also expected to be familiar with R/Rstudio. Due to space constraints, the course is open only to students in the MIDS program.
 
@@ -79,6 +82,7 @@ Students with disabilities who believe that they may need accommodations in the 
 
 ### Other Information
 It can be a lot more pleasant oftentimes to get in-person answers and help. Make use of the teaching team's office hours, we're here to help! Do not hesitate to come to my office during office hours or by appointment to discuss a homework problem or any aspect of the course.  Questions related to course assignments and honesty policy should be directed to me. When the teaching team has announcements for you we will send an email to your Duke email address. Please make sure to check your email daily.
+
 
 
 ### Professionalism
