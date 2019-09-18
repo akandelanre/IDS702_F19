@@ -53,17 +53,18 @@ lessons:
     reading: "reading-02.html"
     
   - date: "Thur, Sept 19"
-    title: "Logistic regression: inference vs prediction"
-    hw: "New-hw-03.html"
+    title: "Logistic regression: model assessment and validation"
+    #slides: "lec-slides/08-logistic-reg-model-assess.html"
+    #hw: "hw-03.html"
     
   - date: "Fri, Sept 20"
     title: "Lab 2: logistic regression"
-    lab: "lab-02-the-contaminated-wells-analysis.html"
+    #lab: "lab-02-the-contaminated-wells-analysis.html"
     
   - title: "WEEK 5"
   
   - date: "Tue, Sept 24"
-    title: "Logistic regression: model assessment and validation"
+    title: "Logistic regression: (cont'd)"
     project: "team-project-01.html"
     
   - date: "Thur, Sept 26"
