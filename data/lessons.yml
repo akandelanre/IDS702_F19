@@ -54,12 +54,12 @@ lessons:
     
   - date: "Thur, Sept 19"
     title: "Logistic regression: model assessment and validation"
-    #slides: "lec-slides/08-logistic-reg-model-assess.html"
-    #hw: "hw-03.html"
+    slides: "lec-slides/08-logistic-reg-model-assess.html"
+    hw: "hw-03.html"
     
   - date: "Fri, Sept 20"
     title: "Lab 2: logistic regression"
-    #lab: "lab-02-the-contaminated-wells-analysis.html"
+    lab: "lab-02-the-contaminated-wells-analysis.html"
     
   - title: "WEEK 5"
   
@@ -68,7 +68,10 @@ lessons:
     project: "team-project-01.html"
     
   - date: "Thur, Sept 26"
-    title: "Multinomial logistic regression (HW3 DUE!)"
+    title: "Multinomial logistic regression"
+  
+  - date: "Fri, Sept 27"
+    title: "HW3 DUE!"
     
   - title: "WEEK 6"
   

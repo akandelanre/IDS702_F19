@@ -22,6 +22,14 @@ library(lattice)
 #library(dplyr)
 library(MASS)
 library(arm)
+library(e1071)
+library(caret)
+library(pROC)
+
+challenger <- read.csv("data/challenger.csv",header=T,colClasses=c("numeric","factor"))
+colnames(challenger) <- c("temp", "failure")
+challenger$fail01 <- rep(0, 24); challenger$fail01[challenger$failure=="Yes"] <- 1
+challenger$tempcent <- challenger$temp - mean(challenger$temp)
 ```
 
 ```{r setup, include=FALSE}
@@ -45,11 +53,11 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 })
 ```
 
-<!-- ## Announcements -->
+## Announcements
 
-<!-- - Final project outline now online; check the course schedule on the course website -->
+- Check the course schedule for reading materials on logistic regression.
 
-<!-- - Modified office hours today -->
+- Homework 3 is now online. It is due next Friday at 11:59pm.
 
 
 ## Outline
@@ -63,8 +71,6 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 
 - Logistic regression with multiple predictors
 
-- Change in deviance statistic
-
 
 
 ---
@@ -72,6 +78,282 @@ class: center, middle
 
 # Checking model fit
 
+
+---
+## Predicting nba wins
+
+- Let's fit a logistic regression with one predictor to NBA data for 4 seasons from the 2014/2015 season to the 2017/2018 season.
+
+- Suppose we want to see how the amount of points a team let's the opponents score affects their odds of winning.
+
+- For this simple example, we will focus on data from four teams: GSW (Golden State Warriors), SAS (San Antonio Spurs), CAV (Cleveland Cavaliers), and TOR (Toronto Raptors).
+
+- The data is in the file `nba_games_stats_reduced.csv` on Sakai.
+
+- Ideally, we should use more information (and that data is actually available) to predict wins but let's continue for illustrative purposes. 
+
+
+---
+## Predicting nba wins
+
+```{r fig.height=3}
+nba <- read.csv("data/nba_games_stats_reduced.csv",header=T)
+colnames(nba)[3] <- "Opp"
+nba$win <- rep(0,nrow(nba)); nba$win[nba$WINorLOSS=="W"] <- 1
+head(nba); dim(nba)
+summary(nba[,-4])
+```
+
+
+---
+## Predicting nba wins
+
+.block[
+.small[
+$$
+\textrm{win}_i | \textrm{Opp}_i \sim \textrm{Bernoulli}(\pi_i); \ \ \ \textrm{log}\left(\dfrac{\pi_i}{1-\pi_i}\right) = \beta_0 + \beta_1 \textrm{Opp}_i
+$$
+]
+]
+
+```{r fig.height=3}
+nbareg <- glm(win~Opp,family=binomial(link=logit),data=nba); summary(nbareg)
+```
+
+  .block[For every additional point an opponent scores in a game, the odds of winning decreases by 8%: exp(-0.08) = 0.92.]
+
+ 
+ 
+---
+## Residuals
+
+There are various options for residuals when working with glms. For logistic regression in particular, we have
+
+- .hlight[Response residuals]
+  .block[
+.small[
+$$e_i = y_i - \hat{\pi}_i.$$
+]
+]
+
+- .hlight[Pearson residuals]
+  .block[
+.small[
+$$e_i^P = \dfrac{y_i - \hat{\pi}_i}{\hat{\pi}_i(1-\hat{\pi}_i)}$$
+]
+]
+
+  which should be more uniform.
+
+- .hlight[Deviance residuals]
+  .block[
+.small[
+$$e_i^D = \textrm{sign}(y_i - \hat{\pi}_i) \times 2\left(y_i \textrm{log}\dfrac{y_i}{\hat{\pi}_i} + (1-y_i) \textrm{log}\dfrac{1-y_i}{1-\hat{\pi}_i} \right).$$
+]
+]
+ 
+ They are the default in R when using the .hlight[residuals()] function. We will talk a bit more about deviance later.
+ 
+ 
+
+---
+## Checking the fit of model
+
+- Unlike what we had for linear regression, just looking at the residuals does not work well here.
+  + They are always positive when $Y=1$ and always negative when $Y=0$.
+  + Also, constant variance is not an assumption of logistic regression.
+  
+     <div class="question">
+    Why is that the case?
+    </div>
+  + We also do not have normality of residuals to work with either.
+
+
+- What we can do is check to see if the function of predictors is well specified using .hlight[binned residuals].
+
+- We can also see how well our model predicts using
+ + Confusion matrix
+ + ROC curves
+ 
+
+
+---
+## Binned residuals
+
+- Compute raw (response) residuals for fitted logistic regression.
+
+- Order observations by values of predicted probabilities (or predictor values) from the fitted regression.
+
+- Using ordered data, form $g$ bins of (approximately) equal size. Default: $g = \sqrt{n}$.
+
+- Compute average residual in each bin.
+
+- Plot average residual versus average predicted probability (or average predictor value) for each bin.
+
+- Use the .hlight[arm] package in R.
+
+
+---
+## NBA analysis
+
+```{r fig.height=3}
+plot(nbareg,which=1)
+```
+
+The residuals are the deviance residuals, while the predicted values are on the linear (logit) scale, that is, $\beta_0 + \beta_1 x_i$.
+
+Look to see which cases have large absolute values for cases that don't fit well, but not too useful otherwise.
+
+
+
+---
+## NBA analysis
+
+Plot binned raw residuals versus predicted probabilities. Load the .hlight[arm] package.
+
+Useful as a "one-stop shopping" plot; especially with many predictors and you want an initial look at model adequacy. Mostly good, although model seems to struggle for fitted values over 0.9.
+
+```{r fig.height=3,message=F}
+binnedplot(fitted(nbareg),residuals(nbareg,"resp"),xlab="Pred. probabilities",col.int="red4",
+           ylab="Avg. residuals",main="Binned residual plot",col.pts="navy")
+```
+
+<!-- The grey lines represent $\pm 2$ SE bands, which we would expect to contain about 95% of the observations. Too few points here to draw any conclusions! -->
+
+
+
+---
+## NBA analysis
+
+Plot binned raw residuals versus individual predictors.
+
+<!-- Useful as a "one-stop shopping" plot; especially with many predictors and you want an initial look at model adequacy.  -->
+
+Mostly good, although model again seems to struggle for low values of opponent's points. Also, too many points outside the bands. We know some important predictors are missing by construction.
+
+```{r fig.height=3,message=F}
+binnedplot(nba$Opp,residuals(nbareg,"resp"),xlab="Opponent's points (centered)",
+           col.int="red4",ylab="Avg. residuals",main="Binned residual plot",col.pts="navy")
+```
+
+<!-- Again, too few points here to draw any conclusions! You want at least 100 data points before these plots start being useful. -->
+
+
+
+---
+## Confusion matrix
+
+- Estimated probabilities can be used to predict outcomes.
+
+- For example, we could decide to predict $Y=1$ when the predicted probability exceeds $0.5$ and predict $Y=0$ otherwise.
+
+- We then can determine how many cases we classify correctly and incorrectly.
+
+- Resulting $2 \times 2$ table called the .hlight[confusion matrix].
+
+- When mis-classification rates are high, model may not be an especially good fit to the data.
+
+
+
+---
+## Confusion matrix
+
+<table>
+  <tr>
+    <th> </th>
+    <th> </th>
+    <th colspan="2">Observed</th>
+  </tr>
+  <tr>
+    <th colspan="2"></th>
+    <td style="text-align:center">Y=1</td>
+    <td style="text-align:center">Y=0</td>
+  </tr>
+  <tr>
+    <th rowspan="2">Predicted</th>
+    <td height="50px">Y=1</td>
+    <td style="text-align:center">TP (True Positives)</td>
+    <td style="text-align:center">FP (False Positives)</td>
+  </tr>
+  <tr>
+    <td height="50px">Y=0</td>
+    <td style="text-align:center">FN (False Negatives)</td>
+    <td style="text-align:center">TN (True Negatives)</td>
+  </tr>
+</table>
+
+- .hlight[True positive rate (TPR)] = $\dfrac{TP}{TP+FN}$ (also known as .hlight[sensitivity])
+
+- .hlight[False negative rate (FNR)] = $\dfrac{FN}{TP+FN}$
+
+- .hlight[True negative rate (TNR)] = $\dfrac{TN}{FP+TN}$ (also known as .hlight[specificity])
+
+- .hlight[False positive rate (FPR)] = $\dfrac{FP}{FP+TN}$ (1 - .hlight[specificity])
+
+
+
+---
+## ROC Curves
+
+- .block[We want high values of sensitivity and low values of (1 - specificity)!]
+
+- The .hlight[receiver operating characteristic (ROC)] curve plots 
+  + Sensitivity on Y axis
+  + 1 - specificity on X axis
+  
+- Evaluated at lots of different values for the threshold
+
+- Good fitting logistic regression curves toward the upper left corner, with .hlight[area under the curve (AUC)] near one.
+
+- Make ROC curves in R using the pROC package.
+
+- By the way, we also often define .hlight[accuracy] as $\dfrac{TP + TN}{TP+FN+FP+TN}$. This estimates how well the model predicts correctly overall.
+
+
+
+---
+## NBA analysis
+
+Let's look at the confusion matrix for the challenger data. Load the .hlight[arm] and .hlight[e1071] packages.
+
+
+```{r fig.height=3,message=F}
+Conf_mat <- confusionMatrix(as.factor(ifelse(fitted(nbareg) >= 0.5, "W","L")),
+                            nba$WINorLOSS,positive = "W")
+Conf_mat$table
+Conf_mat$overall["Accuracy"];
+Conf_mat$byClass[c("Sensitivity","Specificity")]
+```
+
+.hlight[confusionMatrix] produces a lot of output. Print the .hlight[Conf_mat] object to see all of them.
+
+
+
+---
+## NBA analysis
+
+
+```{r fig.height=4.5,message=F}
+invisible(roc(nba$win,fitted(nbareg),plot=T,print.thres=c(0.3,0.5,0.7),legacy.axes=T,
+              print.auc =T,col="red3"))
+```
+
+
+---
+## NBA analysis
+
+
+```{r fig.height=4.5,message=F}
+invisible(roc(nba$win,fitted(nbareg),plot=T,print.thres="best",legacy.axes=T,
+              print.auc =T,col="red3"))
+```
+
+
+
+---
+class: center, middle
+
+# Logistic regression with multiple predictors
 
 
 ---
@@ -128,7 +410,7 @@ Data description
 Variable    | Description
 :------------- | :------------
 Switch | 1 = if respondent switched to a safe well <br /> 0 = if still using own unsafe well
-Arsenic | amount of arsenic in well at respondent's home (100s of micrograms per liter)
+Arsenic | amount of arsenic in well at respondent's home (100s of micro-grams per liter)
 Dist | distance in meters to the nearest known safe well
 Assoc | 1 = if any members of household are active in community organizations <br /> 0 = otherwise
 Educ | years of schooling of the head of household
@@ -167,94 +449,261 @@ now in both cases.
 
 
 ---
-## Final notes
+## The contaminated wells analysis: EDA
 
-- Let's stop here today.
-
-- In the next class, we will pick off from here and fit a logistic regression to the arsenic dataset.
-
-- We will see how to do EDA when dealing with a binary response variable.
-
-- We will also learn to do model assessment and validation for logistic models.
-
-
-
-<!-- --- -->
-<!-- ## The contaminated wells analysis: EDA -->
-
-<!-- ```{r fig.height=3.4} -->
-<!-- arsenic <- read.csv("data/arsenic.csv",header=T, -->
-<!--                     colClasses=c("numeric","numeric","numeric","factor","numeric")) -->
-<!-- head(arsenic) -->
-<!-- summary(arsenic[,-1]) -->
-<!-- table(arsenic$switch) -->
-<!-- ``` -->
-
-
-<!-- --- -->
-<!-- ## The contaminated wells analysis: EDA -->
-
-<!-- .hlight[Binned plots] are also quite informative when visualizing binary responses vs continuous predictors. First *switch* vs *arsenic*. -->
-
-<!-- ```{r fig.height=3.4} -->
-<!-- binnedplot(y=arsenic$switch,arsenic$arsenic,xlab="Arsenic",ylim=c(0,1), -->
-<!--            ylab ="Switch cases",main="Binned Arsenic and Switch cases",col.int="white", -->
-<!--            col.pts=c("red4","navy")) -->
-<!-- ``` -->
-
-
-<!-- --- -->
-<!-- ## The contaminated wells analysis: EDA -->
-
-<!-- Now, *switch* vs *dist*. -->
-
-<!-- ```{r fig.height=3.3} -->
-<!-- binnedplot(y=arsenic$switch,arsenic$dist,xlab="Distance",ylim=c(0,1), -->
-<!--            ylab ="Switch cases",main="Binned Distance and Switch cases",col.int="white", -->
-<!--            col.pts=c("red4","navy")) -->
-<!-- ``` -->
+```{r fig.height=3.4}
+arsenic <- read.csv("data/arsenic.csv",header=T,
+                    colClasses=c("numeric","numeric","numeric","factor","numeric"))
+head(arsenic)
+summary(arsenic[,-1])
+table(arsenic$switch)
+```
 
 
 
-<!-- --- -->
-<!-- ## The contaminated wells analysis: EDA -->
+---
+## The contaminated wells analysis: EDA
 
-<!-- Next, *switch* vs *educ*. -->
+```{r fig.height=2.8}
+par(mfrow=c(1,3))
+boxplot(arsenic~switch,data=arsenic,ylab="Amount of arsenic in well",pch=25,xaxt='n',
+        xlab="Switched to safe well?",col=c("red3","yellow3"),cex = 0.85,main ="All")
+axis(1,at=c(1,2),labels=c("No","Yes"))
+boxplot(arsenic~switch,data=arsenic,subset= assoc==1,ylab="Amount of arsenic in well",
+        xlab="Switched to safe well?",col=c("red3","yellow3"),xaxt='n',
+        pch = 25, cex = 0.85,main ="Active in community")
+axis(1,at=c(1,2),labels=c("No","Yes"))
+boxplot(arsenic~switch,data=arsenic,subset= assoc==0,ylab="Amount of arsenic in well",
+        xlab="Switched to safe well?",col=c("red3","yellow3"),xaxt='n',
+        pch = 25, cex = 0.85,main ="Not active in community")
+axis(1,at=c(1,2),labels=c("No","Yes"))
+```
 
-<!-- ```{r fig.height=3.3} -->
-<!-- binnedplot(y=arsenic$switch,arsenic$educ,xlab="Education",ylim=c(0,1), -->
-<!--            ylab ="Switch cases",main="Binned Education and Switch cases",col.int="white", -->
-<!--            col.pts=c("red4","navy")) -->
-<!-- ``` -->
+
+---
+## The contaminated wells analysis: EDA
+
+```{r fig.height=2.8}
+par(mfrow=c(1,3))
+boxplot(dist~switch,data=arsenic,ylab="Distance to nearest safe well",pch=25,xaxt='n',
+        xlab="Switched to safe well?",col=c("red3","yellow3"),cex = 0.85,main ="All")
+axis(1,at=c(1,2),labels=c("No","Yes"))
+boxplot(dist~switch,data=arsenic,subset= assoc==1,ylab="Distance to nearest safe well",
+        xlab="Switched to safe well?",col=c("red3","yellow3"),xaxt='n',
+        pch = 25, cex = 0.85,main ="Active in community")
+axis(1,at=c(1,2),labels=c("No","Yes"))
+boxplot(dist~switch,data=arsenic,subset= assoc==0,ylab="Distance to nearest safe well",
+        xlab="Switched to safe well?",col=c("red3","yellow3"),xaxt='n',
+        pch = 25, cex = 0.85,main ="Not active in community")
+axis(1,at=c(1,2),labels=c("No","Yes"))
+```
 
 
 
+---
+## The contaminated wells analysis: EDA
+
+```{r fig.height=2.8}
+par(mfrow=c(1,3))
+boxplot(educ~switch,data=arsenic,ylab="Years of schooling of head",pch=25,xaxt='n',
+        xlab="Switched to safe well?",col=c("red3","yellow3"),cex = 0.85,main ="All")
+axis(1,at=c(1,2),labels=c("No","Yes"))
+boxplot(educ~switch,data=arsenic,subset= assoc==1,ylab="Years of schooling of head",
+        xlab="Switched to safe well?",col=c("red3","yellow3"),xaxt='n',
+        pch = 25, cex = 0.85,main ="Active in community")
+axis(1,at=c(1,2),labels=c("No","Yes"))
+boxplot(educ~switch,data=arsenic,subset= assoc==0,ylab="Years of schooling of head",
+        xlab="Switched to safe well?",col=c("red3","yellow3"),xaxt='n',
+        pch = 25, cex = 0.85,main ="Not active in community")
+axis(1,at=c(1,2),labels=c("No","Yes"))
+```
+
+
+---
+## The contaminated wells analysis: EDA
+
+For *switch* vs *assoc*, let's look at a table.
+
+```{r fig.height=3.4}
+table(arsenic[,c("switch","assoc")])/sum(table(arsenic[,c("switch","assoc")]))
+```
+
+We can also do a chi-squared test for independence.
+
+```{r fig.height=3.4}
+chisq.test(table(arsenic[,c("switch","assoc")]))
+```
+
+Not enough evidence to show that *assoc* influences *switch*.
+
+
+---
+## The inverse logit function
+
+The relationship between $\pi_i$ and $x_i$ is defined by the .hlight[inverse logit function]
+.block[
+.small[
+$$
+\pi_i  = \dfrac{e^{\beta_0 + \beta_1 x_i}}{1 + e^{\beta_0 + \beta_1 x_i}}
+$$
+]
+]
+
+<!-- Let's compare this to the original logit function. -->
+
+```{r fig.height=2.6}
+curve(invlogit((x)),xlim=c(-5,5),col="blue3")
+curve(invlogit((2*x)),xlim=c(-5,5),ylim=c(0,1),col="red3",add=T)
+curve(invlogit((0.5*x)),xlim=c(-5,5),ylim=c(0,1),col="yellow3",add=T)
+curve(invlogit((-x)),xlim=c(-5,5),ylim=c(0,1),col="green3",add=T)
+```
+
+Notice the symmetry at the ends.
+
+
+---
+## The contaminated wells analysis: EDA
+
+.hlight[Binned plots] are also quite informative when visualizing binary responses vs continuous predictors. First *switch* vs *arsenic*.
+
+```{r fig.height=2.8}
+binnedplot(y=arsenic$switch,arsenic$arsenic,xlab="Arsenic",ylim=c(0,1),col.pts="navy",
+           ylab ="Switched to safe well?",main="Binned Arsenic and Switch cases",col.int="white")
+```
+
+Not really an inverse logit curve. We may need to transform *arsenic* or add a higher order term.
+
+---
+## The contaminated wells analysis: EDA
+
+Now, *switch* vs *dist*.
+
+```{r fig.height=3.3}
+binnedplot(y=arsenic$switch,arsenic$dist,xlab="Distance",ylim=c(0,1),col.pts="navy",
+           ylab ="Switched to safe well?",main="Binned Distance and Switch cases",col.int="white")
+```
+
+Linear relationships are fine and this looks mostly linear. We will re-examine using residual plots.
+
+---
+## The contaminated wells analysis: EDA
+
+Next, *switch* vs *educ*.
+
+```{r fig.height=3.3}
+binnedplot(y=arsenic$switch,arsenic$educ,xlab="Education",ylim=c(0,1),col.pts="navy",
+           ylab ="Switched to safe well?",main="Binned Education and Switch cases",col.int="white")
+```
+
+This also looks fine, although, we might consider collapsing some levels of education.
+
+---
+## The contaminated wells analysis
+
+Now let's try a logistic regression that has a main effect for every variable and linear predictors. Let's center the continuous predictors.
+
+```{r fig.height=3.3}
+arsenic$arsenic_c = arsenic$arsenic - mean(arsenic$arsenic)
+arsenic$dist_c = arsenic$dist - mean(arsenic$dist)
+arsreg1 <- glm(switch~arsenic_c+dist_c+assoc+educ,data=arsenic,family=binomial); summary(arsreg1)
+```
+
+
+---
+## The contaminated wells analysis
+
+Let's do some model assessment
+
+```{r fig.height=3,message=F}
+binnedplot(fitted(arsreg1),residuals(arsreg1,"resp"),xlab="Pred. probabilities",
+           col.int="red4",ylab="Avg. residuals",main="Binned residual plot",col.pts="navy")
+```
+
+
+--
+<div class="question">
+What do you think?
+</div>
+
+
+---
+## The contaminated wells analysis
+
+Plot binned raw residuals versus individual predictors.
+
+```{r fig.height=3,message=F}
+binnedplot(arsenic$arsenic_c,residuals(arsreg1,"resp"),xlab="Arsenic centered",
+           col.int="red4",ylab="Avg. residuals",main="Binned residual plot",col.pts="navy")
+```
+
+--
+<div class="question">
+What do you think?
+</div>
+
+<!-- Not good! There's a pattern here we need to account for! -->
+
+
+---
+## The contaminated wells analysis
+
+```{r fig.height=3,message=F}
+binnedplot(arsenic$dist_c,residuals(arsreg1,"resp"),xlab="Distance centered",
+           col.int="red4",ylab="Avg. residuals",main="Binned residual plot",col.pts="navy")
+```
+
+
+--
+<div class="question">
+What do you think?
+</div>
+
+
+---
+## The contaminated wells analysis
+
+```{r fig.height=3,message=F}
+binnedplot(arsenic$educ,residuals(arsreg1,"resp"),xlab="Education",
+           col.int="red4",ylab="Avg. residuals",main="Binned residual plot",col.pts="navy")
+```
+
+
+--
+<div class="question">
+What do you think?
+</div>
+
+
+---
+## The contaminated wells analysis
+
+```{r fig.height=3,message=F}
+Conf_mat <- confusionMatrix(as.factor(ifelse(fitted(arsreg1) >= 0.5, "1","0")),
+                            as.factor(arsenic$switch),positive = "1")
+Conf_mat$table
+Conf_mat$overall["Accuracy"];
+Conf_mat$byClass[c("Sensitivity","Specificity")]
+```
+
+.hlight[confusionMatrix] produces a lot of output. Print the .hlight[Conf_mat] object to see all of them.
 
 
 
-<!-- --- -->
-<!-- ## The contaminated wells analysis: EDA -->
+---
+## The contaminated wells analysis
 
-<!-- ```{r fig.height=3,echo=F} -->
-<!-- #boxplot(arsenic~switch,data=arsenic, xlab = "Switch", ylab = "Arsenic",col=c("red4","navy")) -->
-<!-- par(mfrow=c(1,3),oma=c(0,0,0,0)) -->
-<!-- boxplot(arsenic~switch,data=arsenic, ylab="Distance to nearest known safe well",pch = 25, -->
-<!--         xlab="Switched to safe well?",col=c("yellow2","springgreen2"),xaxt='n', -->
-<!--         pars = list(boxwex = 0.5, staplewex = 0.7, outwex = 0.5),cex = 0.85,main ="All") -->
-<!-- axis(1,at=c(1,2),labels=c("No","Yes")) -->
-<!-- boxplot(arsenic~switch,data=arsenic, subset= assoc == 1, ylab="Distance to nearest known safe well", -->
-<!--         xlab="Switched to safe well?",col=c("yellow2","springgreen2"),xaxt='n', -->
-<!--         pars = list(boxwex = 0.5, staplewex = 0.7, outwex = 0.5), -->
-<!--         pch = 25, cex = 0.85,main ="Active in community") -->
-<!-- axis(1,at=c(1,2),labels=c("No","Yes")) -->
-<!-- boxplot(arsenic~switch,data=arsenic, subset= assoc == 0, ylab="Distance to nearest known safe well", -->
-<!--         xlab="Switched to safe well?",col=c("yellow2","springgreen2"),xaxt='n', -->
-<!--         pars = list(boxwex = 0.5, staplewex = 0.7, outwex = 0.5), -->
-<!--         pch = 25, cex = 0.85,main ="Not active in community") -->
-<!-- axis(1,at=c(1,2),labels=c("No","Yes")) -->
-<!-- dev.off() -->
 
-<!-- ``` -->
+```{r fig.height=4.5,message=F}
+invisible(roc(arsenic$switch,fitted(arsreg1),plot=T,print.thres="best",legacy.axes=T,
+              print.auc =T,col="red3"))
+```
+
+
+
+---
+class: center, middle
+
+# Can we do better?
 
 
 

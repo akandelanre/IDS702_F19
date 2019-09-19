@@ -1,6 +1,6 @@
 ---
 title: "Methods and Data Analysis 3"
-date: "Due: 11:59pm, Thursday, Sept 26"
+date: "Due: 11:59pm, Friday, Sept 27"
 output: 
   html_document: 
     css: hw.css
@@ -36,7 +36,7 @@ Analyze the data and investigate these questions using a logistic regression mod
   + Write a report (maximum of 5 pages) describing your findings. Make sure to provide direct answers to each question using your model.
   + Be sure to also include the following in your report: 
     - the model you ultimately decided to use,
-    - a justification for that model (e.g., why you chose certain transformations and why you decided the final model is reasonable to use based on binned residual diagnostics, ROC curves and other metrics for model comparison, such as AIC),
+    - a justification for that model (e.g., why you chose certain transformations and why you decided the final model is reasonable to use based on binned residual diagnostics, ROC curves and other metrics for model comparison, such as change in deviance),
     - the relevant regression output (includes: a table with coefficients and SEs, and p-values or confidence intervals; and somewhere in the text or table the area under the curve for your final model),
     - your interpretation of the results in the context of the questions of interest, and
     - any potential limitations of the analysis.
