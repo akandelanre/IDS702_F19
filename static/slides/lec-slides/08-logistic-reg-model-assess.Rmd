@@ -701,9 +701,61 @@ invisible(roc(arsenic$switch,fitted(arsreg1),plot=T,print.thres="best",legacy.ax
 
 
 ---
-class: center, middle
+## Change in deviance statistic
 
-# Can we do better?
+- Suppose we want to test whether a particular subset of $q$ of the coefficients are zero. That is,
+.block[
+.small[
+$$
+\begin{split}
+H_0 & : \beta_{p-q+1} = \beta_{p-q+2} = \ldots = \beta_p = 0\\
+H_A & : \textrm{At least one } \beta_{j} \neq 0; \textrm{ where } j = p-q+1, \ldots, p.
+\end{split}
+$$
+]
+]
+
+- In linear regression we use the nested F-test to compare two nested models.
+
+- In logistic regression we use the .hlight[change in deviance test].
+
+- Expression for change in deviance on next slide for those interested, but formula not essential for our course.
+
+- Can use the anova command in R! Hooray!!
+
+
+---
+## Change in deviance statistic
+
+- Let $y_i = 1$ when the outcome variable for record $i$ equals 1, and $y_i = 0$ when the outcome variable for record $i$ equals 0.
+
+- Let $\hat{\pi}_{1i}$ and $\hat{\pi}_{2i}$ be the be the estimated probabilities that $y_i = 1$ for Model 1 and Model 2, respectively, where Model 1 is nested within Model 2. 
+
+- For a logistic regression, the change in deviance test statistic is defined as:
+.block[
+.small[
+$$D = 2 \left(\sum_{i=1}^n \left[y_i \textrm{log}(\hat{\pi}_{1i}) + (1-y_i) \textrm{log}(1-\hat{\pi}_{1i})\right] - \sum_{i=1}^n \left[y_i \textrm{log}(\hat{\pi}_{2i}) + (1-y_i) \textrm{log}(1-\hat{\pi}_{2i})\right] \right)$$
+]
+]
+
+- In large samples, $D$ has approximately a chi-squared distribution with degrees of freedom equal to the difference in the number of predictors in Model 1 and Model 2.
+
+
+---
+## Change in deviance statistic
+
+Suppose we want to test the interaction between *arsenic* and *assoc*.
+
+```{r fig.height=3.3}
+arsreg2 <- glm(switch~arsenic_c+dist_c+assoc+educ+arsenic_c:assoc,data=arsenic,family=binomial)
+anova(arsreg1, arsreg2, test= "Chisq")
+AIC(arsreg1); AIC(arsreg2)
+```
+
+At the 0.05 level, we can conclude that the interaction term is not significant, confirming our EDA. The AIC values also confirms that.
+
+We still need to take a step back and fix the relationship with arsenic. We will do so in the next class and build our final model a bit more carefully.
+
 
 
 
