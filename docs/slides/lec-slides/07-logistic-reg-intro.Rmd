@@ -446,7 +446,7 @@ It is also easy to calculate relative risk from the results of the logistic mode
 
 --
 
-- R to the rescue yet again: R does if for us!!!
+- R to the rescue yet again: R does it for us!!!
 
 ```{r echo=FALSE, out.height="250px"}
 knitr::include_graphics("img/phew.gif")
