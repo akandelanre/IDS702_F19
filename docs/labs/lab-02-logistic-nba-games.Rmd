@@ -1,0 +1,252 @@
+---
+title: "Lab 2: logistic regression"
+subtitle: "Predicting nba wins"
+date: "Sept 19, 2019"
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: lab.css
+    toc: true
+link-citations: yes
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(tufte)
+library(knitr)
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE,     # for regression output
+  digits = 2
+  )
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+**Due:** 11:59pm, Sept 23, 2019
+
+
+
+# Introduction
+
+The purpose of this lab is to give you additional practice working with logistic regression. The lab is based on the NBA Team Game Stats dataset found here:  https://www.kaggle.com/ionaskel/nba-games-stats-from-2014-to-2018/. Read more about the problem and dataset under the description section of the link.
+
+Kaggle is a great online community of data scientists. To learn more about Kaggle, follow this link: https://www.kaggle.com/getting-started/44916.
+
+In this lab you will work in pairs. Pick one other student you will like to work with. If you are not familiar with the NBA or the sport of basketball, try to pair up with someone who is. If you cannot find such a teammate, no problem, just follow the instructions. Each pair of students will pick one NBA team, perform a logistic regression using some of the variables as predictors, perform some inference to suggest a coaching strategy and then do some prediction to see how their model performs on a test set of games. 
+
+The names of the two students on each team MUST be on the team's lab report. Each team should submit only one report for this lab. Gradescope will let you select your team mate when submitting, so make sure to do so. Only one person needs to submit the report. 
+   
+<!-- # Packages -->
+
+<!-- In this lab we will work with the `tidyverse` and `broom` packages. We can install and load them with the following: -->
+
+<!-- ```{marginfigure} -->
+<!-- When you install the tidyverse package, a long list of packages get installed with it. However when you load it (with the `library` function) only a few of them get loaded, e.g. `dplyr`, `ggplot2`, and `forcats`. The broom package is installed with the tidyverse, but we need to load it separately in order to make use of it. -->
+<!-- ``` -->
+
+<!-- ```{r eval = FALSE} -->
+<!-- install.packages("tidyverse") -->
+<!-- library(tidyverse)  -->
+<!-- library(broom) -->
+<!-- ``` -->
+
+
+
+# Housekeeping
+
+## R/RStudio
+
+You all should have R and RStudio installed on your computers by now. If you do not, first install the latest version of R here: https://cran.rstudio.com (remember to select the right installer for your operating system). Next, install the latest version of RStudio here: https://www.rstudio.com/products/rstudio/download/. Scroll down to the "Installers for Supported Platforms" section and find the right installer for your operating system.
+
+## R Markdown
+
+You are required to use R Markdown to type up this lab report. If you do not already know how to use R markdown, here is a very (very!) basic R Markdown template: https://akandelanre.github.io/IDS702_F19/labs/resources/LabReport.Rmd. Refer to the resources tab of the course website (here: https://akandelanre.github.io/IDS702_F19/resources/) for links to help you learn how to use R markdown. 
+
+## Gradescope
+
+You MUST submit both your .Rmd and .pdf files (again, just one copy to be submitted by only one of you) to the course site on Gradescope here: https://www.gradescope.com/courses/57701/assignments. Make sure to knit to pdf and not html; ask the TA about knitting to pdf if you cannot figure it out. Be sure to submit under the right assignment entry. 
+
+<!-- ## Create a GitHub account -->
+
+<!-- Everyone should have a GitHub account by now. You won't need to use version control for this lab but you will need it for the team projects so you might as well create an account now. It is quite easy to use git/GitHub within RStudio If you have a GitHub account, skip the rest of this section.  -->
+
+<!-- If you do not yet have a GitHub account, create one at https://github.com/. Try to incorporate your actual name and pick a name you will be comfortable revealing to your future boss! -->
+
+
+
+<!-- # Warm up -->
+
+<!-- **Pick one team member to complete the steps in this section while the others contribute to the discussion but do not actually touch the files on their computer.** -->
+
+<!-- Before we introduce the data, let's warm up with some simple exercises. -->
+
+<!-- ## YAML:  -->
+
+<!-- Open the R Markdown (Rmd) file in your project, change the author name to your **team** name, and knit the document. -->
+
+<!-- ## Committing and pushing changes: -->
+
+<!-- - Go to the **Git** pane in your RStudio.  -->
+<!-- - View the **Diff** and confirm that you are happy with the changes. -->
+<!-- - Add a commit message like "Update team name" in the **Commit message** box and hit **Commit**. -->
+<!-- - Click on **Push**. This will prompt a dialogue box where you first need to enter your user name, and then your password. -->
+
+<!-- ## Pulling changes: -->
+
+<!-- Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well. -->
+
+
+
+# The Data
+
+Download the data (named `nba_games_stats.csv`) from Sakai and save it locally to the same directory as your R markdown file. To find the data file on Sakai, go to Resources $\rightarrow$ Datasets $\rightarrow$ Lab Datasets $\rightarrow$ Lab 2. Once you have downloaded the data file into the SAME folder as your R markdown file, load the data by using the following R code. 
+
+```{marginfigure}
+You are expected to select only one NBA team in the data. Also, set aside data for the 2017/2018 season as test data.
+```
+
+```{r eval = FALSE}
+nba <- read.csv("nba_games_stats.csv",header = TRUE,sep = ",",stringsAsFactors = FALSE)
+
+# Set factor variables
+nba$Home <- factor(nba$Home)
+nba$Team <- factor(nba$Team)
+nba$WINorLOSS <- factor(nba$WINorLOSS)
+
+# Convert date to the right format
+nba$Date <- as.Date(nba$Date, "%Y-%m-%d")
+
+# Also create a binary variable from WINorLOSS. 
+# This is not always necessary but can be useful for R functions that prefer numeric binary variables to the original factor variables
+nba$Win <- rep(0,nrow(nba))
+nba$Win[nba$WINorLOSS=="W"] <- 1
+
+# I picked the Charlotte Hornets (CHO) as an example, you should pick any team you want
+nba_reduced <- nba[nba$Team == "CHO", ]
+
+# Set aside the 2017/2018 season as your test data
+nba_reduced_train <- nba_reduced[nba_reduced$Date < "2017-10-01",]
+nba_reduced_test <- nba_reduced[nba_reduced$Date >= "2017-10-01",]
+```
+
+You will use the `nba_reduced_train` and `nba_reduced_test` files for your analyses.
+
+
+## Code book  
+
+Variable       | Description
+:------------- | :------------ 
+Team | Abbreviation for the name of the team
+Game | Game index for the season. Each team plays 82 games per season
+Date | Date of the game
+Home | Home or away game?
+Opponent | Abbreviation for the name of the opposing team
+WinorLoss | Did the team win? W = win, L = loss
+Win | Binary re-coding of WinorLoss. 1 = win, 0 = loss
+TeamPoints | Number of total points scored in the game
+OpponentPoints | Number of total points scored by the opposing team in the game
+FieldGoals | Number of field goals made in the game (also includes 3 point shots but not free throws)
+FieldGoalsAttempted | Number of field goals attempted in the game (also includes 3 point shots but not free throws)
+FieldGoals. | FieldGoals/FieldGoalsAttempted
+X3PointShots | Number of 3 point shots made in the game
+X3PointShotsAttempted | Number of 3 point shots attempted in the game
+X3PointShots. | X3PointShots/X3PointShotsAttempted
+FreeThrows | Number of free throws made in the game
+FreeThrowsAttempted | Number of free throws attempted in the game
+FreeThrows. | FreeThrows/FreeThrowsAttempted
+OffRebounds | Number of offensive rebounds grabbed in the game
+TotalRebounds | Total number of rebounds grabbed in the game (includes OffRebounds)
+Assists | Total number of assists (passes leading to a made field goal) in the game
+Steals | Total number of steals (balls stolen from the opposing team while the opposing team has possession) in the game
+Blocks | Total number of blocks (direct prevention of a made field goal after the ball has been shot by an opposing player) in the game
+Turnovers | Total number of times the ball was lost back to the opposing team while the team had possession.
+TotalFouls | Total number of fouls committed on players on the opposing team
+Opp.FieldGoals | Number of field goals made by the opposing team in the game (also includes 3 point shots but not free throws)
+Opp.FieldGoalsAttempted | Number of field goals attempted by the opposing team in the game (also includes 3 point shots but not free throws)
+Opp.FieldGoals. | Opp.FieldGoals/Opp.FieldGoalsAttempted
+Opp.X3PointShots | Number of 3 point shots made by the opposing team in the game
+Opp.X3PointShotsAttempted | Number of 3 point shots attempted by the opposing team in the game
+Opp.X3PointShots. | Opp.X3PointShots/Opp.X3PointShotsAttempted
+Opp.FreeThrows | Number of free throws made by the opposing team in the game
+Opp.FreeThrowsAttempted | Number of free throws attempted by the opposing team in the game
+Opp.FreeThrows. | Opp.FreeThrows/Opp.FreeThrowsAttempted
+Opp.OffRebounds | Number of offensive rebounds grabbed by the opposing team in the game
+Opp.TotalRebounds | Total number of rebounds grabbed by the opposing team in the game (includes Opp.OffRebounds)
+Opp.Assists | Total number of assists (passes leading to a made field goal) by the opposing team in the game
+Opp.Steals | Total number of steals (balls stolen from the team while the team has possession) by the opposing team in the game
+Opp.Blocks | Total number of blocks (direct prevention of a made field goal after the ball has been shot by a player on the team) by the opposing team in the game
+Opp.Turnovers | Total number of times the ball was won back from the opposing team while the opposing team had possession.
+Opp.TotalFouls | Total number of fouls committed by players on the opposing team
+
+
+## Team abbreviations and acronyms
+
+Abbreviation/<br />Acronym	| Franchise
+|:-------------------- | :-------------------|
+ATL	| Atlanta Hawks
+BOS	| Boston Celtics
+BRK	| Brooklyn Nets
+CHO	| Charlotte Hornets
+CHI	| Chicago Bulls
+CLE	| Cleveland Cavaliers
+DAL	| Dallas Mavericks
+DEN	| Denver Nuggets
+DET	| Detroit Pistons
+GSW	| Golden State Warriors
+HOU	| Houston Rockets
+IND	| Indiana Pacers
+LAC	| Los Angeles Clippers
+LAL	| Los Angeles Lakers
+MEM	| Memphis Grizzlies
+MIA	| Miami Heat
+MIL	| Milwaukee Bucks
+MIN	| Minnesota Timberwolves
+NOP	| New Orleans Pelicans
+NYK	| New York Knicks
+OKC	| Oklahoma City Thunder
+ORL	| Orlando Magic
+PHI	| Philadelphia 76ers
+PHO	| Phoenix Suns
+POR	| Portland Trail Blazers
+SAC	| Sacramento Kings
+SAS	| San Antonio Spurs
+TOR	| Toronto Raptors
+UTA	| Utah Jazz
+WAS	| Washington Wizards
+
+
+# Exercises
+
+Treat the variable `Win` (or `WinorLoss`) as your response variable and the other variables as potential predictors. 
+
+1. Make exploratory plots to explore the relationships between `Win` and the following variables: `Home`, `TeamPoints`, `FieldGoals.`, `Assists`, `Steals`, `Blocks` and `Turnovers`. Don't include any of the plots, just briefly describe the relationships.
+
+2. There are several combinations of variables we should not include as predictors in the logistic model. Identify at least two pairs and explain in at most two sentences, why we should not include them in the model at the same time.
+
+3. Fit a logistic regression model for `Win` (or `WinorLoss`) using `Home`, `TeamPoints`, `FieldGoals.`, `Assists`, `Steals`, `Blocks` and `Turnovers`. as your predictors. Using the `vif` function, are there are any concerns regarding multicollinearity in this model?
+
+4. Present the output of the fitted model and interpret the significant coefficients in terms of the odds of your team winning an NBA game.
+
+5. Using 0.5 as your cutoff for predicting wins or losses (1 vs 0) from the predicted probabilities, what is the accuracy of this model? Plot the roc curve for the fitted model. What is the AUC value?
+
+6. Now add `Opp.FieldGoals.` as a predictor to the previous model. Is the coefficient significant? If yes, interpret the coefficient in the context of the question.
+
+7. What is the accuracy of this new model? Plot the roc curve for the fitted model. What is the new AUC value? Which model predicts the odds of winning better?
+
+8. Using the results of the model with the better predictive ability, what suggestions do you have for the coach of your team trying to improve the odds of his team winning a regular season game?
+
+8. Use this model to predict out-of-sample probabilities for the `nba_reduced_test` data. Using 0.5 as your cutoff for predicting wins or losses (1 vs 0) from the out-of-sample predicted probabilities, what is the out-of-sample accuracy? How well does your model do in predicting data for the 2017/2018 season?
+
+10. Using the change in deviance test, test whether including `Opp.Assists` and `Opp.Blocks` in the model at the same time would improve the model. Is there any other variable in this dataset which we did not consider that you think might improve our model? Which one and why?
+
+
+# Grading
+
+10 points: 1 point for each question
+
+
+# Acknowledgement
+
+This lab is based on ideas proposed by [Sam Voisin](https://stat.duke.edu/people/sam-voisin).
+    

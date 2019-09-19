@@ -58,10 +58,13 @@ lessons:
     hw: "hw-03.html"
     
   - date: "Fri, Sept 20"
-    title: "Lab 2: logistic regression"
-    lab: "lab-02-the-contaminated-wells-analysis.html"
+    title: "Lab 2: logistic regression (predicting nba wins)"
+    lab: "lab-02-logistic-nba-games.html"
     
   - title: "WEEK 5"
+  
+  - date: "Mon, Sept 25"
+    title: "LAB2 DUE!"
   
   - date: "Tue, Sept 24"
     title: "Logistic regression: (cont'd)"
