@@ -687,17 +687,20 @@ Conf_mat$byClass[c("Sensitivity","Specificity")]
 
 .hlight[confusionMatrix] produces a lot of output. Print the .hlight[Conf_mat] object to see all of them.
 
+Clearly, we can calculate these out-of-sample as well, which can be useful. For out-of-sample, you should replace .hlight[fitted(arsreg1)] with .hlight[predict(arsreg1,newdata,type="response)].
+
 
 
 ---
 ## The contaminated wells analysis
 
 
-```{r fig.height=4.5,message=F}
+```{r fig.height=4,message=F}
 invisible(roc(arsenic$switch,fitted(arsreg1),plot=T,print.thres="best",legacy.axes=T,
               print.auc =T,col="red3"))
 ```
-
+ 
+We can also do this for out-of-sample predictions.
 
 
 ---
@@ -742,7 +745,7 @@ $$D = 2 \left(\sum_{i=1}^n \left[y_i \textrm{log}(\hat{\pi}_{1i}) + (1-y_i) \tex
 
 
 ---
-## Change in deviance statistic
+## The contaminated wells analysis
 
 Suppose we want to test the interaction between *arsenic* and *assoc*.
 
@@ -754,9 +757,35 @@ AIC(arsreg1); AIC(arsreg2)
 
 At the 0.05 level, we can conclude that the interaction term is not significant, confirming our EDA. The AIC values also confirms that.
 
+
+
+
+---
+## The contaminated wells analysis
+
+Let's compare ROC curves and AUC values for the two models.
+
+```{r fig.height=4,message=F}
+invisible(roc(arsenic$switch,fitted(arsreg1),plot=T,print.thres="best",legacy.axes=T,
+              print.auc =T,col="red1"))
+invisible(roc(arsenic$switch,fitted(arsreg2),plot=T,print.thres="best",legacy.axes=T,
+              print.auc =T,col="blue4",add=T))
+```
+
+
+
+---
+## The contaminated wells analysis
+
+```{r fig.height=3,message=F}
+Conf_mat <- confusionMatrix(as.factor(ifelse(fitted(arsreg1) >= 0.5, "1","0")),
+                            as.factor(arsenic$switch),positive = "1")
+Conf_mat$overall["Accuracy"]; Conf_mat$byClass[c("Sensitivity","Specificity")]
+Conf_mat2 <- confusionMatrix(as.factor(ifelse(fitted(arsreg2) >= 0.5, "1","0")),
+                            as.factor(arsenic$switch),positive = "1")
+Conf_mat2$overall["Accuracy"]; Conf_mat2$byClass[c("Sensitivity","Specificity")]
+```
+
+These results again confirms our EDA and the test.
+
 We still need to take a step back and fix the relationship with arsenic. We will do so in the next class and build our final model a bit more carefully.
-
-
-
-
-
