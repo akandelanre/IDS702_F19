@@ -17,6 +17,7 @@ arsenic <- read.csv("data/arsenic.csv",header=T,
                     colClasses=c("numeric","numeric","numeric","factor","numeric"))
 
 ###### View properties of the data
+str(arsenic)
 dim(arsenic)
 head(arsenic)
 summary(arsenic[,-1])
@@ -92,6 +93,7 @@ table(arsenic[,c("switch","educ")])/sum(table(arsenic[,c("switch","educ")]))
 apply(table(arsenic[,c("switch","educ")])/sum(table(arsenic[,c("switch","educ")])),
       2,function(x) x/sum(x)) 
 tapply(arsenic$switch, arsenic$educ, mean)
+plot(0:17,tapply(arsenic$switch, arsenic$educ, mean),col='blue4',pch=10)
 # Notice that the average probabilty of switching is mostly below 58% below level 7, 
 #but mostly above 58% above level 7.
 

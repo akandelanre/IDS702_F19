@@ -58,9 +58,9 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 - Feedback from survey responses
 
 - Modified office hours (yet again!).
-  +  Mon 2:00 - 4:00pm
+  +  Mon 3:00 - 4:30pm
   + Tue 1:45 - 2:45pm
-  + Thur 2:00 - 3:00pm
+  + Thur 2:00 - 3:30pm
 
 
 ## Outline
