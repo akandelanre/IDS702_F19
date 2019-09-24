@@ -166,6 +166,7 @@ $$e_i^D = \textrm{sign}(y_i - \hat{\pi}_i) \times 2\left(y_i \textrm{log}\dfrac{
      <div class="question">
     Why is that the case?
     </div>
+    Because the variance of the Bernoulli distribution in this setup depends on each observation $i$: $\mathbb{V}[Y_i] = \pi_i(1-\pi_i)$.
   + We also do not have normality of residuals to work with either.
 
 
@@ -625,6 +626,8 @@ binnedplot(fitted(arsreg1),residuals(arsreg1,"resp"),xlab="Pred. probabilities",
 What do you think?
 </div>
 
+Looks like the residuals are well spread out, with no obvious trend.
+
 
 ---
 ## The contaminated wells analysis
@@ -641,7 +644,7 @@ binnedplot(arsenic$arsenic_c,residuals(arsreg1,"resp"),xlab="Arsenic centered",
 What do you think?
 </div>
 
-<!-- Not good! There's a pattern here we need to account for! -->
+Not good! There's a pattern here we need to account for!
 
 
 ---
@@ -658,6 +661,8 @@ binnedplot(arsenic$dist_c,residuals(arsreg1,"resp"),xlab="Distance centered",
 What do you think?
 </div>
 
+There are too many observations outside the SD lines, but not much else to worry about.
+
 
 ---
 ## The contaminated wells analysis
@@ -672,6 +677,8 @@ binnedplot(arsenic$educ,residuals(arsreg1,"resp"),xlab="Education",
 <div class="question">
 What do you think?
 </div>
+
+Looks like there might be different trends for different sections of education. Maybe we should collapse the levels?
 
 
 ---

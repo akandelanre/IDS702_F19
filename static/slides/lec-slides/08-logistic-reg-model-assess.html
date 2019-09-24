@@ -190,6 +190,7 @@ There are various options for residuals when working with glms. For logistic reg
      &lt;div class="question"&gt;
     Why is that the case?
     &lt;/div&gt;
+    Because the variance of the Bernoulli distribution in this setup depends on each observation `\(i\)`: `\(\mathbb{V}[Y_i] = \pi_i(1-\pi_i)\)`.
   + We also do not have normality of residuals to work with either.
 
 
@@ -792,6 +793,8 @@ binnedplot(fitted(arsreg1),residuals(arsreg1,"resp"),xlab="Pred. probabilities",
 What do you think?
 &lt;/div&gt;
 
+Looks like the residuals are well spread out, with no obvious trend.
+
 
 ---
 ## The contaminated wells analysis
@@ -811,7 +814,7 @@ binnedplot(arsenic$arsenic_c,residuals(arsreg1,"resp"),xlab="Arsenic centered",
 What do you think?
 &lt;/div&gt;
 
-&lt;!-- Not good! There's a pattern here we need to account for! --&gt;
+Not good! There's a pattern here we need to account for!
 
 
 ---
@@ -831,6 +834,8 @@ binnedplot(arsenic$dist_c,residuals(arsreg1,"resp"),xlab="Distance centered",
 What do you think?
 &lt;/div&gt;
 
+There are too many observations outside the SD lines, but not much else to worry about.
+
 
 ---
 ## The contaminated wells analysis
@@ -848,6 +853,8 @@ binnedplot(arsenic$educ,residuals(arsreg1,"resp"),xlab="Education",
 &lt;div class="question"&gt;
 What do you think?
 &lt;/div&gt;
+
+Looks like there might be different trends for different sections of education. Maybe we should collapse the levels?
 
 
 ---
