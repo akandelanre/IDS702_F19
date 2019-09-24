@@ -1,0 +1,100 @@
+---
+title: "Logistic regression: in-class analysis"
+author: "Dr. Olanrewaju Michael Akande"
+date: "Sept 24, 2019"
+output:
+  xaringan::moon_reader:
+    css: "slides.css"
+    logo: img/class_logo.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+#library(tidyverse)
+#library(magick)
+library(knitr)
+library(kableExtra)
+library(lattice)
+#library(dplyr)
+library(MASS)
+library(arm)
+library(e1071)
+library(caret)
+library(pROC)
+
+challenger <- read.csv("data/challenger.csv",header=T,colClasses=c("numeric","factor"))
+colnames(challenger) <- c("temp", "failure")
+challenger$fail01 <- rep(0, 24); challenger$fail01[challenger$failure=="Yes"] <- 1
+challenger$tempcent <- challenger$temp - mean(challenger$temp)
+```
+
+```{r setup, include=FALSE}
+# R options
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  #show.signif.stars = FALSE,     # for regression output
+  warm = 1
+  )
+# Set dpi and height for images
+knitr::opts_chunk$set(fig.height = 2.65,dpi =300,fig.align='center',fig.show='hold',size='footnotesize',small.mar=TRUE) 
+# For nonsese...
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+# For magick
+dev.off <- function(){
+  invisible(grDevices::dev.off())
+}
+
+knit_hooks$set(small.mar = function(before, options, envir) {
+    if (before) par(mar =  c(4, 4, 1.5, 1.5)) 
+})
+```
+
+## Announcements
+
+- Feedback from survey responses
+
+
+## Outline
+
+- Questions from last lecture
+
+- Logistic regression with multiple predictors cont'd: in class analysis of the contaminated wells dataset
+
+
+
+---
+## The contaminated wells analysis
+
+We will do things differently in today's class.
+
+We will revisit the contaminated wells analysis we started looking at in the previous class. Recall, that we have the following data.
+
+Variable    | Description
+:------------- | :------------
+Switch | 1 = if respondent switched to a safe well <br /> 0 = if still using own unsafe well
+Arsenic | amount of arsenic in well at respondent's home (100s of micro-grams per liter)
+Dist | distance in meters to the nearest known safe well
+Assoc | 1 = if any members of household are active in community organizations <br /> 0 = otherwise
+Educ | years of schooling of the head of household
+
+
+---
+## The contaminated wells analysis
+
+- Today, we will work through the analysis together in R. 
+
+- Treat switch as the response variable and others as potential explanatory variables.
+
+- Download the R script for this analysis [here](https://akandelanre.github.io/IDS702_F19/slides/lec-slides/Arsenic.R).
+
+- Download the data for this analysis: Go to the class site on Sakai, then go to .hlight[Resources] $\rightarrow$ .hlight[Datasets] $\rightarrow$ .hlight[Class Datasets] $\rightarrow$ .hlight[arsenic.csv].
+
+- You should look to discuss with someone close to you as we go on.
+
+- Feel free to ask questions at any point.
+
+

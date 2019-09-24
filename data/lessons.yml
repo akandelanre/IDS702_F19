@@ -64,14 +64,15 @@ lessons:
   - title: "WEEK 5"
   
   - date: "Mon, Sept 25"
-    title: "LAB2 DUE!"
+    title: "Lab 2 DUE!"
   
   - date: "Tue, Sept 24"
-    title: "Logistic regression: (cont'd)"
-    project: "team-project-01.html"
+    title: "Logistic regression: in-class analysis"
+    slides: "lec-slides/09-logistic-reg-in-class-analysis.html"
     
   - date: "Thur, Sept 26"
     title: "Multinomial logistic regression"
+    project: "team-project-01.html"
   
   - date: "Fri, Sept 27"
     title: "HW3 DUE!"
@@ -85,7 +86,7 @@ lessons:
     title: "Probit regression"
     
   - date: "Fri, Oct 4"
-    title: "Lab 3: team project 1 presentations"
+    title: "Lab 3: team project 1 presentations (reports due at midnight)"
   
   - title: "WEEK 7"
   
