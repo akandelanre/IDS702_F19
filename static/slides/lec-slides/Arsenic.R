@@ -502,5 +502,5 @@ legend('bottomright',pch=c(3,4,1,2),bty = "n",col=c('tan2','tan4','red2','red4')
 
 
 
-# Do it yourself: collapse education to 3 or 4 levels instead and see what happens instead......
+# Do it yourself: collapse education to the 4 (more scientifically plausible) levels and see what happens instead......
 
