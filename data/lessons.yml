@@ -40,7 +40,7 @@ lessons:
     title: "Model building and selection"
     slides: "lec-slides/06-reg-model-building.html"
     
-  - title: "PART  II: GENERALIZED LINEAR MODELS"
+  - title: "PART  II: GENERALIZED LINEAR MODELS (GLMs)"
     
   - title: "WEEK 4"
   
@@ -71,7 +71,7 @@ lessons:
     slides: "lec-slides/09-logistic-reg-in-class-analysis.html"
     
   - date: "Thur, Sept 26"
-    title: "Multinomial logistic regression"
+    title: "Logistic regression: in-class analysis (cont'd)"
     project: "team-project-01.html"
   
   - date: "Fri, Sept 27"
@@ -80,10 +80,10 @@ lessons:
   - title: "WEEK 6"
   
   - date: "Tue, Oct 1"
-    title: "Poisson regression"
+    title: "Multinomial logistic regression"
     
   - date: "Thur, Oct 3"
-    title: "Probit regression"
+    title: "Other GLMs: Poisson and Probit regressions"
     
   - date: "Fri, Oct 4"
     title: "Lab 3: team project 1 presentations (reports due at midnight)"

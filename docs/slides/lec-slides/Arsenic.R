@@ -501,3 +501,6 @@ legend('bottomright',pch=c(3,4,1,2),bty = "n",col=c('tan2','tan4','red2','red4')
        c('assoc=0; educnew=1','assoc=1; educnew=1','assoc=0; educnew=0','assoc=1; educnew=0'))
 
 
+
+# Let's collapse education to 3 or 4 levels instead and see what happens......
+

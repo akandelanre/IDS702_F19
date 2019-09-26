@@ -43,7 +43,7 @@ Analyze the data and investigate these questions using a logistic regression mod
 
 <font color="blue">*First build your model, then do model assessment and validation. You should only proceed to answer the questions when you are satisfied with your final model; you should answer all the questions using that final model.*</font>
 
-<font color="red">**DO NOT INCLUDE R CODE OR OUTPUT IN YOUR REPORT!** *All R code must be included in the Appendix, and R output should be converted to nicely formatted tables. Feel free to use R packages such as "kable" or "xtable". Also, you will be penalized should your report exceed 5 pages.*</font>
+<font color="red">**DO NOT INCLUDE R CODE OR OUTPUT IN YOUR REPORT!** *All R code must be included in the Appendix, and R outputs should be converted to nicely formatted tables. Feel free to use R packages such as `kable` and `xtable`. Also, you will be penalized should your report exceed 5 pages.*</font>
 
 
 <br />

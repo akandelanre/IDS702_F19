@@ -1,5 +1,5 @@
 ---
-title: "Final project outline"
+title: "Final Project Outline"
 #date: "Proposal due: Nov 4, project report due: Dec 10"
 output: 
   html_document: 
