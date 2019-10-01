@@ -81,9 +81,11 @@ lessons:
   
   - date: "Tue, Oct 1"
     title: "Multinomial logistic regression"
+    slides: "lec-slides/10-multinomial-logistic-reg.html"
+    reading: "reading-03.html"
     
   - date: "Thur, Oct 3"
-    title: "Other GLMs: Poisson and Probit regressions"
+    title: "In-class analysis"
     
   - date: "Fri, Oct 4"
     title: "Lab 3: team project 1 presentations (reports due at midnight)"
@@ -94,7 +96,7 @@ lessons:
     title: "No class: fall break"
     
   - date: "Thur, Oct 10"
-    title: "In-class analysis"
+    title: "Other GLMs: Poisson and Probit regressions"
     
   - title: "PART  III: MULTILEVEL/HIERARCHICAL MODELS"
   
