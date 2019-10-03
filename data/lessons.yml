@@ -85,7 +85,8 @@ lessons:
     reading: "reading-03.html"
     
   - date: "Thur, Oct 3"
-    title: "In-class analysis"
+    title: "Proportional odds model; in-class analysis"
+    slides: "lec-slides/11-proportional-odds-model.html"
     
   - date: "Fri, Oct 4"
     title: "Lab 3: team project 1 presentations (reports due at midnight)"

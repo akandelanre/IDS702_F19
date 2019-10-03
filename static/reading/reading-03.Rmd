@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE)
     + Section 6.5: Ordered and unordered categorical regression
 
 - [An Introduction to Categorical Data Analysis, Second Edition](https://www.amazon.com/Introduction-Categorical-Analysis-Probability-Statistics/dp/1119405262) by Alan Agresti:
-    + Section 8: Multicategory Logit Models  
+    + Section 6: Multicategory Logit Models  
     Download pdf versions of individual chapters, including this one, via Duke library [here](https://find.library.duke.edu/catalog/DUKE005142588). Let me know if you have trouble downloading the chapter.
 
 

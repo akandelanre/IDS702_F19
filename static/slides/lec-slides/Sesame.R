@@ -12,6 +12,7 @@ library(e1071)
 library(caret)
 library(nnet)
 library(knitr)
+library(MASS)
 
 
 
@@ -71,6 +72,8 @@ sesame$cage <- sesame$age - mean(sesame$age)
 
 
 
+
+################### Part One: Multinomial Logistic Model ##################
 ###### Model fitting
 #fit a multinomial regression.  note that viewcat = 1 is the reference level.
 viewcatreg1 <- multinom(viewcat ~ viewenc + as.factor(site) + cprenumb + cprelet + cpreform 
@@ -205,6 +208,7 @@ Conf_mat$byClass[,c("Sensitivity","Specificity")]
 
 
 ## Individual ROC curves for the different levels
+#here we basically treat each level as a standalone level
 par(mfcol = c(2,2))
 roc((sesame$viewcat==1),predprobs[,1],plot=T,print.thres="best",legacy.axes=T,print.auc =T,
     col="red3",percent=T,main="Group 1")
@@ -215,17 +219,23 @@ roc((sesame$viewcat==3),predprobs[,2],plot=T,print.thres="best",legacy.axes=T,pr
 roc((sesame$viewcat==4),predprobs[,2],plot=T,print.thres="best",legacy.axes=T,print.auc =T,
     col="blue3",percent=T,main="Group 4")
 #we can also combine them into a single plot
+#
 
 
 ## Multi-class ROC curve (average of all pairwise comparisons)
 par(mfcol = c(3,4))
 multiclass.roc(sesame$viewcat,predprobs,plot=T,print.thres="best",legacy.axes=T,print.auc =T,col="red3",percent=T)
+#multiclass ROCs can be hard to interpret, so don't get too hung up on them
+
+
 
 ###########################################################################
 ###########################################################################
 ### Play around with the data some more and see if you can do better!!! ###
 ###########################################################################
 ###########################################################################
+
+
 
 
 
