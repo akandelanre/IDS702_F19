@@ -147,7 +147,7 @@ predict(viewcatreg1, newdata, type = "probs")
 #2 0.27441129 0.2144506 0.3088348 0.2023033
  
 #now let's repeat for a kid in site 2
-newdata$site <- 2
+newdata$site <- 4
 predict(viewcatreg1, newdata, type = "probs")
 #           1         2         3         4
 #1 0.02561089 0.2577973 0.3219774 0.3946144
@@ -225,113 +225,7 @@ roc((sesame$viewcat==4),predprobs[,2],plot=T,print.thres="best",legacy.axes=T,pr
 ## Multi-class ROC curve (average of all pairwise comparisons)
 par(mfcol = c(3,4))
 multiclass.roc(sesame$viewcat,predprobs,plot=T,print.thres="best",legacy.axes=T,print.auc =T,col="red3",percent=T)
-#multiclass ROCs can be hard to interpret, so I won't get too hung up on them
-
-
-
-
-
-
-##################### Part Two: Proportional Odds Model ###################
-library(MASS)
-###### Model fitting
-viewcatreg1_pom <- polr(ordered(viewcat,levels=c(1,2,3,4)) ~ viewenc + as.factor(site) + cprenumb + cprelet + cpreform 
-                        + cpreclasf + cprerelat + cprebody + cage, data=sesame)
-summary(viewcatreg1_pom)
-#our proportional odds model has a lower AIC than the multinomial logit but a higher deviance
-#run summary(viewcatreg1) to confirm
-confint(viewcatreg1_pom)
-exp(confint(viewcatreg1_pom))
-
-
-###### Deviance test
-#Let's test if site is a useful  predictor using a change in deviance test
-viewcatreg1nosite_pom <- polr(ordered(viewcat,levels=c(1,2,3,4)) ~ viewenc + cprenumb + cprelet + cpreform + cpreclasf 
-                              + cprerelat + cprebody  + cage, data = sesame)
-anova(viewcatreg1_pom, viewcatreg1nosite_pom, test = "Chisq")
-#p-value is small -- site still looks like a useful predictor
-
-#test if encouragement is a useful  predictor using a change in deviance test
-viewcatreg1noenc_pom <- polr(ordered(viewcat,levels=c(1,2,3,4)) ~ as.factor(site) + cprenumb + cprelet + cpreform 
-                             + cpreclasf + cprerelat + cprebody + cage, data = sesame)
-anova(viewcatreg1_pom, viewcatreg1noenc_pom, test = "Chisq")
-#p-value is small -- encouragement also looks like a useful predictor
-
-#test if setting is a useful  predictor using a change in deviance test
-viewcatreg1withsetting_pom <- polr(ordered(viewcat,levels=c(1,2,3,4)) ~ viewenc + as.factor(site) + cprenumb + cprelet + cpreform 
-                                   + cpreclasf + cprerelat + cprebody + cage + setting, data=sesame)
-anova(viewcatreg1withsetting_pom, viewcatreg1_pom, test = "Chisq")
-#p-value is large -- looks like setting is not a useful predictor as before
-
-
-###### Predictions
-#predicted probabilities for cases in the model
-predprobs_pom <- fitted(viewcatreg1_pom) 
-#look at first five rows just to see what results
-predprobs_pom[1:5,]
-
-#prediction for a kid in site 1
-predict(viewcatreg1_pom, newdata, type = "probs")
-
-#now let's repeat for a kid in site 2
-newdata$site <- 2
-predict(viewcatreg1_pom, newdata, type = "probs")
-
-
-###### Diagnostics
-####diagnostics comparing average raw residuals across bins based on predictor values
-#for viewcat = 1:  create a raw residual using only the first column of the predicted probabilities
-rawresid1_pom <- (sesame$viewcat == 1) -  predprobs_pom[,1]
-
-#for viewcat = 2:  create a raw residual using only the second column of the predicted probabilities
-rawresid2_pom <- (sesame$viewcat == 2) -  predprobs_pom[,2]
-
-#for viewcat = 3:  create a raw residual using only the third column of the predicted probabilities
-rawresid3_pom <- (sesame$viewcat == 3) -  predprobs_pom[,3]
-
-#for viewcat = 4:  create a raw residual using only the fourth column of the predicted probabilities
-rawresid4_pom <- (sesame$viewcat == 4) -  predprobs_pom[,4]
-
-##can do binned plots for continuous variables
-#make a 2 by 2 graphical display
-par(mfcol = c(2,2))
-binnedplot(sesame$cprenumb, rawresid1_pom, xlab = "Prenumbers", ylab = "Raw residuals", main = "Binned plot: viewcat = 1")
-binnedplot(sesame$cprenumb, rawresid2_pom, xlab = "Prenumbers", ylab = "Raw residuals", main = "Binned plot: viewcat = 2")
-binnedplot(sesame$cprenumb, rawresid3_pom, xlab = "Prenumbers", ylab = "Raw residuals", main = "Binned plot: viewcat = 3")
-binnedplot(sesame$cprenumb, rawresid4_pom, xlab = "Prenumbers", ylab = "Raw residuals", main = "Binned plot: viewcat = 4")
-#still looks good. Do the same for the other categories
-
-
-## Accuracy
-pred_classes_pom <- predict(viewcatreg1_pom)
-Conf_mat_pom <- confusionMatrix(as.factor(pred_classes_pom),as.factor(sesame$viewcat))
-Conf_mat_pom$table
-Conf_mat_pom$overall["Accuracy"];
-Conf_mat_pom$byClass[,c("Sensitivity","Specificity")]
-#now we actually have lower overall accuracy
-# run Conf_mat$table; Conf_mat$overall["Accuracy"] to confirm
-
-
-## Individual ROC curves for the different levels
-par(mfcol = c(2,2))
-roc((sesame$viewcat==1),predprobs_pom[,1],plot=T,print.thres="best",legacy.axes=T,print.auc =T,
-    col="red3",percent=T,main="Group 1")
-roc((sesame$viewcat==2),predprobs_pom[,2],plot=T,print.thres="best",legacy.axes=T,print.auc =T,
-    col="gray3",percent=T,main="Group 2")
-roc((sesame$viewcat==3),predprobs_pom[,2],plot=T,print.thres="best",legacy.axes=T,print.auc =T,
-    col="green3",percent=T,main="Group 3")
-roc((sesame$viewcat==4),predprobs_pom[,2],plot=T,print.thres="best",legacy.axes=T,print.auc =T,
-    col="blue3",percent=T,main="Group 4")
-#we actually do worse for group 2 but do especially better for group 4
-
-
-## Multi-class ROC curve (average of all pairwise comparisons)
-par(mfcol = c(3,4))
-multiclass.roc(sesame$viewcat,predprobs_pom,plot=T,print.thres="best",legacy.axes=T,print.auc =T,col="red3",percent=T)
-multiclass.roc(sesame$viewcat,predprobs,plot=T,print.thres="best",legacy.axes=T,print.auc =T,col="blue3",percent=T)
-#this is even less useful here!!!
-
-
+#multiclass ROCs can be hard to interpret, so don't get too hung up on them
 
 
 

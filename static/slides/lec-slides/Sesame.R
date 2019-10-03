@@ -147,7 +147,7 @@ predict(viewcatreg1, newdata, type = "probs")
 #2 0.27441129 0.2144506 0.3088348 0.2023033
  
 #now let's repeat for a kid in site 2
-newdata$site <- 2
+newdata$site <- 4
 predict(viewcatreg1, newdata, type = "probs")
 #           1         2         3         4
 #1 0.02561089 0.2577973 0.3219774 0.3946144
