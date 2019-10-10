@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Other GLMs: Poisson and Probit regressions</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. Olanrewaju Michael Akande" />
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Other GLMs: Poisson and Probit regressions
+### Dr. Olanrewaju Michael Akande
+### Oct 10, 2019
+
+---
+
+
+
+
+
+
+## Announcements
+  
+- Reminder: "Practical Data Science 1: Intro to Github" class is today.
+
+- Again, you are expected to be comfortable with Github for Team Project 2. Each teammate will be expected to contribute and push commits to the repository.
+
+## Outline
+
+- Questions from last lecture
+
+- Probit regression
+
+- Poisson regression
+
+- In-class analysis for Poisson regression
+
+
+---
+class: center, middle
+
+# Probit regression
+
+
+---
+## Probit regression
+
+- Recall the .hlight[logistic regression model]:
+.block[
+.small[
+`$$y_i | x_i \sim \textrm{Bernoulli}(\pi_i); \ \ \ \textrm{log}\left(\dfrac{\pi_i}{1-\pi_i}\right) = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip}; \ \ \ i=1,\ldots,n.$$`
+]
+]
+
+--
+
+- Here the link function is the .hlight[logit function], which ensures that the probabilities lie between 0 and 1.
+
+--
+
+- We can also use the .hlight[probit function] `\(\Phi^{-1}\)`, which is the quantile function associated with the standard normal distribution `\(N(0,1)\)`, as the link.
+
+--
+
+- That is, suppose `\(Z\)` is a random variable where `\(Z \sim N(0,1)\)`, then `\(\Phi\)` is the CDF, that is, `\(\Pr[Z \leq z] = \Phi(z)\)`.
+
+--
+
+- Formally, the .hlight[probit regression model] can be written as
+.block[
+.small[
+`$$y_i | x_i \sim \textrm{Bernoulli}(\pi_i); \ \ \ \Phi^{-1}\left(\pi_i\right) = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip}; \ \ \ i=1,\ldots,n.$$`
+]
+]
+
+--
+
+- It is easy to see that
+.block[
+.small[
+`$$\Pr[y_i = 1 | x_i] = \pi_i = \Phi\left(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip}\right).$$`
+]
+]
+
+
+---
+## Probit regression: latent variable representation
+
+- It turns out that we can rewrite the .hlight[probit regression model] as
+.block[
+.small[
+$$
+`\begin{split}
+y_i &amp; = \mathbb{1}[z_i &gt; 0];\\
+z_i &amp; = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip} + \epsilon_i; \ \ \ \epsilon_i  \sim N(0,1) \\
+\end{split}`
+$$
+]
+]
+
+  where `\(y_i = \mathbb{1}[z_i &gt; 0]\)` means `\(y_i = 1\)` if `\(z_i &gt; 0\)` and `\(y_i = 0\)` if `\(z_i &lt; 0\)`.
+
+--
+  
+- To see that the two representations are equivalent, note that
+.block[
+.small[
+$$
+`\begin{split}
+\Pr[y_i = 1 | x_i] &amp; = \Pr[z_i &gt; 0] \\
+ &amp; = \Pr[\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip} + \epsilon_i &gt; 0] \\
+ &amp; = \Pr[\epsilon_i  &gt; -(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip})] \\
+ &amp; = \Pr[\epsilon_i  &lt; (\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip})] \ \ \ [\textrm{since} \ \ \ \epsilon_i  \sim N(0,1)] \\
+ &amp; = \Phi\left(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \ldots + \beta_p x_{ip}\right) = \pi_i
+\end{split}`
+$$
+]
+]
+
+--
+
+&lt;!-- - This means, `\(y_i\)` is more likely to be equal to 1 when `\(z_i &gt; 0\)` and more likely to be 0 when `\(z_i &lt; 0\)`. --&gt;
+
+- Clearly, we do not observe `\(Z = (z_1, z_2, \ldots, z_n)\)` and it is thus referred to as an .hlight[auxiliary variable].
+
+
+---
+## Probit vs logit functions?
+
+- The plots below compare the inverse logit function `\(\pi_i  = \dfrac{e^{x}}{1 + e^{x}}\)` and the CDF function (inverse probit) `\(\pi_i = \Phi(x)\)`.
+
+&lt;img src="12-poisson-regression_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+
+Notice that they are similar, but the CDF of the standard normal distribution has fatter tails (the inverse logit has thinner tails).
+
+---
+## Probit or logistic regression?
+
+- In practice, the decision to use one or the other is often based on preference: the overall conclusions from both are usually quite similar.
+
+--
+
+- The results based on logistic regression (using odds and odds ratio) can be more interpretable than those based on Probit regression.
+
+--
+
+- In some applications, interpreting the  `\(z_i\)`'s may be meaningful but that is not always the case.
+
+--
+
+- For example, suppose `\(y_i\)` is a binary variable for whether or not person `\(i\)` chooses to buy the new iPhone, then `\(z_i\)` can be thought of as person `\(i\)`'s "utility" in a way.
+
+--
+
+- In .hlight[R], use the `glm` command but set the option `family="binomial(link=probit)` instead of `family="binomial(link=logit)`.
+
+---
+class: center, middle
+
+# Poisson regression
+
+
+
+---
+## Count data
+
+- Suppose you have count data (non-negative integers) as your response variable. 
+
+--
+
+- For example, we may want to explain the number of c-sections carried out in hospitals using potential predictors such as
+  + hospital type, that is, private vs public
+  + location
+  + size of the hospital
+
+--
+
+- The models we have covered so far are not adequate for count data.
+
+--
+
+- While this is generally the case, there are instances where linear regression, with some transformations (especially taking logs) on the response variable, might still work reasonably well for count data.
+
+--
+
+- Thus, one can attempt to fit a linear regression model first, check to see if the assumptions of the model are violated, and then move on to a more appropriate model if needed.
+
+
+---
+## Poisson regression
+
+- A good distribution for modeling count data with no limit on the total number of counts is the .hlight[Poisson distribution].
+
+--
+
+- &lt;div class="question"&gt;
+What would the Binomial distribution be inappropriate when there is no limit on the total number of counts?
+&lt;/div&gt;
+
+--
+
+- The Poisson distribution is parameterized by `\(\lambda\)` and the pmf is given by
+.block[
+.small[
+`$$\Pr[Y = y] = \dfrac{\lambda^y e^{-\lambda}}{y!}; \ \ \ \ y=0,1,2,\ldots; \ \ \ \ \lambda &gt; 0.$$`
+]
+]
+
+--
+
+- An interesting feature of the Poisson distribution is.
+.block[
+.small[
+`$$\mathbb{E}[Y = y] = \mathbb{V}[Y = y] = \lambda.$$`
+]
+]
+
+
+--
+
+- When our data fails this assumption, we may have what is known as .hlight[over-dispersion] and may want to consider the [Negative Binomial distribution](https://en.wikipedia.org/wiki/Negative_binomial_distribution) instead, or try a Bayesian specification (STA602!).
+
+--
+
+- With no predictors, the best guess for `\(\lambda\)` is the sample mean, that is, `\(\hat{\lambda} = \sum_{i=1}^n \dfrac{y_i}{n}\)`.
+  
+
+
+---
+## Poisson regression
+
+- With predictors, we want to index `\(\lambda\)` with `\(i\)`, where each `\(\lambda_i\)` is a function of `\(\boldsymbol{X}\)`. We can therefore write the .hlight[random component] of this glm as
+.block[
+.small[
+$$y_i \sim \textrm{Poisson}(\lambda_i); \ \ \ i=1,\ldots,n. $$
+]
+]
+
+--
+
+- We must ensure that `\(\lambda_i &gt; 0\)` at any value of `\(\boldsymbol{X}\)`, therefore, we need a .hlight[link function] that enforces this. A natural choice is the natural logarithm, so that we have
+.block[
+.small[
+`$$\textrm{log}\left(\lambda_i\right) = \beta_{0} + \beta_{1} x_{i1} + \beta_{2} x_{i2} + \ldots + \beta_{p} x_{ip}.$$`
+]
+]
+
+--
+
+- Combining these pieces give us our full mathematical representation for the .hlight[Poisson regression].
+
+--
+
+- In .hlight[R], use the `glm` command but set the option `family = “poisson”`.
+
+--
+
+- Clearly, `\(\lambda_i\)` has a natural interpretation as the "expected count", and
+.block[
+.small[
+`$$\lambda_i = e^{\beta_{0} + \beta_{1} x_{i1} + \beta_{2} x_{i2} + \ldots + \beta_{p} x_{ip}}$$`
+]
+]
+
+  means that we can interpret the `\(e^{\beta_{j}}\)`'s as .hlight[multiplicative effects] on the expected counts.
+
+
+---
+## Poisson regression
+
+- For predictions, we can look at the expected counts, that is,
+.block[
+.small[
+`$$\hat{\lambda}_i = e^{\hat{\beta_{0}} + \hat{\beta_{1}} x_{i1} + \hat{\beta_{2}} x_{i2} + \ldots + \hat{\beta_{p}} x_{ip}}$$`
+]
+]
+
+--
+
+- Interpretation of `\(e^{\beta_j}\)`:
+  + For continuous `\(x_j\)`: the expected count of `\(Y\)` increases by a multiplicative factor of `\(e^{\beta_j}\)` when increasing `\(x_j\)` by one unit.
+  + For binary `\(x_j\)`: the expected count of `\(Y\)` increases by a multiplicative factor of `\(e^{\beta_j}\)` for the group with `\(x_j = 1\)` in comparison to the group with `\(x_j = 0\)`.
+ 
+--
+ 
+- For example, suppose
+  + Suppose the response variable is the number of mating for elephants, and let `\(x_1\)` represent the age of the elephants
+  + Also suppose `\(\hat{\beta}_j = 0.069\)`, so that `\(e^{\hat{\beta}_j} = e^{0.069} = 1.0714\)`.
+  + Then, an increase in age of one year increases the expected number of mating for elephants by 7 percent.
+  
+  
+---
+## Poisson regression
+
+- The raw residuals `\(e_i = y_i - \hat{\lambda}_i\)` are difficult to interpret since variance is equal to the mean in Poisson distributions.
+
+--
+
+- Use the Pearson's residuals instead:
+.block[
+.small[
+`$$r_i = \dfrac{y_i - \hat{\lambda}_i}{\sqrt{\hat{\lambda}_i}}$$`
+]
+]
+
+--
+
+- Plot the `\(r_i\)`'s versus the predicted `\(\hat{\lambda}_i\)`'s, as well as the  `\(x_j\)` values for each predictor `\(j\)`, to look for trends suggesting model misspecification.
+
+--
+
+- We can also use those to identify potential outliers.
+
+--
+
+- We can still check for multicollinearity, do model validation using RMSE, and do model selection via forward, backward and stepwise selection for Poisson regression.
+
+--
+
+- We can also perform a change in deviance test to compare nested models.
+
+
+---
+## Springbok analysis
+
+The data contains counts of springbok antelope around 25 watering holes.
+
+&lt;img src="img/springbok2.jpg" height="400px" style="display: block; margin: auto;" /&gt;
+
+The data is in the file `springbok.csv` on Sakai.
+
+
+
+---
+## Springbok analysis
+
+- Springbok are counted at each site (hole) at an altitude of 200-300 meters.
+
+--
+
+- A survey normally includes counts at all 25 sites but occasionally some sites could not be counted because of poor weather.
+
+--
+
+- For larger groups of springbok, color photographs were taken and springbok were counted later from the photos. 
+
+--
+
+- Several surveys, usually 7-10, were made each year. 
+
+--
+
+- Within a year, springbok are faithful to a single site. That is, if a springbok goes to site `\(i\)` on one day, it will return to site `\(i\)` on other days.
+
+--
+
+- We want to
+  + Analyze trend
+  + Estimate the effects of predictors
+  
+  
+
+---
+## Springbok analysis data
+
+- n = 1050 counts from 1990-2002 for sites 12-21, 23, and 24. 
+
+-  The other sites were excluded because they usually don't have many antelope. 
+
+- Three time variables: year, date (week) and hour from noon.
+
+Variable    | Description
+:------------- | :------------
+LOCNUMBER | Location Number 
+SITEI | Site
+YEAR | Year (1990 - 2002) 
+DATE | Week (14 - 42)
+HourFromNoon | Hour From Noon (Numeric)
+COUNTS | Springbok Count (Discrete)
+
+
+
+
+
+---
+class: center, middle
+
+# In-class analysis: move to the R script [here](https://akandelanre.github.io/IDS702_F19/slides/lec-slides/Springbok.R)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

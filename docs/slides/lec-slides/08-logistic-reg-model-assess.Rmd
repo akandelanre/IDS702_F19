@@ -25,11 +25,6 @@ library(arm)
 library(e1071)
 library(caret)
 library(pROC)
-
-challenger <- read.csv("data/challenger.csv",header=T,colClasses=c("numeric","factor"))
-colnames(challenger) <- c("temp", "failure")
-challenger$fail01 <- rep(0, 24); challenger$fail01[challenger$failure=="Yes"] <- 1
-challenger$tempcent <- challenger$temp - mean(challenger$temp)
 ```
 
 ```{r setup, include=FALSE}
@@ -315,7 +310,7 @@ binnedplot(nba$Opp,residuals(nbareg,"resp"),xlab="Opponent's points (centered)",
 ---
 ## NBA analysis
 
-Let's look at the confusion matrix for the challenger data. Load the .hlight[arm] and .hlight[e1071] packages.
+Let's look at the confusion matrix for the nba data. Load the .hlight[arm] and .hlight[e1071] packages.
 
 
 ```{r fig.height=3,message=F}
