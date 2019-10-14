@@ -1,7 +1,7 @@
 
 ###########################################################################
 ###########################################################################
-###################### The contaminated wells analysis ####################
+########################## The springbok analysis #########################
 ###########################################################################
 ###########################################################################
 
@@ -11,7 +11,7 @@ rm(list = ls())
 library(ggplot2) #Time to pivot to ggplot2
 
 ###### Load the data
-springbok <- read.table("springbok.csv",header=TRUE,sep=",")
+springbok <- read.table("data/springbok.csv",header=TRUE,sep=",")
 springbok$LOCNUMBER <- as.factor(springbok$LOCNUMBER)
 springbok$SITEI <- as.factor(springbok$SITEI)
 
@@ -61,7 +61,7 @@ ggplot(springbok, aes(x = HourFromNoon, y = COUNTS)) +
 #we have an obvious outlier
 ggplot(springbok[(springbok$HourFromNoon!=min(springbok$HourFromNoon)),], aes(x = HourFromNoon, y = COUNTS)) +
   geom_point(alpha = .5,colour="blue4") +
-  geom_smooth(method="loess",col="red3") + #also, try lm
+  geom_smooth(method="lm",col="red3") + #also, try lm
   labs(title="Springbok counts vs hours from noon")
 #let's keep it for now but we need to assess it later
 #it will probably infuence the results
@@ -278,7 +278,7 @@ summary(springreg6)
 springbok_newdata <- data.frame(LOCNUMBER=rep(unique(springbok2$LOCNUMBER),each=13),
                         HourFromNoon=0,DATE14=median(springbok$DATE14),
                         YEAR90=seq(0,12),YEAR=seq(1990,2002))
-springbok_newdata$pred = predict(springreg4,newdata=springbok_new,type="response")
+springbok_newdata$pred = predict(springreg4,newdata=springbok_newdata,type="response")
 
 ### Plot lines by site
 ggplot(springbok_newdata, aes(x = YEAR, y = pred, colour = LOCNUMBER)) +

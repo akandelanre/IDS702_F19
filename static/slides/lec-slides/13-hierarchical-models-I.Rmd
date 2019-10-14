@@ -1,0 +1,581 @@
+---
+title: "Hierarchical models I"
+author: "Dr. Olanrewaju Michael Akande"
+date: "Oct 15, 2019"
+output:
+  xaringan::moon_reader:
+    css: "slides.css"
+    logo: img/class_logo.png
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+#library(tidyverse)
+#library(magick)
+library(knitr)
+library(kableExtra)
+library(lattice)
+#library(dplyr)
+library(MASS)
+library(arm)
+library(e1071)
+library(caret)
+library(pROC)
+```
+
+```{r setup, include=FALSE}
+# R options
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  #show.signif.stars = FALSE,     # for regression output
+  warm = 1
+  )
+# Set dpi and height for images
+knitr::opts_chunk$set(fig.height = 2.65,dpi =300,fig.align='center',fig.show='hold',size='footnotesize',small.mar=TRUE) 
+# For nonsese...
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+# For magick
+dev.off <- function(){
+  invisible(grDevices::dev.off())
+}
+
+knit_hooks$set(small.mar = function(before, options, envir) {
+    if (before) par(mar =  c(4, 4, 1.5, 1.5)) 
+})
+```
+
+## Announcements
+  
+- Lab for this week, that is on Fri, Oct 18, will hold in Rm103 and not Rm270!
+
+- You can submit the one-page project proposals on Gradescope whenever you are ready but official due date is still Nov 4.
+
+## Outline
+
+- Questions from last lecture
+
+- Introduction to multilevel/hierarchical models
+
+- Random effects models
+
+- Mixed effects  models
+
+- In-class analysis
+
+
+---
+class: center, middle
+
+# Hierarchical models
+
+
+---
+## Clustered or grouped data
+
+- Often data are grouped or clustered naturally, for example 
+  + students within schools,
+  + patients within hospitals,
+  + voters within counties or states, or
+  + repeated measurements on same person, as is often the case in longitudinal studies.
+
+--
+
+- For such clustered data, we may want to infer or estimate the relationship between a response variable and certain predictors collected across all the groups.
+
+--
+
+- Ideally, we should do so in a way that takes advantage of the relationship between observations in the same group, but we should also look to borrow information across groups.
+
+--
+
+- .hlight[Hierarchical or multilevel models] provide a principled way to do so. We'll start with simpler cases to elucidate the main ideas.
+
+
+---
+## Hypothetical school testing example
+
+- Suppose we wish to estimate the distribution of test scores for students at $J$ different high schools.
+
+--
+
+- In each school $j$, where $j = 1, \ldots, J$, suppose we test a random sample of $n_j$ students.
+
+--
+
+- Let $y_{ij}$ be the test score for the $i$th student in school $j$, with $i = 1,\ldots, n_j$.
+
+--
+
+- .hlight[Option I]: estimation can be done separately in each group, where we assume
+.block[
+.small[
+$$y_{ij} | \mu_j, \sigma^2_j \sim N \left( \mu_j, \sigma^2_j\right)$$
+]
+]
+
+  where for each school $j$, $\mu_j$ is the school-wide average test score, and $\sigma^2_j$ is the school-wide variance of individual test scores.
+
+
+---
+## Hypothetical school testing example
+
+- We can do classical inference for each school based on large sample 95% CI: $\bar{y}_j \pm 1.96 \sqrt{s^2_j/n_j}$, where $\bar{y}_j$ is the sample average in school $j$, and $s^2_j$ is the sample variance in school $j$.
+
+--
+
+- Clearly, we can overfit the data within schools, for example, what if we only have 4 students from one of the schools?
+
+--
+
+- .hlight[Option II]: alternatively, we might believe that $\mu_j = \mu$ for all $j$; that is, all schools have the same mean. This is the assumption (null hypothesis) in ANOVA models for example.
+
+--
+
+- Option I ignores that the $\mu_j$'s should be reasonably similar, whereas option II ignores any differences between them.
+
+--
+
+- It would be nice to find a compromise! This is what we are able to do with .hlight[hierarchical modeling].
+
+
+---
+## Hierarchical model
+
+- Instead, we can assume that the $\mu_j$'s are drawn from a distribution based on the following: conceive of the schools themselves as being a random sample from all possible school.
+
+--
+
+- Suppose $\mu_0$ is the overall mean of all school's average scores (a mean of the means), and $\tau^2$ is the variance of all school's average scores (a variance of the means).
+
+--
+
+- Then, we can think of each $\mu_j$ as being drawn from a distribution, for example,
+.block[
+.small[
+$$\mu_j | \mu_0, \tau^2 \sim N \left( \mu_0, \tau^2 \right),$$
+]
+]
+
+  which gives us one more level, resulting in a hierarchical specification.
+
+--
+  
+- Usually, $\mu_0$ and $\tau^2$ will be unknown so that we need to estimate them using maximum likelihood or Bayesian methods.
+
+
+
+---
+## Hierarchical model: school testing example
+
+- Back to our example, it turns out that the multilevel estimate is
+.block[
+.small[
+$$\hat{\mu}_j \approx \dfrac{ \dfrac{n_j}{\sigma^2_j} \bar{y}_j + \dfrac{1}{\tau^2} \mu_0 }{ \dfrac{n_j}{\sigma^2_j} + \dfrac{1}{\tau^2}  },$$
+]
+]
+
+--
+
+ but since the unknown parameters have to be estimated, we actually have
+.block[
+.small[
+$$\hat{\mu}_j \approx \dfrac{ \dfrac{n_j}{s^2_j} \bar{y}_j + \dfrac{1}{\hat{\tau}^2} \bar{y}_{\textrm{all}} }{ \dfrac{n_j}{s^2_j} + \dfrac{1}{\hat{\tau}^2}  },$$
+]
+]
+ 
+ where $\bar{y}_{\textrm{all}}$ is the completely pooled estimate (the overall sample mean of all test scores).
+
+---
+## Hierarchical model: school testing example
+
+- In this course, we will only scratch the surface of hierarchical modeling. 
+
+--
+
+- If you want to explore hierarchical models in much more detail, specifically within the context of Bayesian modeling, consider taking STA 610.
+
+--
+
+- .hlight[For those interested in Bayesian inference] (feel free to skip this if you are not!), it turns out that the posterior distribution of $\mu_j$, $p(\mu_j | Y, \sigma^2_j, \mu_0, \tau^2) = N(\mu_j^\star, \nu_j^\star)$, where 
+.block[
+.small[
+$$
+\begin{split}
+\mu_j^\star & = \dfrac{ \dfrac{n_j}{\sigma^2_j} \bar{y}_j + \dfrac{1}{\tau^2} \mu_0 }{ \dfrac{n_j}{\sigma^2_j} + \dfrac{1}{\tau^2}  } \\
+\nu_j^\star & = \dfrac{1}{ \dfrac{n_j}{\sigma^2_j} + \dfrac{1}{\tau^2}  }
+\end{split}
+$$
+]
+]
+
+
+
+---
+## Hierarchical model: implications
+
+- Our estimate for each $\mu_j$ is a weighted average of $\bar{y}_j$ and $\mu_0$, ensuring that we are borrowing information across all levels through $\mu_0$ and $\tau^2$.
+
+--
+
+- The weights for the weighted average is determined by relative precisions (the inverse of variance is often referred to as precision) from the data and from the second level model.
+
+--
+  
+- Suppose all $\sigma^2_j \approx \sigma^2$. Then the schools with smaller $n_j$ have estimated $\mu_j$ closer to $\mu_0$ than schools with larger $n_j$.
+
+--
+
+- Thus, the hierarchical model shrinks estimates with high variance towards the grand mean.
+
+
+
+---
+## Mercury in largemouth bass
+
+- High levels of mercury in fish is known to cause health problems, especially in children. 
+
+--
+
+- We will use data from the Nicholas School of the Environment's study of mercury concentrations in largemouth bass from the Waccamaw and Lumber rivers in NC. 
+
+--
+
+- A few details about the data:
+
+  + Mercury cannot be excreted and accumulates in tissue over the lifetime of a fish.
+  + Direct measurement of mercury requires sacrificing fish.
+  + Potential predictors include easy-to-measure variables such as weight and/or length.
+  + Fish were caught, weighed and measured at 16 stations.
+  + Filets sent to the lab for mercury measurements.
+
+--
+
+  <div class="question">
+Can we predict mercury levels for fish caught in these rivers?
+</div>
+
+
+---
+## Mercury in largemouth bass
+
+- Data contains 171 total observations with the following variables:
+
+Variable    | Description
+:------------- | :------------
+River | Waccamaw or Lumber
+Station | 7 stations for Lumber, 9 stations for Waccamaw
+Length | Length of fish
+Weight | Weight of fish
+Mercury | Mercury measurements
+
+--
+
+- We should check for differences across stations during EDA.
+
+--
+
+- If we see differences, we should control for where each fish is caught -- we can do so via indicator variables for station.
+
+--
+
+- Not many fish in some stations, so it makes sense to borrow strength across stations using a hierarchical model instead.
+
+
+---
+## Hierarchical linear models
+
+- Hierarchical models (like the model for the school data) can be applied to regression contexts where observations are grouped
+
+--
+
+- Today we will only focus on models for linear regression.
+
+--
+
+- However, the same ideas apply to logistic regression (as we will see in the next class or two), Poisson regression, etc.
+
+--
+
+- Recall that a standard linear model with one predictor can be written as
+.block[
+.small[
+$$y_i = \beta_0 + \beta_1 x_{i1} + \epsilon_i; \ \ \epsilon_i \sim N(0, \sigma^2); \ \ \ i = 1, \ldots, n.$$
+]
+]
+
+- Now suppose that the observations fall into $J$ groups, indexed by $j$.
+
+--
+
+- Then there are several ways to take advantage of the group within the context of hierarchical models.
+
+
+
+---
+## Random intercepts model
+
+- First, we can let the intercept alone vary by group, if we think that the predictor has the same effect on each group, but the overall intercept (grand mean of the response) is different for each group.
+
+--
+
+- This is known as the .hlight[random intercepts model] or the .hlight[varying-intercept model], and is often written as
+.block[
+.small[
+$$
+\begin{split}
+y_{ij} & = \beta_{0j} + \beta_1 x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n \\
+\epsilon_{ij} & \sim N(0, \sigma^2) \\
+\beta_{0j} & \sim N(\beta_{0}, \tau_0^2).
+\end{split}
+$$
+]
+]
+
+  where $i$ indexes observations and $j$ indexes groups.
+
+--
+  
+- The model can also be written as
+.block[
+.small[
+$$
+\begin{split}
+y_{ij} & = (\beta_{0} + \gamma_{0j}) + \beta_1 x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n \\
+\epsilon_{ij} & \sim N(0, \sigma^2) \\
+\gamma_{0j} & \sim N(0, \tau_0^2).
+\end{split}
+$$
+]
+]
+
+
+---
+## Random intercepts model
+
+- Allows separate intercepts for each group, but shrinks estimates towards common value.
+
+--
+
+- Useful for repeated measurements, when the "groups" are individuals, e.g., we take a subject's blood pressure three times and include all three measurements in the model).
+
+--
+  
+- Also useful when some groups have small sample sizes, so that estimation of individual group means is highly variable.
+
+--
+
+- The model implies the same slope for each group.
+```{r fig.height=2.6,echo=F}
+plot(x=0,y=0,type="n",ylim=c(0,5),xlim=c(0,5),xaxs="i",yaxs="i",xlab="x1",ylab="y")
+abline(a=0,b=0.3,col="red4")
+abline(a=1,b=0.3,col="blue4")
+abline(a=1.5,b=0.3,col="green4")
+abline(a=3,b=0.3,col="orange4")
+```
+
+
+
+---
+## Random slopes model
+
+- We may want to let only the slopes vary by group, if we think that the predictor has a different effect on each group, but the overall intercept is the same for each group.
+
+--
+
+- This is known as the .hlight[random slopes model] or the .hlight[varying-slope model], and is often written as
+.block[
+.small[
+$$
+\begin{split}
+y_{ij} & = \beta_{0} + \beta_{1j} x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n\\
+\epsilon_{ij} & \sim N(0, \sigma^2) \\
+\beta_{1j} & \sim N(\beta_{1}, \tau_1^2).
+\end{split}
+$$
+]
+]
+
+--
+  
+- The model can also be written as
+.block[
+.small[
+$$
+\begin{split}
+y_{ij} & = \beta_{0} + (\beta_1 + \gamma_{1j}) x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n \\
+\epsilon_{ij} & \sim N(0, \sigma^2) \\
+\gamma_{1j} & \sim N(0, \tau_1^2).
+\end{split}
+$$
+]
+]
+
+
+---
+## Random slopes model
+
+--
+
+- Allows separate slopes for each group, but shrinks estimates towards common value.
+
+--
+  
+- Also useful when some groups have small sample sizes, so that estimation of slopes is highly variable.
+
+--
+
+- The model implies the same intercept for each group.
+```{r fig.height=3.5,echo=F}
+plot(x=0,y=0,type="n",ylim=c(0,5),xlim=c(0,5),xaxs="i",yaxs="i",xlab="x1",ylab="y")
+abline(a=0,b=0.3,col="red4")
+abline(a=0,b=0.5,col="blue4")
+abline(a=0,b=0.7,col="green4")
+abline(a=0,b=1,col="orange4")
+```
+
+
+
+---
+## Random slopes and intercepts model
+
+- We can also combine both ideas, that is, allow for the slopes and intercepts to both vary by group, if we think that the predictor has a different effect on each group, and the overall intercept is also different for each group.
+
+--
+
+- This is known as the .hlight[random slopes and intercepts model] or the .hlight[varying-slope, varying-intercept model], and is often written as
+.block[
+.small[
+$$
+\begin{split}
+y_{ij} & = \beta_{0j} + \beta_{1j} x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n \\
+\epsilon_{ij} & \sim N(0, \sigma^2) \\
+(\beta_{0j},\beta_{1j}) & \sim N_2(\beta_{1}, \Sigma).
+\end{split}
+$$
+]
+]
+
+  where $N_2(\boldsymbol{\mu},\Sigma)$ is the bivariate normal distribution with mean $\boldsymbol{\mu}$ and covariance matrix $\Sigma$.
+
+--
+  
+- The model can also be written as
+.block[
+.small[
+$$
+\begin{split}
+y_{ij} & = (\beta_{0} + \gamma_{0j}) + (\beta_1 + \gamma_{1j}) x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n \\
+\epsilon_{ij} & \sim N(0, \sigma^2) \\
+(\gamma_{0j},\gamma_{1j}) & \sim N_2(\beta_{1}, \Sigma).
+\end{split}
+$$
+]
+]
+
+
+---
+## Random slopes and intercepts model
+
+- Allows for separate slopes and intercepts for each group, but shrinks estimates towards common value
+
+--
+
+- Useful when some groups have small sample sizes, so that estimation of slopes and intercepts is highly variable
+
+--
+
+- $(\gamma_{0j},\gamma_{1j})$ are called .hlight[random effects] while $(\beta_{0},\beta_{1})$ are called .hlight[fixed effects]. Models with fixed and random effects are often called .hlight[mixed effects models].
+
+```{r fig.height=2.8,echo=F}
+plot(x=0,y=0,type="n",ylim=c(0,5),xlim=c(0,5),xaxs="i",yaxs="i",xlab="x1",ylab="y")
+abline(a=0,b=0.3,col="red4")
+abline(a=1,b=0.5,col="blue4")
+abline(a=1.5,b=0.2,col="green4")
+abline(a=3,b=-0.5,col="orange4")
+```
+
+
+---
+## Mixed Effects Model for Bass Data
+
+- We will fit a mixed effects model to the Bass data.
+
+--
+
+- Let $y_{ij}$ and $x_{1ij}$ be the mercury measurement and mean-centered length respectively for fish $i$ in station $j$.
+
+--
+
+- The final model we will fit is
+.block[
+.small[
+$$
+\begin{split}
+y_{ij} & = \beta_{0j} + \beta_{1j} x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n. \\
+\epsilon_{ij} & \sim N(0, \sigma^2) \\
+(\beta_{0j},\beta_{1j}) & \sim N_2(\beta_{1}, \Sigma)
+\end{split}
+$$
+]
+]
+
+- We will first explore the standard linear model as well as other specifications to see how our results change.
+
+--
+
+- Use the .hlight[lmer] command in the .hlight[lme4] package in R to estimate the parameters using maximum likelihood (ML) or restricted maximum likelihood (REML) estimation.
+
+--
+
+- Take STA 601/602 or STA 610 for information on fitting these models using Bayesian methods.
+
+
+
+---
+## Model assessment and validation
+
+- Model assessment and validation from linear regression carries over.
+
+--
+
+- You should still have linearity (by each group for random slopes), independence of the errors (and also of the random effects for each predictor), equal variance, and normality.
+
+--
+
+- You should still look out for outliers and multicollinearity.
+
+--
+
+- Model comparison between two models works but not exactly the same. 
+
+--
+
+- We will not dive deeply into estimation but basically, REML produces unbiased estimates for the random effects, whereas ML produces unbiased estimates for the fixed effects.
+  + When using REML, which is the default in R, you should keep the fixed effects part the same when comparing two models.
+  + When using ML, you should keep the random effects part the same when comparing two models.
+
+
+
+
+
+
+---
+class: center, middle
+
+# In-class analysis: move to the R script [here](https://akandelanre.github.io/IDS702_F19/slides/lec-slides/Bass.R)
+
+
+
+
+
+
+
+
+
+
+
+

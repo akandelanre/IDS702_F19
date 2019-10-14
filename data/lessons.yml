@@ -105,10 +105,11 @@ lessons:
   - title: "WEEK 8"
   
   - date: "Tue, Oct 15"
-    title: "Multilevel linear models I"
+    title: "Multilevel/hierarchical models I"
+    slides: "lec-slides/13-hierarchical-models-I.html"
     
   - date: "Thur, Oct 17"
-    title: "Multilevel linear models II"
+    title: "Multilevel/hierarchical models II"
     
   - date: "Fri, Oct 18"
     title: "Lab 4: "
@@ -116,7 +117,7 @@ lessons:
   - title: "WEEK 9"
   
   - date: "Tue, Oct 22"
-    title: "Multilevel logistic regression"
+    title: "Multilevel/hierarchical models III"
     project: "team-project-02.html"
    
   - date: "Thur, Oct 24"
