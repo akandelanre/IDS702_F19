@@ -99,6 +99,7 @@ lessons:
   - date: "Thur, Oct 10"
     title: "Other GLMs: Poisson and Probit regressions"
     slides: "lec-slides/12-poisson-regression.html"
+    reading: "reading-04.html"
     
   - title: "PART  III: MULTILEVEL/HIERARCHICAL MODELS"
   
@@ -107,6 +108,7 @@ lessons:
   - date: "Tue, Oct 15"
     title: "Multilevel/hierarchical models I"
     slides: "lec-slides/13-hierarchical-models-I.html"
+    reading: "reading-05.html"
     
   - date: "Thur, Oct 17"
     title: "Multilevel/hierarchical models II"

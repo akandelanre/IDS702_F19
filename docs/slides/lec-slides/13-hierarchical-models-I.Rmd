@@ -192,11 +192,11 @@ $$\hat{\mu}_j \approx \dfrac{ \dfrac{n_j}{s^2_j} \bar{y}_j + \dfrac{1}{\hat{\tau
 ---
 ## Hierarchical model: school testing example
 
-- In this course, we will only scratch the surface of hierarchical modeling. 
+- We will only scratch the surface of hierarchical modeling. Take a look at the readings for hierarchical linear models on the website for more resources.
 
 --
 
-- If you want to explore hierarchical models in much more detail, specifically within the context of Bayesian modeling, consider taking STA 610.
+- If you want to take a course that explores hierarchical models in much more detail, consider taking STA 610.
 
 --
 
