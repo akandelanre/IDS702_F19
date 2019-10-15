@@ -101,8 +101,14 @@ pairs(mercury~ weight+length,data=bass,pch=3,col=river_col[as.numeric(bass$river
 mercreg <- lm(mercury ~ length_c*station, data = bass)
 
 #diagnostics
-plot(y = mercreg$resid, x=bass$length, xlab = "Length", ylab = "Residual")
-abline(0,0)
+par(mfcol = c(2,2))
+plot(mercreg)
+#we see some deviations from normality as we would expect
+#using the sqrt instead actually doesn't fare that much better...try it!
+#we'll once again keep the default scale
+par(mfcol = c(1,1))
+plot(mercreg$resid~bass$length_c, xlab = "Station (centered)", ylab = "Residual",col="blue3")
+abline(0,0,col="red3")
 boxplot(mercreg$resid~bass$station, xlab = "Station", ylab = "Residual")
 #pretty good fit... let's go with it. you could try logs as well.
 #look at results.
@@ -128,6 +134,7 @@ coef(mercreglmerint)
 fixef(mercreglmerint)
 ranef(mercreglmerint)
 dotplot(ranef(mercreglmerint, condVar=TRUE))     
+
 
 #we can plot the different lines for each station
 newdata <- data.frame(station=rep(unique(bass$station),each=20),
@@ -161,27 +168,59 @@ ggplot(newdata, aes(x = length_c, y = pred, colour = station)) +
 #the predicted values of mercury for each bass
 preds <- fitted(mercreglmerintslope)
 
-#residual plots
-plot(mercreglmerintslope)
-plot(y = residuals(mercreglmerintslope), x = bass$length, xlab= "Length", ylab = "Residuals")
-#looks pretty good -- model seems to fit the data well.
-
-#how about plots of residuals by station?
-ggplot(bass,aes(x=length, y=residuals(mercreglmerintslope))) +
-  geom_point(alpha = .5,colour="blue4") +
-  geom_smooth(method="lm",col="red3") +
-  labs(title="Mercury vs Length") +
-  facet_wrap(~station,ncol=5)
-xyplot(residuals(mercreglmerintslope) ~ length | station, data = bass)
-#also reasonable
-
-
 #Let's compare models using AIC and BIC
 AIC(mercreglmerint) #old model
 AIC(mercreglmerintslope) #new model
 BIC(mercreglmerint) #old model
 BIC(mercreglmerintslope) #new model
 #new model results in a reduction of both
+
+#residual plots
+plot(mercreglmerintslope)
+plot(y = residuals(mercreglmerintslope), x = bass$length, xlab= "Length", ylab = "Residuals")
+#looks pretty good -- model seems to fit the data well.
+#how about plots of residuals by station?
+ggplot(bass,aes(x=length, y=residuals(mercreglmerintslope))) +
+  geom_point(alpha = .5,colour="blue4") +
+  geom_smooth(method="lm",col="red3") +
+  labs(title="Mercury vs Length") +
+  facet_wrap(~station,ncol=5)
+#xyplot(residuals(mercreglmerintslope) ~ length | station, data = bass)
+#also reasonable
+
+qqnorm(residuals(mercreglmerintslope)); qqline(residuals(mercreglmerintslope))
+#not so good. Let's try the square root and see
+
+
+mercreglmerintslope_sqrt <- lmer(sqrt(mercury) ~ length_c + ( 1 + length_c  | station), data = bass) 
+summary(mercreglmerintslope_sqrt)
+coef(mercreglmerintslope_sqrt)
+fixef(mercreglmerintslope_sqrt)
+ranef(mercreglmerintslope_sqrt)
+dotplot(ranef(mercreglmerintslope_sqrt, condVar=TRUE))    
+
+#we can plot the different lines for each station
+newdata$pred <- predict(mercreglmerintslope_sqrt,newdata=newdata,type="response")
+newdata$pred <- newdata$pred^2
+ggplot(newdata, aes(x = length_c, y = pred, colour = station)) +
+  geom_line(size = 0.7) +
+  labs(x = "Length (Centered)", y = "Predicted Mercury") +
+  theme(legend.position="none") +
+  geom_text(data = newdata,aes(label = station), hjust = 0.5, vjust = 1)
+
+#residual plots
+plot(mercreglmerintslope_sqrt) #looks good
+plot(y = residuals(mercreglmerintslope_sqrt), x = bass$length, xlab= "Length", ylab = "Residuals")
+#Also good
+ggplot(bass,aes(x=length, y=residuals(mercreglmerintslope_sqrt))) +
+  geom_point(alpha = .5,colour="blue4") +
+  geom_smooth(method="lm",col="red3") +
+  labs(title="Mercury vs Length") +
+  facet_wrap(~station,ncol=5)
+#also reasonable
+
+qqnorm(residuals(mercreglmerintslope_sqrt)); qqline(residuals(mercreglmerintslope_sqrt))
+#a bit better! We can keep this model!
 
 
 
