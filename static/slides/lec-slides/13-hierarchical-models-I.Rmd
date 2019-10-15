@@ -234,23 +234,25 @@ $$
 
 
 ---
-## Mercury in largemouth bass
+## Mercury in large mouth bass
 
-- High levels of mercury in fish is known to cause health problems, especially in children. 
-
---
-
-- We will use data from the Nicholas School of the Environment's study of mercury concentrations in largemouth bass from the Waccamaw and Lumber rivers in NC. 
+- Rivers in North Carolina contain small concentrations of mercury which can accumulate in fish over their lifetimes. Because mercury cannot be excreted from the body, it builds up in the tissues. 
 
 --
 
-- A few details about the data:
+- The concentration of mercury in fish tissue can be obtained at considerable expense by catching fish and sending samples to a lab for analysis. 
 
-  + Mercury cannot be excreted and accumulates in tissue over the lifetime of a fish.
-  + Direct measurement of mercury requires sacrificing fish.
-  + Potential predictors include easy-to-measure variables such as weight and/or length.
-  + Fish were caught, weighed and measured at 16 stations.
-  + Filets sent to the lab for mercury measurements.
+--
+
+- Directly measuring the mercury concentration in the water is impossible since it is almost always below detectable limits.
+
+--
+
+- A study was conducted in the Waccamaw and Lumber Rivers to investigate mercury levels in tissues of large mouth bass. At several stations along each river, a group of fish were caught, weighed, and measured. 
+
+--
+
+- In addition a filet from each fish caught was sent to the lab so that the tissue concentration of mercury could be determined for each fish.
 
 --
 
@@ -259,8 +261,9 @@ Can we predict mercury levels for fish caught in these rivers?
 </div>
 
 
+
 ---
-## Mercury in largemouth bass
+## Mercury in large mouth bass
 
 - Data contains 171 total observations with the following variables:
 
@@ -550,13 +553,15 @@ $$
 
 --
 
-- Model comparison between two models works but not exactly the same. 
+- Model comparison between two multi-level models does not quite work the same way.
 
 --
 
-- We will not dive deeply into estimation but basically, REML produces unbiased estimates for the random effects, whereas ML produces unbiased estimates for the fixed effects.
-  + When using REML, which is the default in R, you should keep the fixed effects part the same when comparing two models.
-  + When using ML, you should keep the random effects part the same when comparing two models.
+- We will not dive deeply into estimation but basically, ML produces unbiased estimates for the fixed effects but not the random effects whereas REML produces unbiased estimates for the random effects.
+
+--
+
+- When using the `anova` function in R, keep the random effects part the same when comparing two models (so you'll be comparing fixed effects). Use AIC or BIC to decide the form of the random effects.
 
 
 
