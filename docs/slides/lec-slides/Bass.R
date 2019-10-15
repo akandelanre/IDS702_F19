@@ -127,6 +127,8 @@ coef(mercreglmerint)
 #these equal the fixed effects plus the random effect
 fixef(mercreglmerint)
 ranef(mercreglmerint)
+dotplot(ranef(mercreglmerint, condVar=TRUE))     
+
 #we can plot the different lines for each station
 newdata <- data.frame(station=rep(unique(bass$station),each=20),
                       length_c=seq(min(bass$length_c),max(bass$length_c),20))
@@ -146,6 +148,8 @@ summary(mercreglmerintslope)
 coef(mercreglmerintslope)
 fixef(mercreglmerintslope)
 ranef(mercreglmerintslope)
+dotplot(ranef(mercreglmerintslope, condVar=TRUE))    
+
 #we can plot the different lines for each station
 newdata$pred <- predict(mercreglmerintslope,newdata=newdata,type="response")
 ggplot(newdata, aes(x = length_c, y = pred, colour = station)) +
