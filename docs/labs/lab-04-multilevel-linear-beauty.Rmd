@@ -1,0 +1,165 @@
+---
+title: "Lab 4: multilevel logistic regression"
+subtitle: "Do more beautiful professors get higher evaluations?"
+date: "Oct 18, 2019"
+output: 
+  tufte::tufte_html:
+    tufte_variant: "envisioned"
+    highlight: pygments
+    css: lab.css
+    toc: true
+link-citations: yes
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(tufte)
+library(knitr)
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE,     # for regression output
+  digits = 2
+  )
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+**Due:** 11:59pm, Oct 20, 2019
+
+
+
+# Introduction
+
+The purpose of this lab is to help you gain more experience working with multilevel linear regression models. The lab is based on Exercise 6 of Section 12.11 of [Data Analysis Using Regression and Multilevel/Hierarchical Models](https://www.amazon.com/gp/product/052168689X/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=052168689X&linkCode=as2&tag=andrsblog0f-20&linkId=PX5B5V6ZPCT2UIYV) by Gelman A., and Hill, J. The data is from the following article:  
+[Hamermesh, D. S. and Parker, A. (2005), "Beauty in the classroom: instructors' pulchritude and putative pedagogical productivity", *Economics of Education Review*, v. 24 (4), pp. 369-376](https://www.sciencedirect.com/science/article/pii/S0272775704001165). 
+
+The data contains information about student evaluations of instructor's beauty and teaching quality for several courses at the University of Texas from 2000 to 2002. Evaluations were carried out during the last 3 weeks of the 15-week semester. Students administer the evaluation instrument while the instructor is absent from the classroom. The beauty judgements were made later using each instructor's pictures by six undergraduate students (3 women and 3 men) who had not attended the classes and were not aware of the course evaluations. The sample contains a total of 94 professors across 463 classes, with the number of classes taught by each professor ranging from 1 to 13. Underlying the 463 observations are 16,957 completed evaluations from 25,547 registered students. The data you will use for this lab excludes some variables in the original dataset.
+
+*Read the article (available via Duke library) for more information about the problem.*
+
+In this lab you will once again work in pairs just like you did for lab two. You should work with the same student you worked with for lab 2.  The names of the two students on each team MUST be on the team's lab report. Each team should submit only one report for this lab. Gradescope will let you select your team mate when submitting, so make sure to do so. Only one person needs to submit the report. 
+
+
+
+# Housekeeping
+
+## Location change
+
+Remember that this lab will hold in Rm103 and not Rm270!
+
+## R/RStudio
+
+You all should have R and RStudio installed on your computers by now. If you do not, first install the latest version of R here: https://cran.rstudio.com (remember to select the right installer for your operating system). Next, install the latest version of RStudio here: https://www.rstudio.com/products/rstudio/download/. Scroll down to the "Installers for Supported Platforms" section and find the right installer for your operating system.
+
+## R Markdown
+
+You are required to use R Markdown to type up this lab report. If you do not already know how to use R markdown, here is a very (very!) basic R Markdown template: https://akandelanre.github.io/IDS702_F19/labs/resources/LabReport.Rmd. Refer to the resources tab of the course website (here: https://akandelanre.github.io/IDS702_F19/resources/) for links to help you learn how to use R markdown. 
+
+## Gradescope
+
+You MUST submit both your .Rmd and .pdf files (again, just one copy to be submitted by only one of you) to the course site on Gradescope here: https://www.gradescope.com/courses/57701/assignments. Make sure to knit to pdf and not html; ask the TA about knitting to pdf if you cannot figure it out. Be sure to submit under the right assignment entry. 
+
+<!-- ## Create a GitHub account -->
+
+<!-- Everyone should have a GitHub account by now. You won't need to use version control for this lab but you will need it for the team projects so you might as well create an account now. It is quite easy to use git/GitHub within RStudio If you have a GitHub account, skip the rest of this section.  -->
+
+<!-- If you do not yet have a GitHub account, create one at https://github.com/. Try to incorporate your actual name and pick a name you will be comfortable revealing to your future boss! -->
+
+
+
+<!-- # Warm up -->
+
+<!-- **Pick one team member to complete the steps in this section while the others contribute to the discussion but do not actually touch the files on their computer.** -->
+
+<!-- Before we introduce the data, let's warm up with some simple exercises. -->
+
+<!-- ## YAML:  -->
+
+<!-- Open the R Markdown (Rmd) file in your project, change the author name to your **team** name, and knit the document. -->
+
+<!-- ## Committing and pushing changes: -->
+
+<!-- - Go to the **Git** pane in your RStudio.  -->
+<!-- - View the **Diff** and confirm that you are happy with the changes. -->
+<!-- - Add a commit message like "Update team name" in the **Commit message** box and hit **Commit**. -->
+<!-- - Click on **Push**. This will prompt a dialogue box where you first need to enter your user name, and then your password. -->
+
+<!-- ## Pulling changes: -->
+
+<!-- Now, the remaining team members who have not been concurrently making these changes on their projects should click on the **Pull** button in their Git pane and observe that the changes are now reflected on their projects as well. -->
+
+
+
+# The Data
+
+Download the data (named `Beauty.txt`) from Sakai and save it locally to the same directory as your R markdown file. To find the data file on Sakai, go to Resources $\rightarrow$ Datasets $\rightarrow$ Lab Datasets $\rightarrow$ Lab 4. Once you have downloaded the data file into the SAME folder as your R markdown file, load the data and packages needed for multilevel models by using the following R code. 
+
+```{marginfigure}
+Remember to double-check the dimensions and first few rows of the data to confirm you have the right file.
+```
+
+```{r eval = FALSE}
+library(lme4)
+library(lmerTest)
+# Read in the data
+Beauty <- read.table ("Beauty.txt", header=T, sep=" ")
+```
+
+
+## Code book  
+
+Variable       | Description
+:------------- | :------------ 
+profnumber |  Id for each professor
+beauty | Average of 6 standardized beauty ratings
+eval | Average course rating
+CourseID | Id for 30 individual courses. The remaining classes were not identified in the original data, so that they have value 0.
+tenured    |  Is the professor tenured? 1 = yes, 0 = no
+minority  |  Is the professor from a minority group? 1 = yes, 0 = no
+age      |    Professor's age
+didevaluation   |   Number of students filling out evaluations
+female   |  1 = female, 0 = male
+formal   | Did the instructor dress formally (that is, wears tie--jacket/blouse) in the pictures used for the beauty ratings? 1 = yes, 0 = no
+lower   |  Lower division course? 1 = yes, 0 = no
+multipleclass | 1 =  more than one professor teaching sections in course in sample, 0 = otherwise
+nonenglish |  Did the Professor receive an undergraduate education from a non-English speaking country? 1 = yes, 0 = no
+onecredit   |   1 = one-credit course, 0 = otherwise
+percentevaluating float  | didevaluation/students
+profevaluation | Average instructor rating
+students  |  Class enrollment
+tenuretrack  | Is the professor tenure track faculty? 1 = yes, 0 = no
+
+
+# Exercises
+
+Treat the variable `eval` as your response variable and the other variables as potential predictors.
+
+1. Is the distribution of `eval` normal? If not, try the log transformation. Does that look more "normal"?  
+    *If no, use `eval` as your response variable for the remaining questions. If yes, use `log(eval)` as your response variable instead for the remaining questions.*  
+    If you think the log transformation does not help, what other transformation(s) do you think might work? Examine and describe the distribution(s) for the transformation(s).  
+    *Either way, for ease of interpreting the results for this lab, answer the remaining questions using either `eval` or `log(eval).*
+
+2. Describe the overall relationship between `eval` and `beauty`. Also examine the same relationship by `CourseID`. Are there any courses for which the relationship looks potentially different than others?  
+    *There are 31 levels of `CourseID` in all, which might be tough to explore graphically, so you should probably take a look at a random sample of say 9 classes plus class `CourseID` == 0, making a total of 10 classes. Note that level `CourseID` == 0 actually includes so many other classes which were not identified in the data. For the purposes of this lab, we will treat that class as one single huge class.*  
+    
+3. Is it meaningful to fit a model that includes random slopes for `beauty` by `profnumber`? Why or why not?
+
+4. Now, explore the relationship between `eval` and the other potential predictors, excluding `profnumber`, `profevaluation`, and `CourseID`. Don't include any of the plots, just briefly describe the most interesting relationships. We should not include `profevaluation` as a predictor for `eval`. Why? 
+
+5. Fit a varying-intercept model for these data by `profnumber` with `beauty` as the only predictor. Interpret the results in the context of the question.
+
+6. Now identify three instructor-level predictors excluding `beauty` (with `profnumber` being the instructor-level identifier)  that you think we should control for based on your EDA. Fit a varying-intercept model for these data by `profnumber` and include `beauty` plus the other three variables you have identified as predictors. Interpret the results in the context of the question.
+
+7. Using the model from question 5, how does the variation in average ratings across professors compare to the variation in ratings across the different course evaluations for the same instructor?
+
+8. Extend the model from question 6 by also allowing the intercept and coefficient for `beauty` to vary by `CourseID`. Fit the model in R and interpret the results: the coefficient estimates and the estimated standard deviations. Did any of the results for the fixed effects change? If yes, why do you think that is?
+
+9. Using two or three (at most!) plots, tell a visual story about your most interesting or surprising findings. If you need to present results by `profnumber` or `CourseID`, you should consider either looking at a random sample of them or focusing on the groups that are the most different, since there are so many of them.
+
+10. Identify one class-level predictor (with `CourseID` being the class-level identifier) that you think we should control for in the model. Include it as a fixed predictor  in the model from Question 8. Is the variable significant? If yes, interpret the coefficient.
+
+
+# Grading
+
+10 points: 1 point for each question
+
+    

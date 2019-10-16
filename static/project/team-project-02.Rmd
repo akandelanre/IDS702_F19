@@ -1,0 +1,113 @@
+---
+title: "Team Project 1"
+subtitle: "Effects of Job Training on Wages"
+output: 
+  html_document: 
+    css: hw.css
+    theme: yeti
+    toc: true
+    toc_float: true
+    fig_caption: true
+---
+
+## Due dates
+
+- In-class presentations: 10:00 - 11:20am, Friday, October 4.
+- Final reports: 11:59pm, Friday, October 4.
+
+## General instructions
+
+- You MUST work within your MIDS-assigned teams. You are free to divide the work any way you choose but be sure to divide the responsibilities fairly equally within teams. Each team member must work on understanding the data, exploring the data, building the model and providing answers to the questions of interest, but, as an example, one student could focus on writing code, another could focus on writing the report, another could focus on the presentation slides and so on.
+- Each team will give a brief (6 minute) presentation of their findings in class. 
+  + The presentation should only cover a brief introduction and your most interesting and important findings.
+  + You are free to create your presentation slides using PowerPoint, LaTeX or any other application you choose.
+  + The order of the presentations will be randomized; each team is expected to come to class fully prepared to present first.
+- For the reports, each team MUST turn in only one report with team members' names at the top of the report. 
+  + Please limit your report to a total of 10 pages. <font color="red">You will be penalized should your report exceed 10 pages!</font>
+  + Please type your reports using R Markdown, LaTeX or any other word processor but be sure to knit or convert the final output file to ".pdf". 
+  + **DO NOT INCLUDE R CODE OR OUTPUT IN YOUR REPORT!** R outputs should be converted to nicely formatted tables. Feel free to use R packages such as `kable` and `xtable`.
+  + All R-code must be included in the appendix. Feel free to also include any supplemental material that is important for your analysis, such as diagnostic checks or exploratory plots that you feel justify the conclusions in your report.
+  + Submissions should be made on gradescope: go to Assignments $\rightarrow$ Team Project 1. Gradescope will let you select your team mates when submitting, so make sure to do so. Only one person needs to submit the report. 
+
+
+
+## The project
+### Introduction
+
+In the 1970s, researchers in the United States ran several randomized experiments intended to evaluate public policy programs. One of the most famous experiments is the National Supported Work (NSW) Demonstration, in which researchers wanted to assess whether or not job training for disadvantaged workers had an effect on their wages. Eligible workers were randomly assigned either to receive job training or not to receive job training. Candidates eligible for the NSW were randomized into the program between March 1975 and July 1977.
+
+We analyze a subset of the data from the NSW Demonstration containing only male participants. These and other data were originally analyzed in a highly influential paper by the economist Robert Lalonde. Two relevant references for the study are:
+
+- [Lalonde, R. J. (1986), Evaluating the econometric evaluations of training programs with experimental data, *The American Economic Review*, 76, 604 - 620](https://www.jstor.org/tc/accept?origin=%2Fstable%2Fpdf%2F1806062.pdf). <font color="blue">(**Main reference.**)</font>
+- [Dehejia, R., and Wahba, S. (1999), Causal Effects in Nonexperimental Studies: Reevaluating the Evaluation of Training Programs, *Journal of the American Statistical Association*, 94, 1053-1062](http://www.uh.edu/~adkugler/Dehejia&Wahba_JASA.pdf). <font color="blue">(**Secondary reference which analyzes a subset of the Lalonde data.**)</font>
+
+Although the original data is based on a randomized experiment (which means we would have been able to make causal statements directly), the data provided for this project only compares a subset of the data. In the data provided, the treatment group (those who received the training) includes male participants within Lalonde's NSW data for which 1974 earnings can be obtained, and the control group (those who did not receive the training) includes all the unemployed males in 1976 whose income in 1975 was below the poverty level. This control group is based on a matched Current Population Survey - Social Security Administration file.
+
+
+### Data
+
+The data for this project can be found in the file "lalondedata.txt" on Sakai. You might consider taking a look at the references for a more in-depth background on the data.
+
+
+### Questions
+
+Use regression models with multiple predictors (to control for the effects of potential confounding factors in the available data) to answer the following questions of interest.
+
+- Is there evidence that workers who receive job training tend to earn higher wages than workers who do not receive job training?
+  + Quantify the effect of the treatment, that is, receiving job training, on real annual earnings.
+  + What is a likely range for the effect of training?
+  + Is there any evidence that the effects differ by demographic groups? 
+  + Are there other interesting associations with wages that are worth mentioning?
+
+- Is there evidence that workers who receive job training tend to be more likely to have positive (non-zero) wages than workers who do not receive job training?
+  + Quantify the effect of the treatment, that is, receiving job training, on the odds of having non-zero wages.
+  + What is a likely range for the effect of training?
+  + Is there any evidence that the effects differ by demographic groups?
+  + Are there other interesting associations with positive wages that are worth mentioning?
+
+      
+
+### Other instructions
+
+Your analysis MUST address the two sets of questions directly. The report should be written so that there is a section which clearly answers the first set of questions about wages and another section which clearly answers the second set of questions about positive wages. If you prefer, you can write two 5-paged reports, one to address each set of questions. Be sure to also include the following in your report: 
+
+- the final models you ultimately decided to use,
+- clear model building, that is, justification for the models (e.g., why you chose certain transformations and why you decided the final models are reasonable),
+- model assessment and validation for the final models,
+- the relevant regression output (includes: a table with coefficients and SEs, and p-values or confidence intervals; and somewhere in the text or table the estimated regression standard deviation and R-squared for linear regression, or area under the curve and accuracy for logistic regression),
+- your interpretation of the results in the context of the questions of interest, including clear and direct answers to the questions posed, and
+- any potential limitations of the analysis.
+
+
+### Code Book
+      
+Variable       |        Description
+:------------- | :-------------------
+treat          |    1 if participant received job training, 0 if participant did not receive job training.
+age            |    age in years.
+educ           |    years of education. 
+black          |    1 if race is black, 0 otherwise. 
+hisp           |    1 if Hispanic ethnicity, 0 otherwise. 
+married        |    1 if married, 0 otherwise. 
+nodegree       |    1 if participant dropped out of high school, 0 otherwise. 
+re74           |    real annual earnings in 1974.
+re75           |    real annual earnings in 1975.
+re78           |    real annual earnings in 1978.
+    
+
+
+## Grading
+
+30 points: 15 points for each part.
+
+
+
+
+
+
+
+
+
+
+
+

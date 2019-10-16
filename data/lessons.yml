@@ -72,6 +72,8 @@ lessons:
     
   - date: "Thur, Sept 26"
     title: "Logistic regression: in-class analysis (cont'd)"
+    
+  - title: "Team project 1"
     project: "team-project-01.html"
   
   - date: "Fri, Sept 27"
@@ -114,14 +116,18 @@ lessons:
     title: "Multilevel/hierarchical models II"
     
   - date: "Fri, Oct 18"
-    title: "Lab 4: "
+    title: "Lab 4: multilevel linear regression (do more beautiful professors get higher evaluations?)"
+    lab: "lab-04-multilevel-linear-beauty.html"
+    #project: "team-project-02.html"
+    
+  - title: "Team project 2"
+    #project: "team-project-02.html"
     
   - title: "WEEK 9"
   
   - date: "Tue, Oct 22"
     title: "Multilevel/hierarchical models III"
-    project: "team-project-02.html"
-   
+    
   - date: "Thur, Oct 24"
     title: "In-class analysis"
   
@@ -131,7 +137,7 @@ lessons:
   
   - date: "Tue, Oct 29"
     title: "Missing values, errors, and outliers; single imputation methods"
-    hw: "New-hw-04.html"
+    #hw: "New-hw-04.html"
     
   - date: "Thur, Oct 31"
     title: "Multiple imputation"
@@ -156,7 +162,7 @@ lessons:
   
   - date: "Tue, Nov 12"
     title: "Completely randomized experiments: model-based approach"
-    hw: "New-hw-05.html"
+    #hw: "New-hw-05.html"
     
   - date: "Thur, Nov 14"
     title: "Observational studies: matching, weighting, regression, and propensity scores methods"
