@@ -114,6 +114,7 @@ lessons:
     
   - date: "Thur, Oct 17"
     title: "Multilevel/hierarchical models II"
+    slides: "lec-slides/14-hierarchical-models-II.html"
     
   - date: "Fri, Oct 18"
     title: "Lab 4: multilevel linear regression (do more beautiful professors get higher evaluations?)"

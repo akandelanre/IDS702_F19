@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>Hierarchical models I</title>
+    <title>Hierarchical models II</title>
     <meta charset="utf-8" />
     <meta name="author" content="Dr. Olanrewaju Michael Akande" />
     <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
@@ -12,9 +12,9 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Hierarchical models I
+# Hierarchical models II
 ### Dr. Olanrewaju Michael Akande
-### Oct 15, 2019
+### Oct 17, 2019
 
 ---
 
@@ -25,49 +25,31 @@ class: center, middle, inverse, title-slide
 
 ## Announcements
   
-- Lab for this week, that is on Fri, Oct 18, will hold in Rm103 and not Rm270!
-
-- You can submit the one-page project proposals on Gradescope whenever you are ready but official due date is still Nov 4.
+- Piazza forum online
 
 ## Outline
 
 - Questions from last lecture
 
-- Introduction to multilevel/hierarchical models
+- Interpreting results from multilevel models
 
-- Random effects models
+- Incorporating group-level predictors
 
-- Mixed effects  models
+- Modeling multiple predictors
 
-- In-class analysis
+- Non-nested models
+
+
+&lt;!-- --- --&gt;
+&lt;!-- class: center, middle --&gt;
+
+&lt;!-- # Hierarchical models --&gt;
 
 
 ---
-class: center, middle
+## The home radon example
 
-# Hierarchical models
-
-
----
-## Clustered or grouped data
-
-- Often data are grouped or clustered naturally, for example 
-  + students within schools,
-  + patients within hospitals,
-  + voters within counties or states, or
-  + repeated measurements on same person, as is often the case in longitudinal studies.
-
---
-
-- For such clustered data, we may want to infer or estimate the relationship between a response variable and certain predictors collected across all the groups.
-
---
-
-- Ideally, we should do so in a way that takes advantage of the relationship between observations in the same group, but we should also look to borrow information across groups.
-
---
-
-- .hlight[Hierarchical or multilevel models] provide a principled way to do so. We'll start with simpler cases to elucidate the main ideas.
+- We will use the radon example from the main textbook. - The data is in the file `Radon.txt` on Sakai.
 
 
 ---
@@ -262,10 +244,6 @@ Mercury | Mercury measurements
 
 - Not many fish in some stations, so it makes sense to borrow strength across stations using a hierarchical model instead.
 
---
-
-- The data is in the file `mercurydata.txt` on Sakai.
-
 
 ---
 ## Hierarchical linear models
@@ -351,7 +329,7 @@ $$
 --
 
 - The model implies the same slope for each group.
-&lt;img src="13-hierarchical-models-I_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-hierarchical-models-II_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -405,7 +383,7 @@ $$
 --
 
 - The model implies the same intercept for each group.
-&lt;img src="13-hierarchical-models-I_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-hierarchical-models-II_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -423,7 +401,7 @@ $$
 `\begin{split}
 y_{ij} &amp; = \beta_{0j} + \beta_{1j} x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n_j; \ \ \ j = 1, \ldots, J \\
 \epsilon_{ij} &amp; \sim N(0, \sigma^2) \\
-(\beta_{0j},\beta_{1j}) &amp; \sim N_2((\beta_{0},\beta_{1}), \Sigma).
+(\beta_{0j},\beta_{1j}) &amp; \sim N_2(\beta_{1}, \Sigma).
 \end{split}`
 $$
 ]
@@ -440,7 +418,7 @@ $$
 `\begin{split}
 y_{ij} &amp; = (\beta_{0} + \gamma_{0j}) + (\beta_1 + \gamma_{1j}) x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n_j; \ \ \ j = 1, \ldots, J \\
 \epsilon_{ij} &amp; \sim N(0, \sigma^2) \\
-(\gamma_{0j},\gamma_{1j}) &amp; \sim N_2(\boldsymbol{0}, \Sigma).
+(\gamma_{0j},\gamma_{1j}) &amp; \sim N_2(\beta_{1}, \Sigma).
 \end{split}`
 $$
 ]
@@ -460,7 +438,7 @@ $$
 
 - `\((\gamma_{0j},\gamma_{1j})\)` are called .hlight[random effects] while `\((\beta_{0},\beta_{1})\)` are called .hlight[fixed effects]. Models with fixed and random effects are often called .hlight[mixed effects models].
 
-&lt;img src="13-hierarchical-models-I_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="13-hierarchical-models-II_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -479,9 +457,9 @@ $$
 .small[
 $$
 `\begin{split}
-y_{ij} &amp; = (\beta_{0} + \gamma_{0j}) + (\beta_1 + \gamma_{1j}) x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n_j; \ \ \ j = 1, \ldots, J \\
+y_{ij} &amp; = \beta_{0j} + \beta_{1j} x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n_j; \ \ \ j = 1, \ldots, J \\
 \epsilon_{ij} &amp; \sim N(0, \sigma^2) \\
-(\gamma_{0j},\gamma_{1j}) &amp; \sim N_2(\boldsymbol{0}, \Sigma).
+(\beta_{0j},\beta_{1j}) &amp; \sim N_2(\beta_{1}, \Sigma)
 \end{split}`
 $$
 ]

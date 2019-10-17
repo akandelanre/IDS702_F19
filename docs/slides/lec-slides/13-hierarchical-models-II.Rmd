@@ -1,7 +1,7 @@
 ---
-title: "Hierarchical models I"
+title: "Hierarchical models II"
 author: "Dr. Olanrewaju Michael Akande"
-date: "Oct 15, 2019"
+date: "Oct 17, 2019"
 output:
   xaringan::moon_reader:
     css: "slides.css"
@@ -20,11 +20,6 @@ library(knitr)
 library(kableExtra)
 library(lattice)
 #library(dplyr)
-library(MASS)
-library(arm)
-library(e1071)
-library(caret)
-library(pROC)
 ```
 
 ```{r setup, include=FALSE}
@@ -50,49 +45,31 @@ knit_hooks$set(small.mar = function(before, options, envir) {
 
 ## Announcements
   
-- Lab for this week, that is on Fri, Oct 18, will hold in Rm103 and not Rm270!
-
-- You can submit the one-page project proposals on Gradescope whenever you are ready but official due date is still Nov 4.
+- Piazza forum online
 
 ## Outline
 
 - Questions from last lecture
 
-- Introduction to multilevel/hierarchical models
+- Interpreting results from multilevel models
 
-- Random effects models
+- Incorporating group-level predictors
 
-- Mixed effects  models
+- Modeling multiple predictors
 
-- In-class analysis
+- Non-nested models
+
+
+<!-- --- -->
+<!-- class: center, middle -->
+
+<!-- # Hierarchical models -->
 
 
 ---
-class: center, middle
+## The home radon example
 
-# Hierarchical models
-
-
----
-## Clustered or grouped data
-
-- Often data are grouped or clustered naturally, for example 
-  + students within schools,
-  + patients within hospitals,
-  + voters within counties or states, or
-  + repeated measurements on same person, as is often the case in longitudinal studies.
-
---
-
-- For such clustered data, we may want to infer or estimate the relationship between a response variable and certain predictors collected across all the groups.
-
---
-
-- Ideally, we should do so in a way that takes advantage of the relationship between observations in the same group, but we should also look to borrow information across groups.
-
---
-
-- .hlight[Hierarchical or multilevel models] provide a principled way to do so. We'll start with simpler cases to elucidate the main ideas.
+- We will use the radon example from the main textbook. - The data is in the file `Radon.txt` on Sakai.
 
 
 ---
@@ -287,10 +264,6 @@ Mercury | Mercury measurements
 
 - Not many fish in some stations, so it makes sense to borrow strength across stations using a hierarchical model instead.
 
---
-
-- The data is in the file `mercurydata.txt` on Sakai.
-
 
 ---
 ## Hierarchical linear models
@@ -460,7 +433,7 @@ $$
 \begin{split}
 y_{ij} & = \beta_{0j} + \beta_{1j} x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n_j; \ \ \ j = 1, \ldots, J \\
 \epsilon_{ij} & \sim N(0, \sigma^2) \\
-(\beta_{0j},\beta_{1j}) & \sim N_2((\beta_{0},\beta_{1}), \Sigma).
+(\beta_{0j},\beta_{1j}) & \sim N_2(\beta_{1}, \Sigma).
 \end{split}
 $$
 ]
@@ -477,7 +450,7 @@ $$
 \begin{split}
 y_{ij} & = (\beta_{0} + \gamma_{0j}) + (\beta_1 + \gamma_{1j}) x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n_j; \ \ \ j = 1, \ldots, J \\
 \epsilon_{ij} & \sim N(0, \sigma^2) \\
-(\gamma_{0j},\gamma_{1j}) & \sim N_2(\boldsymbol{0}, \Sigma).
+(\gamma_{0j},\gamma_{1j}) & \sim N_2(\beta_{1}, \Sigma).
 \end{split}
 $$
 ]
@@ -522,9 +495,9 @@ abline(a=3,b=-0.5,col="orange4")
 .small[
 $$
 \begin{split}
-y_{ij} & = (\beta_{0} + \gamma_{0j}) + (\beta_1 + \gamma_{1j}) x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n_j; \ \ \ j = 1, \ldots, J \\
+y_{ij} & = \beta_{0j} + \beta_{1j} x_{1ij} + \epsilon_{ij}; \ \ \ i = 1, \ldots, n_j; \ \ \ j = 1, \ldots, J \\
 \epsilon_{ij} & \sim N(0, \sigma^2) \\
-(\gamma_{0j},\gamma_{1j}) & \sim N_2(\boldsymbol{0}, \Sigma).
+(\beta_{0j},\beta_{1j}) & \sim N_2(\beta_{1}, \Sigma)
 \end{split}
 $$
 ]

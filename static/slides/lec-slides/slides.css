@@ -150,6 +150,8 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
 
 .large { font-size: 90% }  
 
+.midsmall { font-size: 68% } 
+
 .block {background-color: #c0f4fc;}
 
 .remark-slide-content {
