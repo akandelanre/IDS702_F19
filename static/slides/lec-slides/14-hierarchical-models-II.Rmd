@@ -361,7 +361,7 @@ The simple answer is that we are actually using all the observations within each
 
 --
 
-- Inference using `lme4` in R uses the frequentist approach which is not fully reliable here as it uses an approximation for inference. Personally, I prefer to use Bayesian models for multilevel regressions.
+- `lme4` in R uses the frequentist approach which is not fully reliable here as it uses an approximation for inference and it does not fully account for uncertainty in the estimated variance parameters. Personally, I prefer to use Bayesian models for multilevel regressions.
 
 --
 
