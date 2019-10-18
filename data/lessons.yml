@@ -119,7 +119,6 @@ lessons:
   - date: "Fri, Oct 18"
     title: "Lab 4: multilevel linear regression (do more beautiful professors get higher evaluations?)"
     lab: "lab-04-multilevel-linear-beauty.html"
-    #project: "team-project-02.html"
     
   - title: "Team project 2"
     #project: "team-project-02.html"

@@ -1,6 +1,6 @@
 ---
-title: "Team Project 1"
-subtitle: "Effects of Job Training on Wages"
+title: "Team Project 2"
+subtitle: "Estrogen Bioassay and Voting in NC"
 output: 
   html_document: 
     css: hw.css
@@ -12,22 +12,56 @@ output:
 
 ## Due dates
 
-- In-class presentations: 10:00 - 11:20am, Friday, October 4.
-- Final reports: 11:59pm, Friday, October 4.
+- In-class presentations: 10:00 - 11:20am, Friday, November 1.
+- Final reports: 11:59pm, Friday, November 1.
 
 ## General instructions
 
-- You MUST work within your MIDS-assigned teams. You are free to divide the work any way you choose but be sure to divide the responsibilities fairly equally within teams. Each team member must work on understanding the data, exploring the data, building the model and providing answers to the questions of interest, but, as an example, one student could focus on writing code, another could focus on writing the report, another could focus on the presentation slides and so on.
-- Each team will give a brief (6 minute) presentation of their findings in class. 
+### Team work
+
+You MUST work within your MIDS-assigned teams.
+
+- Each team member must work on understanding the data, exploring the data, building the models and providing answers to the questions of interest.
+- You are free to divide all other work any way you choose but be sure to divide the responsibilities fairly equally within teams. For example
+  + One student could focus on cleaning the data,
+  + Another could focus on writing code,
+  + Another could focus on writing the report, 
+  + Another could focus on the presentation slides, and so on.
+
+### GitHub
+
+Each team must use GitHub. A blank repository has been created for this project with the data files needed to 
+
+Each individual must contribute to the 
+
+Link to assignment: https://classroom.github.com/g/rfttmYjL
+
+
+### Presentations
+
+Each team will give a brief (6 minute) presentation of their findings in class.
+
   + The presentation should only cover a brief introduction and your most interesting and important findings.
+  + Create your presentation slides with the time limit in mind. You should consider making between 5 and 7 slides, so that you have approximately one minute to get through each one.
   + You are free to create your presentation slides using PowerPoint, LaTeX or any other application you choose.
   + The order of the presentations will be randomized; each team is expected to come to class fully prepared to present first.
 - For the reports, each team MUST turn in only one report with team members' names at the top of the report. 
+
+
+
+
+
+
+
   + Please limit your report to a total of 10 pages. <font color="red">You will be penalized should your report exceed 10 pages!</font>
   + Please type your reports using R Markdown, LaTeX or any other word processor but be sure to knit or convert the final output file to ".pdf". 
   + **DO NOT INCLUDE R CODE OR OUTPUT IN YOUR REPORT!** R outputs should be converted to nicely formatted tables. Feel free to use R packages such as `kable` and `xtable`.
   + All R-code must be included in the appendix. Feel free to also include any supplemental material that is important for your analysis, such as diagnostic checks or exploratory plots that you feel justify the conclusions in your report.
   + Submissions should be made on gradescope: go to Assignments $\rightarrow$ Team Project 1. Gradescope will let you select your team mates when submitting, so make sure to do so. Only one person needs to submit the report. 
+  
+  
+
+
 
 
 

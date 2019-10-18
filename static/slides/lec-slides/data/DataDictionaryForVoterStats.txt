@@ -20,7 +20,7 @@ race_code			char(3) 		Race
 ethnic_code			char(3) 		Hispanic origin
 sex_code			varchar(1) 		Gender
 age				varchar(32) 		Age groups
-total_voters			int			Total number of voters within groups
+total_voters			int			Total number of registered voters within groups
 
 
 ------------------------------------------------------------------------------------
