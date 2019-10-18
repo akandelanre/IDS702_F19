@@ -11,3 +11,4 @@ Course website is at https://akandelanre.github.io/IDS702_F19/
 
 - Colors: #000033 and #0085A1
   - To change, search & replace in `themes/material/static/css/material-kit.css`
+ 
